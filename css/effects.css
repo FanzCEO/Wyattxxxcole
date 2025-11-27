@@ -1,0 +1,554 @@
+/* ============================================
+   WYATT XXX COLE - BADASS EFFECTS CSS
+   Enhanced visual effects and animations
+   ============================================ */
+
+/* ============================================
+   ANIMATED GRADIENT BACKGROUNDS
+   ============================================ */
+.hero__background {
+    background:
+        radial-gradient(ellipse at 20% 80%, rgba(155, 29, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(0, 250, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(57, 255, 20, 0.05) 0%, transparent 50%),
+        linear-gradient(180deg, #05060A 0%, #0B0F1A 100%);
+    animation: bgPulse 10s ease infinite;
+}
+
+@keyframes bgPulse {
+    0%, 100% {
+        background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%, 0% 0%, 50% 50%, 0% 0%;
+    }
+}
+
+/* ============================================
+   CYBER GRID PATTERN
+   ============================================ */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(rgba(155, 29, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155, 29, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+}
+
+/* ============================================
+   INTENSE GLOW EFFECTS
+   ============================================ */
+.neon-text {
+    color: var(--neon-cyan);
+    text-shadow:
+        0 0 5px var(--neon-cyan),
+        0 0 10px var(--neon-cyan),
+        0 0 20px var(--neon-cyan),
+        0 0 40px var(--neon-cyan);
+    animation: textPulse 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+    0%, 100% {
+        text-shadow:
+            0 0 5px var(--neon-cyan),
+            0 0 10px var(--neon-cyan),
+            0 0 20px var(--neon-cyan),
+            0 0 40px var(--neon-cyan);
+    }
+    50% {
+        text-shadow:
+            0 0 10px var(--neon-cyan),
+            0 0 20px var(--neon-cyan),
+            0 0 40px var(--neon-cyan),
+            0 0 80px var(--neon-cyan);
+    }
+}
+
+/* ============================================
+   CHROMATIC ABERRATION TEXT
+   ============================================ */
+.hero__title {
+    position: relative;
+}
+
+.hero__title::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    top: 0;
+    color: #00FAFF;
+    z-index: -1;
+    animation: chromatic-r 0.5s ease-in-out infinite alternate;
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    opacity: 0.7;
+}
+
+.hero__title::after {
+    content: attr(data-text);
+    position: absolute;
+    left: -2px;
+    top: 0;
+    color: #FF1F3D;
+    z-index: -1;
+    animation: chromatic-b 0.5s ease-in-out infinite alternate-reverse;
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    opacity: 0.7;
+}
+
+@keyframes chromatic-r {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(2px, 1px); }
+}
+
+@keyframes chromatic-b {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-2px, -1px); }
+}
+
+/* ============================================
+   BUTTON ENHANCEMENTS
+   ============================================ */
+.btn--primary {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn--primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn--primary:hover::before {
+    left: 100%;
+}
+
+.btn--primary:hover {
+    box-shadow:
+        0 0 20px var(--neon-purple),
+        0 0 40px var(--neon-purple),
+        0 0 60px var(--neon-cyan),
+        inset 0 0 20px rgba(155, 29, 255, 0.3);
+}
+
+/* Electric border animation */
+.btn--secondary {
+    position: relative;
+    background: transparent;
+    overflow: hidden;
+}
+
+.btn--secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--neon-purple),
+        var(--neon-cyan),
+        transparent
+    );
+    animation: borderGlow 2s linear infinite;
+    z-index: -1;
+}
+
+.btn--secondary::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--bg-primary);
+    border-radius: inherit;
+    z-index: -1;
+}
+
+@keyframes borderGlow {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+}
+
+/* ============================================
+   CARD HOVER EFFECTS
+   ============================================ */
+.card {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+        135deg,
+        var(--neon-purple),
+        transparent 50%,
+        var(--neon-cyan)
+    );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+        0 20px 40px rgba(155, 29, 255, 0.2),
+        0 0 60px rgba(0, 250, 255, 0.1);
+}
+
+/* ============================================
+   GALLERY ITEM EFFECTS
+   ============================================ */
+.gallery__item {
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery__item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(155, 29, 255, 0.3) 50%,
+        transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    z-index: 2;
+}
+
+.gallery__item:hover::before {
+    transform: translateX(100%);
+}
+
+.gallery__item::after {
+    content: 'VIEW';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-primary);
+    background: var(--gradient-purple-cyan);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    z-index: 3;
+    transition: transform 0.3s ease;
+    box-shadow: var(--glow-purple);
+}
+
+.gallery__item:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* ============================================
+   NAV ENHANCEMENTS
+   ============================================ */
+.nav__logo {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav__logo:hover {
+    text-shadow:
+        0 0 10px var(--neon-purple),
+        0 0 20px var(--neon-purple),
+        0 0 40px var(--neon-cyan);
+    transform: scale(1.05);
+}
+
+.nav__link {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav__link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-purple-cyan);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.nav__link:hover::before,
+.nav__link--active::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* ============================================
+   STAT CARDS
+   ============================================ */
+.stat {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        var(--neon-purple)
+    );
+    animation: statRotate 4s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat:hover::before {
+    opacity: 0.3;
+}
+
+@keyframes statRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.stat__value {
+    transition: all 0.3s ease;
+}
+
+.stat:hover .stat__value {
+    transform: scale(1.1);
+    text-shadow: var(--glow-cyan);
+}
+
+/* ============================================
+   TAG ANIMATIONS
+   ============================================ */
+.tag {
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(155, 29, 255, 0.3);
+}
+
+/* ============================================
+   FORM INPUT EFFECTS
+   ============================================ */
+.form__input,
+.form__textarea,
+.form__select {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.form__input:focus,
+.form__textarea:focus,
+.form__select:focus {
+    border-color: var(--neon-cyan);
+    box-shadow:
+        0 0 0 3px rgba(0, 250, 255, 0.1),
+        0 0 20px rgba(0, 250, 255, 0.2),
+        inset 0 0 10px rgba(0, 250, 255, 0.05);
+}
+
+/* ============================================
+   FOOTER GLOW
+   ============================================ */
+.footer {
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--neon-purple),
+        var(--neon-cyan),
+        var(--neon-purple),
+        transparent
+    );
+    animation: footerGlow 3s ease-in-out infinite;
+}
+
+@keyframes footerGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* ============================================
+   LOADING SCREEN (optional)
+   ============================================ */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader__logo {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient-purple-cyan);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: loaderPulse 1s ease-in-out infinite;
+}
+
+@keyframes loaderPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s ease;
+}
+
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s ease;
+}
+
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ============================================
+   NOISE TEXTURE OVERLAY
+   ============================================ */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 768px) {
+    .hero::before {
+        display: none;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+    }
+
+    .gallery__item::after {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
