@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Wyatt XXX Cole - Booking inquiries, collaborations, and general contact.">
+    <meta name="keywords" content="Wyatt XXX Cole, contact, booking, collaboration, WXC">
+    <meta property="og:title" content="Contact | Wyatt XXX Cole">
+    <meta property="og:description" content="Get in touch for booking inquiries and collaboration requests.">
+    <title>Contact | Wyatt XXX Cole</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>W</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">WXXXC</a>
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="index.html" class="nav__link">Home</a></li>
+                <li><a href="studios.html" class="nav__link">For Studios</a></li>
+                <li><a href="portfolio.html" class="nav__link">Portfolio</a></li>
+                <li><a href="schedule.html" class="nav__link">Schedule</a></li>
+                <li><a href="community.html" class="nav__link">Community</a></li>
+                <li><a href="shop.html" class="nav__link">Shop</a></li>
+                <li><a href="contact.html" class="nav__link nav__link--active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="min-height: 50vh;">
+        <div class="hero__background"></div>
+        <div class="hero__overlay"></div>
+        <div class="hero__content animate-fade-in">
+            <p class="hero__subtitle" style="margin-bottom: 1rem;">Get in Touch</p>
+            <h1 class="hero__title">
+                <span class="gradient-text">CONTACT</span>
+            </h1>
+            <p class="hero__tagline">Booking inquiries, collaborations, and general contact.</p>
+        </div>
+    </section>
+
+    <!-- Contact Forms Section -->
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-2" style="max-width: 1200px; margin: 0 auto; align-items: start; gap: var(--spacing-lg);">
+
+                <!-- Studio / Professional Booking -->
+                <div class="card" style="padding: var(--spacing-lg);">
+                    <div class="mb-md">
+                        <span class="tag tag--cyan mb-sm" style="display: inline-block;">Studios & Brands</span>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Professional Booking</h2>
+                        <p style="font-size: 0.875rem; color: var(--text-muted);">
+                            For studio productions, branded campaigns, and professional projects.
+                        </p>
+                    </div>
+                    <form class="form" id="professionalForm">
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label class="form__label" for="proName">Your Name *</label>
+                                <input type="text" id="proName" name="name" class="form__input" placeholder="Full name" required>
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="proCompany">Company / Studio</label>
+                                <input type="text" id="proCompany" name="company" class="form__input" placeholder="Studio or company name">
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="proEmail">Email *</label>
+                            <input type="email" id="proEmail" name="email" class="form__input" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label class="form__label" for="proType">Type of Shoot</label>
+                                <select id="proType" name="shootType" class="form__select">
+                                    <option value="">Select type...</option>
+                                    <option value="studio">Studio Production</option>
+                                    <option value="branded">Branded Campaign</option>
+                                    <option value="live">Live Show</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="proLocation">Location</label>
+                                <input type="text" id="proLocation" name="location" class="form__input" placeholder="City / State">
+                            </div>
+                        </div>
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label class="form__label" for="proDates">Proposed Dates</label>
+                                <input type="text" id="proDates" name="dates" class="form__input" placeholder="Dates or flexible">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="proBudget">Budget Range</label>
+                                <select id="proBudget" name="budget" class="form__select">
+                                    <option value="">Prefer not to say</option>
+                                    <option value="under1k">Under $1,000</option>
+                                    <option value="1k-5k">$1,000 - $5,000</option>
+                                    <option value="5k-10k">$5,000 - $10,000</option>
+                                    <option value="10k+">$10,000+</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="proDetails">Project Details</label>
+                            <textarea id="proDetails" name="details" class="form__textarea" placeholder="Describe the project, scene requirements, relevant links..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary" style="width: 100%;">Submit Inquiry</button>
+                    </form>
+                </div>
+
+                <!-- Creator / Collab Requests -->
+                <div class="card" style="padding: var(--spacing-lg);">
+                    <div class="mb-md">
+                        <span class="tag tag--green mb-sm" style="display: inline-block;">Creators</span>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Creator Collab</h2>
+                        <p style="font-size: 0.875rem; color: var(--text-muted);">
+                            For content creator collaborations and joint projects.
+                        </p>
+                    </div>
+                    <form class="form" id="creatorForm">
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label class="form__label" for="creatorHandle">Social Handle *</label>
+                                <input type="text" id="creatorHandle" name="handle" class="form__input" placeholder="@yourusername" required>
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="creatorPlatform">Main Platform</label>
+                                <select id="creatorPlatform" name="platform" class="form__select">
+                                    <option value="">Select platform...</option>
+                                    <option value="onlyfans">OnlyFans</option>
+                                    <option value="fansly">Fansly</option>
+                                    <option value="justforfans">JustForFans</option>
+                                    <option value="twitter">X / Twitter</option>
+                                    <option value="instagram">Instagram</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="creatorEmail">Email *</label>
+                            <input type="email" id="creatorEmail" name="email" class="form__input" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label class="form__label" for="creatorType">Type of Collab</label>
+                                <select id="creatorType" name="collabType" class="form__select">
+                                    <option value="">Select type...</option>
+                                    <option value="content">Content Collab</option>
+                                    <option value="crosspromo">Cross Promo</option>
+                                    <option value="live">Live Stream</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="creatorLocation">Location / Remote</label>
+                                <input type="text" id="creatorLocation" name="location" class="form__input" placeholder="City or Remote">
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="creatorLinks">Your Profile Links</label>
+                            <textarea id="creatorLinks" name="links" class="form__textarea" style="min-height: 80px;" placeholder="Links to your profiles / content..."></textarea>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="creatorDetails">Collab Idea</label>
+                            <textarea id="creatorDetails" name="details" class="form__textarea" placeholder="Describe your collaboration idea..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary" style="width: 100%;">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Boundaries Statement -->
+    <section class="section section--alt">
+        <div class="container">
+            <div class="card" style="max-width: 800px; margin: 0 auto; padding: var(--spacing-lg);">
+                <h3 class="mb-md" style="color: var(--neon-purple);">A Note on Boundaries</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+                    I value professionalism and mutual respect in all my work. Here's what to expect:
+                </p>
+                <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
+                    <li>&#10003; All shoots require clear communication about expectations beforehand</li>
+                    <li>&#10003; Detailed performance limits are discussed privately with verified professionals</li>
+                    <li>&#10003; I reserve the right to decline any project that doesn't align with my brand or boundaries</li>
+                    <li>&#10003; All parties on set will be treated with respect and professionalism</li>
+                    <li>&#10003; Consent and safety are non-negotiable priorities</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direct Contact Info -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-header__title">Direct Contact</h2>
+            </div>
+            <div class="grid grid-3" style="max-width: 900px; margin: 0 auto;">
+                <div class="card text-center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#128231;</div>
+                    <h4 style="font-size: 0.875rem; margin-bottom: 0.5rem;">Professional Email</h4>
+                    <p style="font-size: 0.875rem; color: var(--neon-cyan);">booking@wyattxxxcole.xxx</p>
+                </div>
+                <div class="card text-center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#128172;</div>
+                    <h4 style="font-size: 0.875rem; margin-bottom: 0.5rem;">Social DMs</h4>
+                    <p style="font-size: 0.875rem; color: var(--neon-cyan);">@WyattXXXCole</p>
+                </div>
+                <div class="card text-center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#9201;</div>
+                    <h4 style="font-size: 0.875rem; margin-bottom: 0.5rem;">Response Time</h4>
+                    <p style="font-size: 0.875rem; color: var(--neon-green);">24-48 Hours</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="section section--alt">
+        <div class="container text-center">
+            <h2 class="mb-md">Quick Links</h2>
+            <div class="flex-center gap-md" style="flex-wrap: wrap;">
+                <a href="studios.html" class="btn btn--secondary">View EPK</a>
+                <a href="schedule.html" class="btn btn--outline">Check Schedule</a>
+                <a href="links.html" class="btn btn--outline">All My Links</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__top">
+                <div class="footer__brand">
+                    <div class="footer__logo">WXXXC</div>
+                    <p class="footer__tagline">Neon. Leather. Trouble.<br>The cyber rebel of adult entertainment.</p>
+                </div>
+                <div>
+                    <h4 class="footer__nav-title">Navigation</h4>
+                    <ul class="footer__nav-links">
+                        <li><a href="index.html" class="footer__nav-link">Home</a></li>
+                        <li><a href="studios.html" class="footer__nav-link">For Studios</a></li>
+                        <li><a href="portfolio.html" class="footer__nav-link">Portfolio</a></li>
+                        <li><a href="schedule.html" class="footer__nav-link">Schedule</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__nav-title">Connect</h4>
+                    <ul class="footer__nav-links">
+                        <li><a href="community.html" class="footer__nav-link">Community</a></li>
+                        <li><a href="shop.html" class="footer__nav-link">Shop</a></li>
+                        <li><a href="contact.html" class="footer__nav-link">Contact</a></li>
+                        <li><a href="links.html" class="footer__nav-link">Link Hub</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__nav-title">Follow</h4>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link" aria-label="Twitter/X">X</a>
+                        <a href="#" class="footer__social-link" aria-label="Instagram">IG</a>
+                        <a href="#" class="footer__social-link" aria-label="TikTok">TT</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 Wyatt XXX Cole. All rights reserved.</p>
+                <p>18+ Only | Adult Content</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
