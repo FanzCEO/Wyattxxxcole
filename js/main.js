@@ -1,5 +1,5 @@
 /**
- * WYATT XXX COLE - NEON CYBER REBEL
+ * WYATT XXX COLE - COUNTRY BOTTOM BOY
  * Main JavaScript File
  */
 
@@ -211,7 +211,7 @@ function showNotification(message, type = 'info') {
         bottom: 20px;
         right: 20px;
         padding: 1rem 2rem;
-        background: ${type === 'success' ? 'var(--neon-green)' : type === 'error' ? 'var(--alert-red)' : 'var(--neon-purple)'};
+        background: ${type === 'success' ? 'var(--whiskey)' : type === 'error' ? 'var(--alert-red)' : 'var(--whiskey)'};
         color: ${type === 'success' || type === 'error' ? '#000' : '#fff'};
         border-radius: var(--radius-md);
         font-family: var(--font-heading);
@@ -221,7 +221,7 @@ function showNotification(message, type = 'info') {
         letter-spacing: 0.05em;
         z-index: 10000;
         animation: slideIn 0.3s ease forwards;
-        box-shadow: 0 0 20px ${type === 'success' ? 'rgba(57, 255, 20, 0.5)' : type === 'error' ? 'rgba(255, 31, 61, 0.5)' : 'rgba(155, 29, 255, 0.5)'};
+        box-shadow: 0 0 20px ${type === 'success' ? 'rgba(218, 165, 77, 0.5)' : type === 'error' ? 'rgba(92, 64, 51, 0.5)' : 'rgba(198, 142, 63, 0.5)'};
     `;
     notification.textContent = message;
 
@@ -468,8 +468,8 @@ document.querySelectorAll('.product').forEach(product => {
 document.querySelectorAll('.post__content .card[style*="cursor: pointer"]').forEach(option => {
     option.addEventListener('click', function() {
         // Simple visual feedback
-        this.style.borderColor = 'var(--neon-purple)';
-        this.style.background = 'rgba(155, 29, 255, 0.1)';
+        this.style.borderColor = 'var(--whiskey)';
+        this.style.background = 'rgba(198, 142, 63, 0.1)';
     });
 });
 
@@ -965,4 +965,4 @@ async function initPortfolio() {
     }
 }
 
-console.log('WXXXC - Neon Cyber Rebel | Site Loaded');
+console.log('WXXXC - Country Bred. Fully Loaded.');

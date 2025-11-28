@@ -1,6 +1,6 @@
 /**
- * WYATT XXX COLE - BADASS EFFECTS
- * Particle system, glitch effects, and visual enhancements
+ * WYATT XXX COLE - COUNTRY BOY EFFECTS
+ * Subtle particles, warm effects, and visual enhancements
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -36,8 +36,8 @@ function initParticles() {
     let particles = [];
     const particleCount = 80;
 
-    // Colors from brand palette
-    const colors = ['#9B1DFF', '#00FAFF', '#39FF14', '#FF1F3D'];
+    // Colors from country brand palette - warm and earthy
+    const colors = ['#C68E3F', '#A44A2A', '#DAA54D', '#5C4033'];
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -180,7 +180,7 @@ function initCursor() {
             position: absolute;
             width: 8px;
             height: 8px;
-            background: #00FAFF;
+            background: #A44A2A;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease;
@@ -189,7 +189,7 @@ function initCursor() {
             position: absolute;
             width: 40px;
             height: 40px;
-            border: 2px solid #9B1DFF;
+            border: 2px solid #C68E3F;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             transition: all 0.15s ease;
@@ -197,11 +197,11 @@ function initCursor() {
         }
         .cursor-hover .cursor-dot {
             transform: translate(-50%, -50%) scale(2);
-            background: #9B1DFF;
+            background: #C68E3F;
         }
         .cursor-hover .cursor-ring {
             transform: translate(-50%, -50%) scale(1.5);
-            border-color: #00FAFF;
+            border-color: #A44A2A;
             opacity: 1;
         }
         @media (max-width: 768px) {
@@ -262,12 +262,12 @@ function initGlitchText() {
             opacity: 0.8;
         }
         .glitch-text::before {
-            color: #00FAFF;
+            color: #A44A2A;
             animation: glitch-1 2s infinite linear alternate-reverse;
             clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
         }
         .glitch-text::after {
-            color: #9B1DFF;
+            color: #C68E3F;
             animation: glitch-2 3s infinite linear alternate-reverse;
             clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
         }
@@ -295,27 +295,27 @@ function initGlitchText() {
 function initNeonFlicker() {
     const style = document.createElement('style');
     style.textContent = `
-        @keyframes neon-flicker {
+        @keyframes warm-glow {
             0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
                 text-shadow:
                     0 0 4px #fff,
                     0 0 11px #fff,
                     0 0 19px #fff,
-                    0 0 40px var(--neon-purple),
-                    0 0 80px var(--neon-purple),
-                    0 0 90px var(--neon-purple),
-                    0 0 100px var(--neon-purple),
-                    0 0 150px var(--neon-purple);
+                    0 0 40px var(--whiskey),
+                    0 0 80px var(--whiskey),
+                    0 0 90px var(--whiskey),
+                    0 0 100px var(--whiskey),
+                    0 0 150px var(--whiskey);
             }
             20%, 24%, 55% {
                 text-shadow: none;
             }
         }
-        .neon-flicker {
-            animation: neon-flicker 1.5s infinite alternate;
+        .warm-glow {
+            animation: warm-glow 1.5s infinite alternate;
         }
         .nav__logo {
-            animation: neon-flicker 3s infinite alternate;
+            animation: warm-glow 3s infinite alternate;
         }
     `;
     document.head.appendChild(style);
@@ -346,7 +346,7 @@ function initTypewriter() {
     taglines.forEach(el => {
         const text = el.textContent;
         el.textContent = '';
-        el.style.borderRight = '2px solid var(--neon-cyan)';
+        el.style.borderRight = '2px solid var(--rust)';
 
         let i = 0;
         function type() {
@@ -409,7 +409,7 @@ function initMatrixRain() {
         ctx.fillStyle = 'rgba(5, 6, 10, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#9B1DFF';
+        ctx.fillStyle = '#C68E3F';
         ctx.font = fontSize + 'px monospace';
 
         for (let i = 0; i < drops.length; i++) {
@@ -506,10 +506,10 @@ progressBar.style.cssText = `
     top: 0;
     left: 0;
     height: 3px;
-    background: linear-gradient(90deg, #9B1DFF, #00FAFF, #39FF14);
+    background: linear-gradient(90deg, #C68E3F, #A44A2A, #DAA54D);
     z-index: 10001;
     transition: width 0.1s ease;
-    box-shadow: 0 0 10px #9B1DFF, 0 0 20px #00FAFF;
+    box-shadow: 0 0 10px #C68E3F, 0 0 20px #A44A2A;
 `;
 document.body.appendChild(progressBar);
 
@@ -520,4 +520,4 @@ window.addEventListener('scroll', () => {
     progressBar.style.width = progress + '%';
 });
 
-console.log('⚡ WXXXC Effects Loaded | The Neon Never Sleeps');
+console.log('🤠 WXXXC Effects Loaded | Bad Boy of the South');

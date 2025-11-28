@@ -23,11 +23,11 @@ async function initDatabase() {
 
   try {
     // Create database if not exists
-    await connection.execute(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
     console.log(`Database '${dbName}' ready`);
 
-    // Use the database
-    await connection.execute(`USE \`${dbName}\``);
+    // Use the database (query instead of execute for USE statement)
+    await connection.query(`USE \`${dbName}\``);
 
     // Create tables
     console.log('Creating tables...');

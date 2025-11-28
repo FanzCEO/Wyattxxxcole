@@ -1,99 +1,75 @@
 /* ============================================
-   WYATT XXX COLE - BADASS EFFECTS CSS
-   Enhanced visual effects and animations
+   WYATT XXX COLE - COUNTRY BOY EFFECTS CSS
+   Rugged visual effects and animations
    ============================================ */
 
 /* ============================================
    ANIMATED GRADIENT BACKGROUNDS
    ============================================ */
 .hero__background {
-    background: #000000; /* Solid black */
+    background:
+        linear-gradient(135deg, rgba(198, 142, 63, 0.05) 0%, transparent 50%),
+        linear-gradient(225deg, rgba(164, 74, 42, 0.05) 0%, transparent 50%),
+        var(--bg-primary);
+    animation: bgPulse 8s ease-in-out infinite;
 }
 
 @keyframes bgPulse {
     0%, 100% {
-        background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%;
+        opacity: 1;
     }
     50% {
-        background-position: 100% 100%, 0% 0%, 50% 50%, 0% 0%;
+        opacity: 0.9;
     }
 }
 
 /* ============================================
-   CYBER GRID PATTERN - DISABLED FOR SOLID BLACK
+   RUSTIC TEXTURE OVERLAY
    ============================================ */
 .hero::before {
-    display: none; /* Disabled for solid black background */
-}
-
-@keyframes gridMove {
-    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
 }
 
 /* ============================================
-   SUBTLE GLOW EFFECTS - TONED DOWN
+   SUBTLE GLOW EFFECTS - WARM COUNTRY TONES
    ============================================ */
-.neon-text {
-    color: var(--neon-cyan);
+.accent-text-glow {
+    color: var(--whiskey);
     text-shadow:
-        0 0 4px rgba(201, 162, 39, 0.3),
-        0 0 8px rgba(201, 162, 39, 0.15);
+        0 0 4px rgba(198, 142, 63, 0.3),
+        0 0 8px rgba(198, 142, 63, 0.15);
     animation: textPulse 3s ease-in-out infinite;
 }
 
 @keyframes textPulse {
     0%, 100% {
         text-shadow:
-            0 0 4px rgba(201, 162, 39, 0.3),
-            0 0 8px rgba(201, 162, 39, 0.15);
+            0 0 4px rgba(198, 142, 63, 0.3),
+            0 0 8px rgba(198, 142, 63, 0.15);
     }
     50% {
         text-shadow:
-            0 0 6px rgba(201, 162, 39, 0.35),
-            0 0 12px rgba(201, 162, 39, 0.2);
+            0 0 6px rgba(198, 142, 63, 0.4),
+            0 0 12px rgba(198, 142, 63, 0.2);
     }
 }
 
 /* ============================================
-   CHROMATIC ABERRATION TEXT
+   HERO TITLE EFFECTS
    ============================================ */
 .hero__title {
     position: relative;
 }
 
-.hero__title::before {
-    content: attr(data-text);
-    position: absolute;
-    left: 2px;
-    top: 0;
-    color: #00FAFF;
-    z-index: -1;
-    animation: chromatic-r 0.5s ease-in-out infinite alternate;
-    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
-    opacity: 0.7;
-}
-
-.hero__title::after {
-    content: attr(data-text);
-    position: absolute;
-    left: -2px;
-    top: 0;
-    color: #FF1F3D;
-    z-index: -1;
-    animation: chromatic-b 0.5s ease-in-out infinite alternate-reverse;
-    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
-    opacity: 0.7;
-}
-
-@keyframes chromatic-r {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(2px, 1px); }
-}
-
-@keyframes chromatic-b {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-2px, -1px); }
+/* Subtle warm shadow effect */
+.hero__title .gradient-text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================
@@ -115,7 +91,7 @@
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0.2),
         transparent
     );
     transition: 0.5s;
@@ -127,13 +103,11 @@
 
 .btn--primary:hover {
     box-shadow:
-        0 0 20px var(--neon-purple),
-        0 0 40px var(--neon-purple),
-        0 0 60px var(--neon-cyan),
-        inset 0 0 20px rgba(155, 29, 255, 0.3);
+        0 0 20px rgba(198, 142, 63, 0.4),
+        0 0 40px rgba(198, 142, 63, 0.2);
 }
 
-/* Electric border animation */
+/* Leather-style border animation */
 .btn--secondary {
     position: relative;
     background: transparent;
@@ -150,12 +124,18 @@
     background: linear-gradient(
         90deg,
         transparent,
-        var(--neon-purple),
-        var(--neon-cyan),
+        var(--whiskey),
+        var(--rust),
         transparent
     );
-    animation: borderGlow 2s linear infinite;
+    animation: borderGlow 3s linear infinite;
     z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn--secondary:hover::before {
+    opacity: 1;
 }
 
 .btn--secondary::after {
@@ -188,9 +168,9 @@
     padding: 1px;
     background: linear-gradient(
         135deg,
-        var(--neon-purple),
+        var(--whiskey),
         transparent 50%,
-        var(--neon-cyan)
+        var(--rust)
     );
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -208,8 +188,8 @@
 .card:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow:
-        0 20px 40px rgba(155, 29, 255, 0.2),
-        0 0 60px rgba(0, 250, 255, 0.1);
+        0 20px 40px rgba(198, 142, 63, 0.15),
+        0 0 60px rgba(164, 74, 42, 0.1);
 }
 
 /* ============================================
@@ -227,7 +207,7 @@
     background: linear-gradient(
         45deg,
         transparent 30%,
-        rgba(155, 29, 255, 0.3) 50%,
+        rgba(198, 142, 63, 0.3) 50%,
         transparent 70%
     );
     transform: translateX(-100%);
@@ -249,13 +229,13 @@
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.2em;
-    color: var(--text-primary);
-    background: var(--gradient-purple-cyan);
+    color: var(--cream);
+    background: var(--gradient-whiskey);
     padding: 0.75rem 1.5rem;
     border-radius: var(--radius-sm);
     z-index: 3;
     transition: transform 0.3s ease;
-    box-shadow: var(--glow-purple);
+    box-shadow: var(--glow-whiskey);
 }
 
 .gallery__item:hover::after {
@@ -272,9 +252,8 @@
 
 .nav__logo:hover {
     text-shadow:
-        0 0 10px var(--neon-purple),
-        0 0 20px var(--neon-purple),
-        0 0 40px var(--neon-cyan);
+        0 0 10px rgba(198, 142, 63, 0.5),
+        0 0 20px rgba(198, 142, 63, 0.3);
     transform: scale(1.05);
 }
 
@@ -290,7 +269,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: var(--gradient-purple-cyan);
+    background: var(--gradient-whiskey);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.3s ease;
@@ -321,7 +300,7 @@
         transparent,
         transparent,
         transparent,
-        var(--neon-purple)
+        var(--whiskey)
     );
     animation: statRotate 4s linear infinite;
     opacity: 0;
@@ -329,7 +308,7 @@
 }
 
 .stat:hover::before {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 @keyframes statRotate {
@@ -343,7 +322,7 @@
 
 .stat:hover .stat__value {
     transform: scale(1.1);
-    text-shadow: var(--glow-cyan);
+    text-shadow: var(--glow-whiskey);
 }
 
 /* ============================================
@@ -356,7 +335,7 @@
 
 .tag:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(155, 29, 255, 0.3);
+    box-shadow: 0 5px 15px rgba(198, 142, 63, 0.3);
 }
 
 /* ============================================
@@ -372,11 +351,11 @@
 .form__input:focus,
 .form__textarea:focus,
 .form__select:focus {
-    border-color: var(--neon-cyan);
+    border-color: var(--whiskey);
     box-shadow:
-        0 0 0 3px rgba(0, 250, 255, 0.1),
-        0 0 20px rgba(0, 250, 255, 0.2),
-        inset 0 0 10px rgba(0, 250, 255, 0.05);
+        0 0 0 3px rgba(198, 142, 63, 0.1),
+        0 0 20px rgba(198, 142, 63, 0.15),
+        inset 0 0 10px rgba(198, 142, 63, 0.05);
 }
 
 /* ============================================
@@ -397,21 +376,21 @@
     background: linear-gradient(
         90deg,
         transparent,
-        var(--neon-purple),
-        var(--neon-cyan),
-        var(--neon-purple),
+        var(--whiskey),
+        var(--rust),
+        var(--whiskey),
         transparent
     );
     animation: footerGlow 3s ease-in-out infinite;
 }
 
 @keyframes footerGlow {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
 }
 
 /* ============================================
-   LOADING SCREEN (optional)
+   LOADING SCREEN
    ============================================ */
 .loader {
     position: fixed;
@@ -436,7 +415,7 @@
     font-family: var(--font-heading);
     font-size: 3rem;
     font-weight: 800;
-    background: var(--gradient-purple-cyan);
+    background: var(--gradient-whiskey);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: loaderPulse 1s ease-in-out infinite;
@@ -484,10 +463,19 @@
 }
 
 /* ============================================
-   NOISE TEXTURE OVERLAY - DISABLED FOR SOLID BLACK
+   BADGE ANIMATIONS
    ============================================ */
-body::after {
-    display: none; /* Disabled for pure solid black */
+.badge--gold {
+    animation: badgeGlow 2s ease-in-out infinite;
+}
+
+@keyframes badgeGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(198, 142, 63, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(198, 142, 63, 0.5);
+    }
 }
 
 /* ============================================
@@ -495,7 +483,7 @@ body::after {
    ============================================ */
 @media (max-width: 768px) {
     .hero::before {
-        display: none;
+        opacity: 0.02;
     }
 
     .card:hover {
