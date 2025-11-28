@@ -4,7 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    initParticles();
+    // Particles disabled - plain black background preferred
+    // initParticles();
     initScanlines();
     initCursor();
     initParallax();
