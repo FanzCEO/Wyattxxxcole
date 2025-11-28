@@ -7,11 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initParticles();
     initScanlines();
     initCursor();
-    initGlitchText();
-    initNeonFlicker();
     initParallax();
     initTypewriter();
-    initMatrixRain();
 });
 
 /**
@@ -158,7 +155,7 @@ function initScanlines() {
 }
 
 /**
- * Custom Neon Cursor
+ * Custom Cursor
  */
 function initCursor() {
     const cursor = document.createElement('div');
@@ -236,86 +233,13 @@ function initCursor() {
 }
 
 /**
- * Glitch Text Effect
+ * Subtle Warm Glow Effect for Navigation
  */
-function initGlitchText() {
-    const glitchElements = document.querySelectorAll('.hero__title, .gradient-text');
-
-    glitchElements.forEach(el => {
-        el.setAttribute('data-text', el.textContent);
-        el.classList.add('glitch-text');
-    });
-
+function initWarmGlow() {
     const style = document.createElement('style');
     style.textContent = `
-        .glitch-text {
-            position: relative;
-        }
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.8;
-        }
-        .glitch-text::before {
-            color: #A44A2A;
-            animation: glitch-1 2s infinite linear alternate-reverse;
-            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-        }
-        .glitch-text::after {
-            color: #C68E3F;
-            animation: glitch-2 3s infinite linear alternate-reverse;
-            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-        }
-        @keyframes glitch-1 {
-            0%, 90%, 100% { transform: translate(0); }
-            92% { transform: translate(-3px, 1px); }
-            94% { transform: translate(3px, -1px); }
-            96% { transform: translate(-2px, 2px); }
-            98% { transform: translate(2px, -2px); }
-        }
-        @keyframes glitch-2 {
-            0%, 90%, 100% { transform: translate(0); }
-            91% { transform: translate(2px, -1px); }
-            93% { transform: translate(-2px, 1px); }
-            95% { transform: translate(1px, -2px); }
-            97% { transform: translate(-1px, 2px); }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-/**
- * Neon Flicker Effect
- */
-function initNeonFlicker() {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes warm-glow {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                text-shadow:
-                    0 0 4px #fff,
-                    0 0 11px #fff,
-                    0 0 19px #fff,
-                    0 0 40px var(--whiskey),
-                    0 0 80px var(--whiskey),
-                    0 0 90px var(--whiskey),
-                    0 0 100px var(--whiskey),
-                    0 0 150px var(--whiskey);
-            }
-            20%, 24%, 55% {
-                text-shadow: none;
-            }
-        }
-        .warm-glow {
-            animation: warm-glow 1.5s infinite alternate;
-        }
-        .nav__logo {
-            animation: warm-glow 3s infinite alternate;
+        .nav__logo:hover {
+            text-shadow: 0 0 10px rgba(198, 142, 63, 0.4);
         }
     `;
     document.head.appendChild(style);
@@ -372,60 +296,6 @@ function initTypewriter() {
     });
 }
 
-/**
- * Matrix Rain Background (for hero)
- */
-function initMatrixRain() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-
-    const canvas = document.createElement('canvas');
-    canvas.className = 'matrix-rain';
-    canvas.style.cssText = `
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        opacity: 0.1;
-    `;
-    hero.appendChild(canvas);
-
-    const ctx = canvas.getContext('2d');
-
-    function resize() {
-        canvas.width = hero.offsetWidth;
-        canvas.height = hero.offsetHeight;
-    }
-    resize();
-
-    const chars = 'WXXXC01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-
-    function draw() {
-        ctx.fillStyle = 'rgba(5, 6, 10, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = '#C68E3F';
-        ctx.font = fontSize + 'px monospace';
-
-        for (let i = 0; i < drops.length; i++) {
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-    }
-
-    setInterval(draw, 50);
-    window.addEventListener('resize', resize);
-}
 
 /**
  * Magnetic Button Effect
@@ -520,4 +390,4 @@ window.addEventListener('scroll', () => {
     progressBar.style.width = progress + '%';
 });
 
-console.log('🤠 WXXXC Effects Loaded | Bad Boy of the South');
+console.log('🤠 WXXXC Effects Loaded | Country Bred, Fully Loaded');
