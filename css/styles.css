@@ -1,47 +1,70 @@
 /* ============================================
-   WYATT XXX COLE - NEON CYBER REBEL
-   Brand Identity Stylesheet
+   WYATT XXX COLE - COUNTRY BOY RUGGED
+   Alabama Redneck, Masculine, Raw
    ============================================ */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Import Google Fonts - Rugged Country Typography */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
 
 /* ============================================
    CSS VARIABLES - BRAND COLORS
+   COUNTRY BOY RUGGED AESTHETIC
    ============================================ */
 :root {
-    /* Background Colors */
-    --bg-primary: #05060A;
-    --bg-secondary: #0B0F1A;
-    --bg-card: #0D1220;
-    --bg-elevated: #111827;
+    /* Background Colors - SOLID BLACK */
+    --bg-primary: #000000;        /* Pure black */
+    --bg-secondary: #0A0A0A;      /* Near black */
+    --bg-card: #111111;           /* Dark card */
+    --bg-elevated: #1A1A1A;       /* Elevated surface */
+    --bg-solid: #000000;          /* Pure solid black */
 
-    /* Primary Accent Colors */
-    --neon-purple: #9B1DFF;
-    --neon-cyan: #00FAFF;
-    --neon-green: #39FF14;
+    /* Primary Accent Colors - Rust & Whiskey */
+    --neon-purple: #B5451E;       /* Rust orange */
+    --crimson: #B5451E;
+    --crimson-dark: #8B3A16;
+    --crimson-light: #D4622A;
+    --neon-cyan: #C9A227;         /* Whiskey gold */
+    --gold: #C9A227;
+    --gold-bright: #DAB139;
+    --neon-green: #4A7C23;        /* Country green */
 
-    /* Secondary Colors */
-    --chrome: #C0C4CC;
-    --alert-red: #FF1F3D;
+    /* Secondary Colors - Country Palette */
+    --chrome: #8B7355;            /* Saddle tan */
+    --alert-red: #8B2500;         /* Barn red */
+    --rose: #6B4423;              /* Worn leather */
+    --blush: #A0522D;             /* Sienna */
+    --noir: #000000;              /* Pure black */
+    --smoke: #0D0D0D;             /* Dark smoke */
+    --denim: #3D4F5F;             /* Worn denim */
+    --dirt: #5C4033;              /* Georgia clay */
 
     /* Text Colors */
-    --text-primary: #FFFFFF;
-    --text-secondary: #A0A8B8;
-    --text-muted: #6B7280;
+    --text-primary: #F5F0EB;      /* Cream white */
+    --text-secondary: #B8ADA3;    /* Dusty gray */
+    --text-muted: #7A7067;        /* Faded brown */
 
-    /* Gradients */
-    --gradient-purple-cyan: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-    --gradient-dark: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    /* Gradients - Minimal, mostly solid */
+    --gradient-purple-cyan: linear-gradient(135deg, var(--crimson) 0%, var(--gold) 100%);
+    --gradient-crimson: linear-gradient(135deg, var(--crimson-dark) 0%, var(--crimson-light) 100%);
+    --gradient-dark: var(--bg-primary);
+    --gradient-sensual: linear-gradient(135deg, #8B3A16 0%, #B5451E 50%, #C9A227 100%);
+    --gradient-velvet: var(--bg-primary);
+    --gradient-forbidden: var(--bg-primary);
 
-    /* Shadows & Glows */
-    --glow-purple: 0 0 20px rgba(155, 29, 255, 0.5), 0 0 40px rgba(155, 29, 255, 0.3);
-    --glow-cyan: 0 0 20px rgba(0, 250, 255, 0.5), 0 0 40px rgba(0, 250, 255, 0.3);
-    --glow-green: 0 0 20px rgba(57, 255, 20, 0.5), 0 0 40px rgba(57, 255, 20, 0.3);
+    /* Shadows & Subtle Glows - Toned Down */
+    --glow-purple: 0 0 8px rgba(181, 69, 30, 0.25), 0 0 16px rgba(181, 69, 30, 0.15);
+    --glow-crimson: 0 0 10px rgba(181, 69, 30, 0.3), 0 0 20px rgba(181, 69, 30, 0.2);
+    --glow-cyan: 0 0 8px rgba(201, 162, 39, 0.25), 0 0 16px rgba(201, 162, 39, 0.15);
+    --glow-gold: 0 0 8px rgba(201, 162, 39, 0.25), 0 0 16px rgba(201, 162, 39, 0.15);
+    --glow-green: 0 0 8px rgba(74, 124, 35, 0.25), 0 0 16px rgba(74, 124, 35, 0.15);
+    --shadow-deep: 0 4px 20px rgba(0, 0, 0, 0.6);
+    --shadow-intimate: 0 0 30px rgba(181, 69, 30, 0.1);
+    --neon-text-glow: 0 0 5px currentColor, 0 0 10px currentColor;
 
-    /* Typography */
-    --font-heading: 'Orbitron', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    /* Typography - Bold & Masculine */
+    --font-heading: 'Bebas Neue', sans-serif;
+    --font-display: 'Oswald', sans-serif;
+    --font-body: 'Source Sans 3', sans-serif;
 
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -78,11 +101,16 @@ html {
 
 body {
     font-family: var(--font-body);
-    background-color: var(--bg-primary);
+    background: #000000 !important;
+    background-color: #000000 !important;
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+html {
+    background: #000000 !important;
 }
 
 /* Selection styling */
@@ -110,48 +138,96 @@ body {
 }
 
 /* ============================================
-   TYPOGRAPHY
+   TYPOGRAPHY - COUNTRY NEON
    ============================================ */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 700;
-    line-height: 1.2;
+    font-weight: 400;
+    line-height: 1.1;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
 h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    letter-spacing: 0.1em;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-shadow: 0 0 15px rgba(181, 69, 30, 0.2);
 }
 
 h2 {
-    font-size: clamp(1.75rem, 5vw, 3rem);
-    letter-spacing: 0.08em;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: 0.05em;
 }
 
 h3 {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 400;
+    letter-spacing: 0.03em;
 }
 
 h4 {
     font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* Display text - rugged style */
+.display-text {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Masculine taglines */
+.tagline {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(201, 162, 39, 0.15);
+}
+
+/* Neon text effect - Subtle */
+.neon-text {
+    color: var(--crimson);
+    text-shadow: 0 0 6px rgba(181, 69, 30, 0.4), 0 0 12px rgba(181, 69, 30, 0.2);
+}
+
+.neon-gold {
+    color: var(--gold);
+    text-shadow: 0 0 6px rgba(201, 162, 39, 0.4), 0 0 12px rgba(201, 162, 39, 0.2);
 }
 
 p {
     color: var(--text-secondary);
     max-width: 70ch;
+    line-height: 1.7;
 }
 
 a {
-    color: var(--neon-cyan);
+    color: var(--gold);
     text-decoration: none;
     transition: var(--transition-base);
 }
 
 a:hover {
-    color: var(--neon-purple);
-    text-shadow: var(--glow-purple);
+    color: var(--crimson);
+    text-shadow: var(--glow-crimson);
+}
+
+/* Elegant small caps for labels */
+.small-caps {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
 }
 
 /* ============================================
@@ -166,10 +242,11 @@ a:hover {
 
 .section {
     padding: var(--spacing-xl) 0;
+    background: var(--bg-primary); /* Solid background */
 }
 
 .section--alt {
-    background: var(--bg-secondary);
+    background: var(--bg-secondary); /* Slightly different solid */
 }
 
 /* Grid System */
@@ -226,27 +303,28 @@ a:hover {
 
 .nav__logo {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: var(--gradient-purple-cyan);
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-style: italic;
+    background: var(--gradient-crimson);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: 0.1em;
+    letter-spacing: -0.02em;
 }
 
 .nav__links {
     display: flex;
     list-style: none;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
 }
 
 .nav__link {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.02em;
     color: var(--text-secondary);
     transition: var(--transition-base);
     position: relative;
@@ -325,50 +403,68 @@ a:hover {
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
-    font-family: var(--font-heading);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 1rem 2rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.05em;
+    padding: 1rem 2.5rem;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 0;
     cursor: pointer;
     transition: var(--transition-base);
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn--primary {
-    background: var(--gradient-purple-cyan);
+    background: var(--crimson);
     color: var(--text-primary);
-    box-shadow: var(--glow-purple);
+    box-shadow: var(--glow-crimson);
+}
+
+.btn--primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn--primary:hover::before {
+    left: 100%;
 }
 
 .btn--primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(155, 29, 255, 0.6), 0 0 60px rgba(0, 250, 255, 0.4);
+    box-shadow: 0 0 12px rgba(181, 69, 30, 0.3), 0 0 20px rgba(181, 69, 30, 0.15);
+    background: var(--crimson-light);
 }
 
 .btn--secondary {
     background: transparent;
     color: var(--text-primary);
-    border: 2px solid var(--neon-purple);
+    border: 1px solid var(--crimson);
 }
 
 .btn--secondary:hover {
-    background: var(--neon-purple);
-    box-shadow: var(--glow-purple);
+    background: var(--crimson);
+    box-shadow: var(--glow-crimson);
 }
 
 .btn--outline {
     background: transparent;
-    color: var(--neon-cyan);
-    border: 1px solid var(--neon-cyan);
+    color: var(--gold);
+    border: 1px solid var(--gold);
 }
 
 .btn--outline:hover {
-    background: rgba(0, 250, 255, 0.1);
-    box-shadow: var(--glow-cyan);
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: var(--glow-gold);
 }
 
 .btn--alert {
@@ -377,7 +473,7 @@ a:hover {
 }
 
 .btn--alert:hover {
-    box-shadow: 0 0 20px rgba(255, 31, 61, 0.5);
+    box-shadow: 0 0 10px rgba(139, 37, 0, 0.3);
 }
 
 .btn--sm {
@@ -403,7 +499,7 @@ a:hover {
 
 .card:hover {
     border-color: var(--neon-purple);
-    box-shadow: 0 0 30px rgba(155, 29, 255, 0.2);
+    box-shadow: 0 0 12px rgba(181, 69, 30, 0.15);
     transform: translateY(-4px);
 }
 
@@ -455,7 +551,10 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--gradient-dark);
+    background: var(--bg-primary); /* Solid background */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     z-index: -2;
 }
 
@@ -466,7 +565,7 @@ a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.3;
+    opacity: 0.2;
     z-index: -1;
 }
 
@@ -476,11 +575,8 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        180deg,
-        rgba(5, 6, 10, 0.7) 0%,
-        rgba(5, 6, 10, 0.9) 100%
-    );
+    background: var(--bg-primary); /* Solid overlay */
+    opacity: 0.85;
     z-index: -1;
 }
 
@@ -509,12 +605,17 @@ a:hover {
 }
 
 .hero__tagline {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     margin-bottom: var(--spacing-lg);
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    text-shadow: 0 0 8px rgba(201, 162, 39, 0.2);
 }
 
 .hero__cta {
@@ -524,28 +625,29 @@ a:hover {
     flex-wrap: wrap;
 }
 
-/* Neon text effect */
+/* Neon text effect - Subtle */
 .neon-text {
-    color: var(--neon-cyan);
-    text-shadow: var(--glow-cyan);
+    color: var(--crimson);
+    text-shadow: 0 0 6px rgba(181, 69, 30, 0.35), 0 0 12px rgba(181, 69, 30, 0.15);
 }
 
 .neon-text--purple {
     color: var(--neon-purple);
-    text-shadow: var(--glow-purple);
+    text-shadow: 0 0 6px rgba(181, 69, 30, 0.35), 0 0 12px rgba(181, 69, 30, 0.15);
 }
 
 .neon-text--green {
     color: var(--neon-green);
-    text-shadow: var(--glow-green);
+    text-shadow: 0 0 6px rgba(74, 124, 35, 0.35), 0 0 12px rgba(74, 124, 35, 0.15);
 }
 
-/* Gradient text */
+/* Gradient text with subtle glow */
 .gradient-text {
     background: var(--gradient-purple-cyan);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 8px rgba(181, 69, 30, 0.2));
 }
 
 /* ============================================
@@ -625,7 +727,7 @@ a:hover {
     left: 0;
     right: 0;
     padding: var(--spacing-md);
-    background: linear-gradient(transparent, rgba(5, 6, 10, 0.9));
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
     opacity: 0;
     transition: var(--transition-base);
 }

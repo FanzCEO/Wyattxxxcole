@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | WXXXC</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .admin {
+            min-height: 100vh;
+            padding: 2rem;
+            background: var(--dark-base);
+        }
+        .admin__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--dark-elevated);
+        }
+        .admin__title {
+            font-size: 1.5rem;
+            color: var(--neon-purple);
+        }
+        .admin__nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .admin__nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--dark-elevated);
+            border: 1px solid var(--dark-border);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .admin__nav-btn:hover,
+        .admin__nav-btn.active {
+            background: var(--neon-purple);
+            color: #000;
+        }
+        .admin__section {
+            display: none;
+            background: var(--dark-surface);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--dark-border);
+        }
+        .admin__section.active {
+            display: block;
+        }
+        .admin__stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--dark-elevated);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+        .stat-card__value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-cyan);
+        }
+        .stat-card__label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        .admin__table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .admin__table th,
+        .admin__table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        .admin__table th {
+            background: var(--dark-elevated);
+            color: var(--neon-purple);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        .admin__table tr:hover {
+            background: var(--dark-elevated);
+        }
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        .status-badge--pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        .status-badge--completed {
+            background: rgba(57, 255, 20, 0.2);
+            color: var(--neon-green);
+        }
+        .status-badge--declined {
+            background: rgba(255, 31, 61, 0.2);
+            color: var(--alert-red);
+        }
+        .login-form {
+            max-width: 400px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: var(--dark-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--dark-border);
+        }
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--neon-purple);
+        }
+        .hidden {
+            display: none !important;
+        }
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            margin-right: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border: none;
+            border-radius: var(--radius-sm);
+        }
+        .action-btn--approve {
+            background: var(--neon-green);
+            color: #000;
+        }
+        .action-btn--delete {
+            background: var(--alert-red);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginSection" class="admin">
+        <form class="login-form" id="loginForm">
+            <h2>Admin Login</h2>
+            <div class="form__group">
+                <label class="form__label" for="username">Username</label>
+                <input type="text" id="username" name="username" class="form__input" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label" for="password">Password</label>
+                <input type="password" id="password" name="password" class="form__input" required>
+            </div>
+            <button type="submit" class="btn btn--primary" style="width: 100%;">Login</button>
+            <p id="loginError" class="hidden" style="color: var(--alert-red); margin-top: 1rem; text-align: center;"></p>
+        </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin hidden">
+        <header class="admin__header">
+            <h1 class="admin__title">WXXXC Admin Dashboard</h1>
+            <button class="btn btn--outline" id="logoutBtn">Logout</button>
+        </header>
+
+        <nav class="admin__nav">
+            <button class="admin__nav-btn active" data-section="dashboard">Dashboard</button>
+            <button class="admin__nav-btn" data-section="bookings">Bookings</button>
+            <button class="admin__nav-btn" data-section="collabs">Creator Collabs</button>
+            <button class="admin__nav-btn" data-section="orders">Orders</button>
+            <button class="admin__nav-btn" data-section="products">Products</button>
+            <button class="admin__nav-btn" data-section="community">Community</button>
+            <button class="admin__nav-btn" data-section="portfolio">Portfolio</button>
+            <button class="admin__nav-btn" data-section="schedule">Schedule</button>
+            <button class="admin__nav-btn" data-section="subscribers">Subscribers</button>
+            <button class="admin__nav-btn" data-section="settings">Site Settings</button>
+            <button class="admin__nav-btn" data-section="links">Social Links</button>
+            <button class="admin__nav-btn" data-section="integrations">Integrations</button>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section class="admin__section active" id="section-dashboard">
+            <h2>Overview</h2>
+            <div class="admin__stats" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-card__value" id="stat-bookings">-</div>
+                    <div class="stat-card__label">Pending Bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="stat-collabs">-</div>
+                    <div class="stat-card__label">Pending Collabs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="stat-orders">-</div>
+                    <div class="stat-card__label">Pending Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="stat-revenue">$0</div>
+                    <div class="stat-card__label">Total Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="stat-subscribers">-</div>
+                    <div class="stat-card__label">Newsletter Subscribers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="stat-comments">-</div>
+                    <div class="stat-card__label">Pending Comments</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bookings Section -->
+        <section class="admin__section" id="section-bookings">
+            <h2>Booking Inquiries</h2>
+            <table class="admin__table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Creator Collabs Section -->
+        <section class="admin__section" id="section-collabs">
+            <h2>Creator Collaboration Requests</h2>
+            <table class="admin__table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Handle</th>
+                        <th>Platform</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="collabsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Orders Section -->
+        <section class="admin__section" id="section-orders">
+            <h2>Shop Orders</h2>
+            <table class="admin__table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Products Section -->
+        <section class="admin__section" id="section-products">
+            <h2>Products</h2>
+            <button class="btn btn--primary" style="margin-bottom: 1rem;" onclick="showAddProductForm()">Add Product</button>
+            <table class="admin__table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Community Section -->
+        <section class="admin__section" id="section-community">
+            <h2>Community Posts & Comments</h2>
+            <button class="btn btn--primary" style="margin-bottom: 1rem;" onclick="showAddPostForm()">Create Post</button>
+            <h3 style="margin: 1rem 0;">Pending Comments</h3>
+            <table class="admin__table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Author</th>
+                        <th>Comment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="commentsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="admin__section" id="section-portfolio">
+            <h2>Portfolio Management</h2>
+            <button class="btn btn--primary" style="margin-bottom: 1rem;" onclick="showAddPortfolioForm()">Add Photo/Video</button>
+            <div id="portfolioGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;"></div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section class="admin__section" id="section-schedule">
+            <h2>Schedule Management</h2>
+            <p>Use the form below to update availability for specific dates.</p>
+            <form id="availabilityForm" style="display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap;">
+                <input type="date" id="availDate" class="form__input" required>
+                <select id="availStatus" class="form__select" required>
+                    <option value="available">Available</option>
+                    <option value="booked">Booked</option>
+                    <option value="off">Off</option>
+                </select>
+                <button type="submit" class="btn btn--primary">Update</button>
+            </form>
+        </section>
+
+        <!-- Subscribers Section -->
+        <section class="admin__section" id="section-subscribers">
+            <h2>Newsletter Subscribers</h2>
+            <table class="admin__table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Source</th>
+                        <th>Subscribed</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="subscribersTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Site Settings Section -->
+        <section class="admin__section" id="section-settings">
+            <h2>Site Settings</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                <!-- Branding Settings -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Branding</h3>
+                    <div class="form__group">
+                        <label class="form__label">Site Name</label>
+                        <input type="text" id="setting_site_name" class="form__input" placeholder="WYATT XXX COLE">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Tagline</label>
+                        <input type="text" id="setting_site_tagline" class="form__input" placeholder="Raw. Unfiltered. Unapologetic.">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Logo Text</label>
+                        <input type="text" id="setting_logo_text" class="form__input" placeholder="WXXXC">
+                    </div>
+                </div>
+
+                <!-- Background Images -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Background Images</h3>
+
+                    <div class="form__group">
+                        <label class="form__label">Hero Background Image</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="file" id="hero_bg_upload" accept="image/*" style="display: none;" onchange="uploadBackgroundImage('hero')">
+                            <button type="button" class="btn btn--secondary btn--sm" onclick="document.getElementById('hero_bg_upload').click()">Upload Image</button>
+                            <span id="hero_bg_filename" style="color: var(--text-muted); font-size: 0.875rem;">No file selected</span>
+                        </div>
+                        <div id="hero_bg_preview" style="margin-top: 1rem; display: none;">
+                            <img id="hero_bg_img" src="" alt="Hero background preview" style="max-width: 100%; max-height: 150px; border-radius: var(--radius-sm); object-fit: cover;">
+                            <button type="button" class="btn btn--alert btn--sm" style="margin-top: 0.5rem;" onclick="removeBackgroundImage('hero')">Remove</button>
+                        </div>
+                        <input type="hidden" id="setting_hero_background_url" class="form__input">
+                        <small style="color: var(--text-muted);">Recommended: 1920x1080 or larger. Your photo will be shown on the homepage hero section.</small>
+                    </div>
+
+                    <div class="form__group" style="margin-top: 1.5rem;">
+                        <label class="form__label">Wyatt World Background Image</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="file" id="world_bg_upload" accept="image/*" style="display: none;" onchange="uploadBackgroundImage('world')">
+                            <button type="button" class="btn btn--secondary btn--sm" onclick="document.getElementById('world_bg_upload').click()">Upload Image</button>
+                            <span id="world_bg_filename" style="color: var(--text-muted); font-size: 0.875rem;">No file selected</span>
+                        </div>
+                        <div id="world_bg_preview" style="margin-top: 1rem; display: none;">
+                            <img id="world_bg_img" src="" alt="World background preview" style="max-width: 100%; max-height: 150px; border-radius: var(--radius-sm); object-fit: cover;">
+                            <button type="button" class="btn btn--alert btn--sm" style="margin-top: 0.5rem;" onclick="removeBackgroundImage('world')">Remove</button>
+                        </div>
+                        <input type="hidden" id="setting_world_background_url" class="form__input">
+                        <small style="color: var(--text-muted);">Recommended: 1920x1080 or larger. Used as background for Wyatt World section.</small>
+                    </div>
+                </div>
+
+                <!-- Contact Settings -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Contact Info</h3>
+                    <div class="form__group">
+                        <label class="form__label">Contact Email</label>
+                        <input type="email" id="setting_contact_email" class="form__input" placeholder="contact@...">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Booking Email</label>
+                        <input type="email" id="setting_booking_email" class="form__input" placeholder="booking@...">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Support Email</label>
+                        <input type="email" id="setting_support_email" class="form__input" placeholder="support@...">
+                    </div>
+                </div>
+
+                <!-- Bio/Content Settings -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Bio & Content</h3>
+                    <div class="form__group">
+                        <label class="form__label">Short Bio</label>
+                        <textarea id="setting_bio_short" class="form__input" rows="2"></textarea>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Full Bio</label>
+                        <textarea id="setting_bio_full" class="form__input" rows="4"></textarea>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Base City</label>
+                        <input type="text" id="setting_base_city" class="form__input" placeholder="Los Angeles, CA">
+                    </div>
+                </div>
+
+                <!-- Shop Settings -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Shop Settings</h3>
+                    <div class="form__group">
+                        <label class="form__label">Free US Shipping Threshold ($)</label>
+                        <input type="number" id="setting_free_shipping_us_threshold" class="form__input" placeholder="75">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Free International Shipping Threshold ($)</label>
+                        <input type="number" id="setting_free_shipping_intl_threshold" class="form__input" placeholder="150">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Currency</label>
+                        <select id="setting_currency" class="form__select">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Feature Toggles -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Feature Toggles</h3>
+                    <div class="form__group" style="display: flex; align-items: center; gap: 1rem;">
+                        <input type="checkbox" id="setting_shop_enabled" style="width: 20px; height: 20px;">
+                        <label for="setting_shop_enabled">Shop Enabled</label>
+                    </div>
+                    <div class="form__group" style="display: flex; align-items: center; gap: 1rem;">
+                        <input type="checkbox" id="setting_booking_enabled" style="width: 20px; height: 20px;">
+                        <label for="setting_booking_enabled">Booking Form Enabled</label>
+                    </div>
+                    <div class="form__group" style="display: flex; align-items: center; gap: 1rem;">
+                        <input type="checkbox" id="setting_community_enabled" style="width: 20px; height: 20px;">
+                        <label for="setting_community_enabled">Community Enabled</label>
+                    </div>
+                    <div class="form__group" style="display: flex; align-items: center; gap: 1rem;">
+                        <input type="checkbox" id="setting_schedule_public" style="width: 20px; height: 20px;">
+                        <label for="setting_schedule_public">Schedule Public</label>
+                    </div>
+                </div>
+
+                <!-- SEO Settings -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">SEO</h3>
+                    <div class="form__group">
+                        <label class="form__label">Meta Title</label>
+                        <input type="text" id="setting_meta_title" class="form__input">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Meta Description</label>
+                        <textarea id="setting_meta_description" class="form__input" rows="2"></textarea>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Meta Keywords</label>
+                        <input type="text" id="setting_meta_keywords" class="form__input">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn--primary" style="margin-top: 2rem;" onclick="saveSettings()">Save All Settings</button>
+        </section>
+
+        <!-- Social Links Section -->
+        <section class="admin__section" id="section-links">
+            <h2>Social Links & Platforms</h2>
+            <button class="btn btn--primary" style="margin-bottom: 1rem;" onclick="showAddLinkForm()">Add Link</button>
+
+            <h3 style="margin: 1.5rem 0 1rem; color: var(--gold);">Content Platforms</h3>
+            <div id="contentLinksGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;"></div>
+
+            <h3 style="margin: 1.5rem 0 1rem; color: var(--gold);">Social Media</h3>
+            <div id="socialLinksGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;"></div>
+
+            <h3 style="margin: 1.5rem 0 1rem; color: var(--gold);">Wishlists</h3>
+            <div id="wishlistLinksGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;"></div>
+        </section>
+
+        <!-- Integrations Section -->
+        <section class="admin__section" id="section-integrations">
+            <h2>Integrations & API Keys</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Configure your payment processors, print-on-demand providers, and analytics tools.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;">
+                <!-- Payment Processors -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Payment Processors</h3>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Stripe</strong>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="int_stripe_enabled" onchange="toggleIntegration('stripe')">
+                                Enabled
+                            </label>
+                        </div>
+                        <div class="form__group">
+                            <input type="password" id="int_stripe_key" class="form__input" placeholder="Secret Key (sk_...)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POD Providers - Major -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Print-on-Demand (Major)</h3>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Printful</strong>
+                            <input type="checkbox" id="int_printful_enabled">
+                        </div>
+                        <input type="password" id="int_printful_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">388+ products, in-house production</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Printify</strong>
+                            <input type="checkbox" id="int_printify_enabled">
+                        </div>
+                        <input type="password" id="int_printify_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">1,300+ products, 100+ print providers</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Gelato</strong>
+                            <input type="checkbox" id="int_gelato_enabled">
+                        </div>
+                        <input type="password" id="int_gelato_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">130+ facilities in 30 countries, eco-friendly</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Gooten</strong>
+                            <input type="checkbox" id="int_gooten_enabled">
+                        </div>
+                        <input type="password" id="int_gooten_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">250+ products, smart order routing</small>
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>SPOD</strong>
+                            <input type="checkbox" id="int_spod_enabled">
+                        </div>
+                        <input type="password" id="int_spod_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">95% ships in 48hrs, Spreadshirt company</small>
+                    </div>
+                </div>
+
+                <!-- POD Providers - Specialty -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Print-on-Demand (Specialty)</h3>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>PopCustoms</strong>
+                            <input type="checkbox" id="int_popcustoms_enabled">
+                        </div>
+                        <input type="password" id="int_popcustoms_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">Footwear, AOP apparel, embroidery, engraving</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Custom Ink</strong>
+                            <input type="checkbox" id="int_customink_enabled">
+                        </div>
+                        <input type="password" id="int_customink_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">T-shirts, promo products, 42 showrooms</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Prodigi</strong>
+                            <input type="checkbox" id="int_prodigi_enabled">
+                        </div>
+                        <input type="password" id="int_prodigi_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">500K+ variations, premium art prints</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Apliiq</strong>
+                            <input type="checkbox" id="int_apliiq_enabled">
+                        </div>
+                        <input type="password" id="int_apliiq_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">Streetwear-focused, sustainable, US-based</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Dreamship</strong>
+                            <input type="checkbox" id="int_dreamship_enabled">
+                        </div>
+                        <input type="password" id="int_dreamship_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">Jewelry, candles, electronics, 1-3 day fulfillment</small>
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Spring (Teespring)</strong>
+                            <input type="checkbox" id="int_spring_enabled">
+                        </div>
+                        <input type="password" id="int_spring_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">OnlyFans partner, creator-focused, 100% profit</small>
+                    </div>
+                </div>
+
+                <!-- POD Providers - More Options -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">More POD Options</h3>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Fourthwall</strong>
+                            <input type="checkbox" id="int_fourthwall_enabled">
+                        </div>
+                        <input type="password" id="int_fourthwall_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">Creator storefronts, memberships, merch</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Contrado</strong>
+                            <input type="checkbox" id="int_contrado_enabled">
+                        </div>
+                        <input type="password" id="int_contrado_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">450+ products, UK-based, premium quality</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Teelaunch</strong>
+                            <input type="checkbox" id="int_teelaunch_enabled">
+                        </div>
+                        <input type="password" id="int_teelaunch_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">Free, jewelry, pet products, laser marking</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>GearLaunch</strong>
+                            <input type="checkbox" id="int_gearlaunch_enabled">
+                        </div>
+                        <input type="password" id="int_gearlaunch_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">600+ products, ships within 72hrs</small>
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Pillow Profits</strong>
+                            <input type="checkbox" id="int_pillowprofits_enabled">
+                        </div>
+                        <input type="password" id="int_pillowprofits_key" class="form__input" placeholder="API Key">
+                        <small style="color: var(--text-muted);">Footwear specialist, luggage, bedding</small>
+                    </div>
+                </div>
+
+                <!-- Email & Marketing -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Email & Marketing</h3>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Mailchimp</strong>
+                            <input type="checkbox" id="int_mailchimp_enabled">
+                        </div>
+                        <input type="password" id="int_mailchimp_key" class="form__input" placeholder="API Key">
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>SendGrid</strong>
+                            <input type="checkbox" id="int_sendgrid_enabled">
+                        </div>
+                        <input type="password" id="int_sendgrid_key" class="form__input" placeholder="API Key">
+                    </div>
+                </div>
+
+                <!-- Content Platforms -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--neon-cyan);">Content Platforms</h3>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>BoyFanz</strong>
+                            <input type="checkbox" id="int_boyfanz_enabled">
+                        </div>
+                        <input type="password" id="int_boyfanz_key" class="form__input" placeholder="API Key" style="margin-bottom: 0.5rem;">
+                        <input type="text" id="int_boyfanz_username" class="form__input" placeholder="Username (@WyattXXXCole)">
+                        <small style="color: var(--text-muted);">Syncs live streams and premium content to Wyatt World</small>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>RentMen</strong>
+                            <input type="checkbox" id="int_rentmen_enabled">
+                        </div>
+                        <input type="text" id="int_rentmen_url" class="form__input" placeholder="Profile URL">
+                        <small style="color: var(--text-muted);">Link to your RentMen profile</small>
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Podcast RSS</strong>
+                            <input type="checkbox" id="int_podcast_enabled">
+                        </div>
+                        <input type="text" id="int_podcast_url" class="form__input" placeholder="RSS Feed URL">
+                        <small style="color: var(--text-muted);">Auto-imports episodes to Wyatt World podcast section</small>
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="card" style="padding: 1.5rem; background: var(--bg-card);">
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">Analytics</h3>
+
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Google Analytics</strong>
+                            <input type="checkbox" id="int_google_analytics_enabled">
+                        </div>
+                        <input type="text" id="int_google_analytics_key" class="form__input" placeholder="Measurement ID (G-...)">
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--bg-elevated); border-radius: var(--radius-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Facebook Pixel</strong>
+                            <input type="checkbox" id="int_facebook_pixel_enabled">
+                        </div>
+                        <input type="text" id="int_facebook_pixel_key" class="form__input" placeholder="Pixel ID">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn--primary" style="margin-top: 2rem;" onclick="saveIntegrations()">Save Integrations</button>
+        </section>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let authToken = localStorage.getItem('wxc_admin_token');
+
+        // Check if already logged in
+        if (authToken) {
+            verifyToken();
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    document.getElementById('loginError').textContent = data.error;
+                    document.getElementById('loginError').classList.remove('hidden');
+                    return;
+                }
+
+                authToken = data.token;
+                localStorage.setItem('wxc_admin_token', authToken);
+                showDashboard();
+            } catch (error) {
+                document.getElementById('loginError').textContent = 'Login failed. Please try again.';
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        });
+
+        // Verify existing token
+        async function verifyToken() {
+            try {
+                const res = await fetch(`${API_BASE}/auth/verify`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                if (res.ok) {
+                    showDashboard();
+                } else {
+                    localStorage.removeItem('wxc_admin_token');
+                    authToken = null;
+                }
+            } catch (error) {
+                localStorage.removeItem('wxc_admin_token');
+                authToken = null;
+            }
+        }
+
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            loadStats();
+            loadBookings();
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('wxc_admin_token');
+            authToken = null;
+            location.reload();
+        });
+
+        // Navigation
+        document.querySelectorAll('.admin__nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.admin__nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.admin__section').forEach(s => s.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(`section-${btn.dataset.section}`).classList.add('active');
+
+                // Load section data
+                switch(btn.dataset.section) {
+                    case 'bookings': loadBookings(); break;
+                    case 'collabs': loadCollabs(); break;
+                    case 'orders': loadOrders(); break;
+                    case 'products': loadProducts(); break;
+                    case 'community': loadComments(); break;
+                    case 'portfolio': loadPortfolio(); break;
+                    case 'subscribers': loadSubscribers(); break;
+                    case 'settings': loadSettings(); break;
+                    case 'links': loadSocialLinks(); break;
+                    case 'integrations': loadIntegrations(); break;
+                }
+            });
+        });
+
+        // API helper
+        async function apiRequest(endpoint, options = {}) {
+            const res = await fetch(`${API_BASE}${endpoint}`, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`,
+                    ...options.headers
+                }
+            });
+            return res.json();
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const stats = await apiRequest('/admin/stats');
+                document.getElementById('stat-bookings').textContent = stats.bookings.pending;
+                document.getElementById('stat-collabs').textContent = stats.creatorCollabs.pending;
+                document.getElementById('stat-orders').textContent = stats.orders.pending;
+                document.getElementById('stat-revenue').textContent = '$' + stats.orders.revenue.toFixed(2);
+                document.getElementById('stat-subscribers').textContent = stats.subscribers.total;
+                document.getElementById('stat-comments').textContent = stats.community.pendingComments;
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Load bookings
+        async function loadBookings() {
+            try {
+                const data = await apiRequest('/admin/bookings');
+                const tbody = document.getElementById('bookingsTable');
+                tbody.innerHTML = data.bookings.map(b => `
+                    <tr>
+                        <td>${new Date(b.created_at).toLocaleDateString()}</td>
+                        <td>${b.name}</td>
+                        <td>${b.company || '-'}</td>
+                        <td>${b.shoot_type || '-'}</td>
+                        <td>${b.email}</td>
+                        <td><span class="status-badge status-badge--${b.status}">${b.status}</span></td>
+                        <td>
+                            <select onchange="updateBookingStatus(${b.id}, this.value)" style="padding: 0.25rem;">
+                                <option value="pending" ${b.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="reviewed" ${b.status === 'reviewed' ? 'selected' : ''}>Reviewed</option>
+                                <option value="responded" ${b.status === 'responded' ? 'selected' : ''}>Responded</option>
+                                <option value="booked" ${b.status === 'booked' ? 'selected' : ''}>Booked</option>
+                                <option value="declined" ${b.status === 'declined' ? 'selected' : ''}>Declined</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load bookings:', error);
+            }
+        }
+
+        async function updateBookingStatus(id, status) {
+            await apiRequest(`/admin/bookings/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ status })
+            });
+            loadBookings();
+            loadStats();
+        }
+
+        // Load collabs
+        async function loadCollabs() {
+            try {
+                const data = await apiRequest('/admin/collabs');
+                const tbody = document.getElementById('collabsTable');
+                tbody.innerHTML = data.collabs.map(c => `
+                    <tr>
+                        <td>${new Date(c.created_at).toLocaleDateString()}</td>
+                        <td>${c.handle}</td>
+                        <td>${c.platform || '-'}</td>
+                        <td>${c.collab_type || '-'}</td>
+                        <td>${c.email}</td>
+                        <td><span class="status-badge status-badge--${c.status}">${c.status}</span></td>
+                        <td>
+                            <select onchange="updateCollabStatus(${c.id}, this.value)" style="padding: 0.25rem;">
+                                <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="reviewed" ${c.status === 'reviewed' ? 'selected' : ''}>Reviewed</option>
+                                <option value="responded" ${c.status === 'responded' ? 'selected' : ''}>Responded</option>
+                                <option value="confirmed" ${c.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                                <option value="declined" ${c.status === 'declined' ? 'selected' : ''}>Declined</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load collabs:', error);
+            }
+        }
+
+        async function updateCollabStatus(id, status) {
+            await apiRequest(`/admin/collabs/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ status })
+            });
+            loadCollabs();
+            loadStats();
+        }
+
+        // Load orders
+        async function loadOrders() {
+            try {
+                const data = await apiRequest('/admin/orders');
+                const tbody = document.getElementById('ordersTable');
+                tbody.innerHTML = data.orders.map(o => `
+                    <tr>
+                        <td>${o.order_number}</td>
+                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                        <td>${o.customer_name}<br><small>${o.customer_email}</small></td>
+                        <td>${o.items.map(i => `${i.title} x${i.quantity}`).join(', ')}</td>
+                        <td>$${o.total.toFixed(2)}</td>
+                        <td><span class="status-badge status-badge--${o.status}">${o.status}</span></td>
+                        <td>
+                            <select onchange="updateOrderStatus(${o.id}, this.value)" style="padding: 0.25rem;">
+                                <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="processing" ${o.status === 'processing' ? 'selected' : ''}>Processing</option>
+                                <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                                <option value="delivered" ${o.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                                <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load orders:', error);
+            }
+        }
+
+        async function updateOrderStatus(id, status) {
+            await apiRequest(`/admin/orders/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ status })
+            });
+            loadOrders();
+            loadStats();
+        }
+
+        // Load products
+        async function loadProducts() {
+            try {
+                const data = await apiRequest('/admin/products');
+                const tbody = document.getElementById('productsTable');
+                tbody.innerHTML = data.products.map(p => `
+                    <tr>
+                        <td>${p.title}</td>
+                        <td>${p.category}</td>
+                        <td>$${p.price.toFixed(2)}</td>
+                        <td>${p.inventory_count}</td>
+                        <td>${p.is_active ? 'Yes' : 'No'}</td>
+                        <td>
+                            <button class="action-btn" onclick="toggleProduct(${p.id}, ${!p.is_active})">${p.is_active ? 'Disable' : 'Enable'}</button>
+                            <button class="action-btn action-btn--delete" onclick="deleteProduct(${p.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load products:', error);
+            }
+        }
+
+        async function toggleProduct(id, isActive) {
+            await apiRequest(`/admin/products/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ isActive })
+            });
+            loadProducts();
+        }
+
+        async function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                await apiRequest(`/admin/products/${id}`, { method: 'DELETE' });
+                loadProducts();
+            }
+        }
+
+        // Load comments
+        async function loadComments() {
+            try {
+                const data = await apiRequest('/admin/community/comments?approved=false');
+                const tbody = document.getElementById('commentsTable');
+                tbody.innerHTML = data.comments.map(c => `
+                    <tr>
+                        <td>${new Date(c.created_at).toLocaleDateString()}</td>
+                        <td>${c.author_name}</td>
+                        <td>${c.content.substring(0, 100)}...</td>
+                        <td>
+                            <button class="action-btn action-btn--approve" onclick="approveComment(${c.id})">Approve</button>
+                            <button class="action-btn action-btn--delete" onclick="deleteComment(${c.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('') || '<tr><td colspan="4">No pending comments</td></tr>';
+            } catch (error) {
+                console.error('Failed to load comments:', error);
+            }
+        }
+
+        async function approveComment(id) {
+            await apiRequest(`/admin/community/comments/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ isApproved: true })
+            });
+            loadComments();
+            loadStats();
+        }
+
+        async function deleteComment(id) {
+            if (confirm('Delete this comment?')) {
+                await apiRequest(`/admin/community/comments/${id}`, { method: 'DELETE' });
+                loadComments();
+            }
+        }
+
+        // Load subscribers
+        async function loadSubscribers() {
+            try {
+                const data = await apiRequest('/admin/newsletter/subscribers');
+                const tbody = document.getElementById('subscribersTable');
+                tbody.innerHTML = data.subscribers.map(s => `
+                    <tr>
+                        <td>${s.email}</td>
+                        <td>${s.source}</td>
+                        <td>${new Date(s.subscribed_at).toLocaleDateString()}</td>
+                        <td>${s.is_active ? 'Active' : 'Unsubscribed'}</td>
+                        <td>
+                            <button class="action-btn action-btn--delete" onclick="deleteSubscriber(${s.id})">Remove</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load subscribers:', error);
+            }
+        }
+
+        async function deleteSubscriber(id) {
+            if (confirm('Remove this subscriber?')) {
+                await apiRequest(`/admin/newsletter/subscribers/${id}`, { method: 'DELETE' });
+                loadSubscribers();
+                loadStats();
+            }
+        }
+
+        // Schedule form
+        document.getElementById('availabilityForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const date = document.getElementById('availDate').value;
+            const status = document.getElementById('availStatus').value;
+
+            await apiRequest('/admin/schedule/availability', {
+                method: 'POST',
+                body: JSON.stringify({ date, status })
+            });
+
+            alert('Availability updated!');
+        });
+
+        // Load portfolio
+        async function loadPortfolio() {
+            try {
+                const data = await apiRequest('/portfolio');
+                const grid = document.getElementById('portfolioGrid');
+                grid.innerHTML = data.items.map(p => `
+                    <div style="background: var(--dark-elevated); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--dark-border);">
+                        <img src="${p.thumbnail || '/uploads/placeholder.jpg'}" alt="${p.title}" style="width: 100%; height: 150px; object-fit: cover;">
+                        <div style="padding: 1rem;">
+                            <h4 style="margin-bottom: 0.5rem;">${p.title}</h4>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">${p.category} ${p.studio ? '• ' + p.studio : ''}</p>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin: 0.5rem 0;">
+                                ${p.is_featured ? '<span style="color: var(--gold);">★ Featured</span>' : ''}
+                            </p>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button class="action-btn" onclick="editPortfolioItem(${p.id})">Edit</button>
+                                <button class="action-btn" onclick="toggleFeatured(${p.id}, ${!p.is_featured})">${p.is_featured ? 'Unfeature' : 'Feature'}</button>
+                                <button class="action-btn action-btn--delete" onclick="deletePortfolioItem(${p.id})">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load portfolio:', error);
+            }
+        }
+
+        async function toggleFeatured(id, featured) {
+            await apiRequest(`/admin/portfolio/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ is_featured: featured })
+            });
+            loadPortfolio();
+        }
+
+        async function deletePortfolioItem(id) {
+            if (confirm('Delete this portfolio item?')) {
+                await apiRequest(`/admin/portfolio/${id}`, { method: 'DELETE' });
+                loadPortfolio();
+            }
+        }
+
+        function editPortfolioItem(id) {
+            showAddPortfolioForm(id);
+        }
+
+        // Portfolio form
+        function showAddPortfolioForm(editId = null) {
+            const modal = document.createElement('div');
+            modal.id = 'portfolioModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;';
+            modal.innerHTML = `
+                <div style="background: var(--dark-surface); padding: 2rem; border-radius: var(--radius-lg); max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <h3 style="margin-bottom: 1rem;">${editId ? 'Edit' : 'Add'} Portfolio Item</h3>
+                    <form id="portfolioForm">
+                        <div class="form__group">
+                            <label class="form__label">Title *</label>
+                            <input type="text" name="title" class="form__input" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Category *</label>
+                            <select name="category" class="form__select" required>
+                                <option value="scene">Scene</option>
+                                <option value="photo">Photo</option>
+                                <option value="bts">Behind the Scenes</option>
+                                <option value="interview">Interview</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Thumbnail URL *</label>
+                            <input type="text" name="thumbnail" class="form__input" placeholder="/uploads/image.jpg or https://..." required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Media URL (video link)</label>
+                            <input type="text" name="media_url" class="form__input" placeholder="https://...">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Studio</label>
+                            <input type="text" name="studio" class="form__input">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Co-stars (comma separated)</label>
+                            <input type="text" name="costars" class="form__input">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Description</label>
+                            <textarea name="description" class="form__input" rows="3"></textarea>
+                        </div>
+                        <div class="form__group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="is_featured"> Featured item
+                            </label>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn--primary">${editId ? 'Update' : 'Add'} Item</button>
+                            <button type="button" class="btn btn--outline" onclick="document.getElementById('portfolioModal').remove()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // If editing, load existing data
+            if (editId) {
+                loadPortfolioItem(editId);
+            }
+
+            document.getElementById('portfolioForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const data = {
+                    title: form.title.value,
+                    category: form.category.value,
+                    thumbnail: form.thumbnail.value,
+                    media_url: form.media_url.value || null,
+                    studio: form.studio.value || null,
+                    costars: form.costars.value || null,
+                    description: form.description.value || null,
+                    is_featured: form.is_featured.checked
+                };
+
+                try {
+                    if (editId) {
+                        await apiRequest(`/admin/portfolio/${editId}`, {
+                            method: 'PATCH',
+                            body: JSON.stringify(data)
+                        });
+                    } else {
+                        await apiRequest('/admin/portfolio', {
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        });
+                    }
+                    modal.remove();
+                    loadPortfolio();
+                } catch (error) {
+                    alert('Error saving portfolio item');
+                }
+            });
+        }
+
+        async function loadPortfolioItem(id) {
+            try {
+                const res = await fetch(`${API_BASE}/portfolio/${id}`);
+                const data = await res.json();
+                const form = document.getElementById('portfolioForm');
+                if (data.item) {
+                    form.title.value = data.item.title || '';
+                    form.category.value = data.item.category || 'scene';
+                    form.thumbnail.value = data.item.thumbnail || '';
+                    form.media_url.value = data.item.media_url || '';
+                    form.studio.value = data.item.studio || '';
+                    form.costars.value = data.item.costars || '';
+                    form.description.value = data.item.description || '';
+                    form.is_featured.checked = data.item.is_featured;
+                }
+            } catch (error) {
+                console.error('Failed to load portfolio item:', error);
+            }
+        }
+
+        // Product form
+        function showAddProductForm() {
+            const modal = document.createElement('div');
+            modal.id = 'productModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;';
+            modal.innerHTML = `
+                <div style="background: var(--dark-surface); padding: 2rem; border-radius: var(--radius-lg); max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <h3 style="margin-bottom: 1rem;">Add Product</h3>
+                    <form id="productForm">
+                        <div class="form__group">
+                            <label class="form__label">Title *</label>
+                            <input type="text" name="title" class="form__input" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Category *</label>
+                            <select name="category" class="form__select" required>
+                                <option value="apparel">Apparel</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="digital">Digital</option>
+                                <option value="signed">Signed Items</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Price *</label>
+                            <input type="number" name="price" step="0.01" class="form__input" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Image URL *</label>
+                            <input type="text" name="image_url" class="form__input" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Description</label>
+                            <textarea name="description" class="form__input" rows="3"></textarea>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Stock Quantity</label>
+                            <input type="number" name="inventory_count" class="form__input" value="100">
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn--primary">Add Product</button>
+                            <button type="button" class="btn btn--outline" onclick="document.getElementById('productModal').remove()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.getElementById('productForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const data = {
+                    title: form.title.value,
+                    category: form.category.value,
+                    price: parseFloat(form.price.value),
+                    image_url: form.image_url.value,
+                    description: form.description.value || null,
+                    inventory_count: parseInt(form.inventory_count.value) || 100
+                };
+
+                try {
+                    await apiRequest('/admin/products', {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    modal.remove();
+                    loadProducts();
+                } catch (error) {
+                    alert('Error adding product');
+                }
+            });
+        }
+
+        function showAddPostForm() {
+            alert('Add post form - implement as needed');
+        }
+
+        // ========== SITE SETTINGS ==========
+        async function loadSettings() {
+            try {
+                const data = await apiRequest('/admin/settings');
+                if (data.settings) {
+                    data.settings.forEach(s => {
+                        const el = document.getElementById(`setting_${s.setting_key}`);
+                        if (el) {
+                            if (el.type === 'checkbox') {
+                                el.checked = s.setting_value === 'true' || s.setting_value === '1';
+                            } else {
+                                el.value = s.setting_value || '';
+                            }
+                        }
+                    });
+                    // Update background image previews after loading settings
+                    updateBackgroundPreviews();
+                }
+            } catch (error) {
+                console.error('Failed to load settings:', error);
+            }
+        }
+
+        async function saveSettings() {
+            const settingFields = [
+                'site_name', 'site_tagline', 'logo_text',
+                'contact_email', 'booking_email', 'support_email',
+                'bio_short', 'bio_full', 'base_city',
+                'free_shipping_us_threshold', 'free_shipping_intl_threshold', 'currency',
+                'shop_enabled', 'booking_enabled', 'community_enabled', 'schedule_public',
+                'meta_title', 'meta_description', 'meta_keywords',
+                'hero_background_url', 'world_background_url'
+            ];
+
+            const settings = {};
+            settingFields.forEach(key => {
+                const el = document.getElementById(`setting_${key}`);
+                if (el) {
+                    settings[key] = el.type === 'checkbox' ? el.checked : el.value;
+                }
+            });
+
+            try {
+                await apiRequest('/admin/settings', {
+                    method: 'POST',
+                    body: JSON.stringify({ settings })
+                });
+                alert('Settings saved successfully!');
+            } catch (error) {
+                console.error('Failed to save settings:', error);
+                alert('Error saving settings');
+            }
+        }
+
+        // ========== BACKGROUND IMAGE UPLOAD ==========
+        async function uploadBackgroundImage(type) {
+            const fileInput = document.getElementById(`${type}_bg_upload`);
+            const file = fileInput.files[0];
+
+            if (!file) return;
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            // Validate file size (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Image size must be less than 10MB');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('type', type);
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/upload/background`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error || 'Upload failed');
+                }
+
+                // Update hidden input and preview
+                document.getElementById(`setting_${type}_background_url`).value = data.url;
+                document.getElementById(`${type}_bg_filename`).textContent = file.name;
+                document.getElementById(`${type}_bg_img`).src = data.url;
+                document.getElementById(`${type}_bg_preview`).style.display = 'block';
+
+                alert('Image uploaded successfully! Click "Save All Settings" to apply.');
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Failed to upload image: ' + error.message);
+            }
+
+            // Clear file input
+            fileInput.value = '';
+        }
+
+        function removeBackgroundImage(type) {
+            if (confirm('Are you sure you want to remove this background image?')) {
+                document.getElementById(`setting_${type}_background_url`).value = '';
+                document.getElementById(`${type}_bg_filename`).textContent = 'No file selected';
+                document.getElementById(`${type}_bg_preview`).style.display = 'none';
+                document.getElementById(`${type}_bg_img`).src = '';
+                alert('Image removed. Click "Save All Settings" to apply.');
+            }
+        }
+
+        function updateBackgroundPreviews() {
+            // Update hero background preview
+            const heroUrl = document.getElementById('setting_hero_background_url').value;
+            if (heroUrl) {
+                document.getElementById('hero_bg_img').src = heroUrl;
+                document.getElementById('hero_bg_preview').style.display = 'block';
+                document.getElementById('hero_bg_filename').textContent = 'Current image';
+            }
+
+            // Update world background preview
+            const worldUrl = document.getElementById('setting_world_background_url').value;
+            if (worldUrl) {
+                document.getElementById('world_bg_img').src = worldUrl;
+                document.getElementById('world_bg_preview').style.display = 'block';
+                document.getElementById('world_bg_filename').textContent = 'Current image';
+            }
+        }
+
+        // ========== SOCIAL LINKS ==========
+        async function loadSocialLinks() {
+            try {
+                const data = await apiRequest('/admin/links');
+                const links = data.links || [];
+
+                const contentLinks = links.filter(l => l.category === 'content');
+                const socialLinks = links.filter(l => l.category === 'social');
+                const wishlistLinks = links.filter(l => l.category === 'wishlist');
+
+                document.getElementById('contentLinksGrid').innerHTML = renderLinksGrid(contentLinks);
+                document.getElementById('socialLinksGrid').innerHTML = renderLinksGrid(socialLinks);
+                document.getElementById('wishlistLinksGrid').innerHTML = renderLinksGrid(wishlistLinks);
+            } catch (error) {
+                console.error('Failed to load social links:', error);
+            }
+        }
+
+        function renderLinksGrid(links) {
+            if (!links.length) return '<p style="color: var(--text-muted);">No links in this category</p>';
+            return links.map(l => `
+                <div style="background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>${l.display_name || l.platform}</strong>
+                        <br><small style="color: var(--text-muted);">${l.url || 'No URL set'}</small>
+                        ${!l.is_active ? '<br><small style="color: var(--crimson);">Disabled</small>' : ''}
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="action-btn" onclick="editLink(${l.id})">Edit</button>
+                        <button class="action-btn" onclick="toggleLink(${l.id}, ${!l.is_active})">${l.is_active ? 'Disable' : 'Enable'}</button>
+                        <button class="action-btn action-btn--delete" onclick="deleteLink(${l.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showAddLinkForm(editId = null) {
+            const modal = document.createElement('div');
+            modal.id = 'linkModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;';
+            modal.innerHTML = `
+                <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); max-width: 500px; width: 90%;">
+                    <h3 style="margin-bottom: 1rem;">${editId ? 'Edit' : 'Add'} Link</h3>
+                    <form id="linkForm">
+                        <div class="form__group">
+                            <label class="form__label">Platform Name *</label>
+                            <input type="text" name="platform" class="form__input" required placeholder="e.g., OnlyFans, Twitter">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Display Name</label>
+                            <input type="text" name="display_name" class="form__input" placeholder="Optional display name">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">URL *</label>
+                            <input type="url" name="url" class="form__input" required placeholder="https://...">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Category *</label>
+                            <select name="category" class="form__select" required>
+                                <option value="content">Content Platform</option>
+                                <option value="social">Social Media</option>
+                                <option value="wishlist">Wishlist</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Icon (HTML entity or emoji)</label>
+                            <input type="text" name="icon" class="form__input" placeholder="e.g., &#9733; or emoji">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Sort Order</label>
+                            <input type="number" name="sort_order" class="form__input" value="0">
+                        </div>
+                        <div class="form__group" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="is_active" checked>
+                            <label>Active</label>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn--primary">${editId ? 'Update' : 'Add'} Link</button>
+                            <button type="button" class="btn btn--outline" onclick="document.getElementById('linkModal').remove()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            if (editId) {
+                loadLinkForEdit(editId);
+            }
+
+            document.getElementById('linkForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const data = {
+                    platform: form.platform.value,
+                    display_name: form.display_name.value || null,
+                    url: form.url.value,
+                    category: form.category.value,
+                    icon: form.icon.value || null,
+                    sort_order: parseInt(form.sort_order.value) || 0,
+                    is_active: form.is_active.checked
+                };
+
+                try {
+                    if (editId) {
+                        await apiRequest(`/admin/links/${editId}`, {
+                            method: 'PATCH',
+                            body: JSON.stringify(data)
+                        });
+                    } else {
+                        await apiRequest('/admin/links', {
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        });
+                    }
+                    modal.remove();
+                    loadSocialLinks();
+                } catch (error) {
+                    alert('Error saving link');
+                }
+            });
+        }
+
+        async function loadLinkForEdit(id) {
+            try {
+                const data = await apiRequest(`/admin/links/${id}`);
+                if (data.link) {
+                    const form = document.getElementById('linkForm');
+                    form.platform.value = data.link.platform || '';
+                    form.display_name.value = data.link.display_name || '';
+                    form.url.value = data.link.url || '';
+                    form.category.value = data.link.category || 'social';
+                    form.icon.value = data.link.icon || '';
+                    form.sort_order.value = data.link.sort_order || 0;
+                    form.is_active.checked = data.link.is_active;
+                }
+            } catch (error) {
+                console.error('Failed to load link:', error);
+            }
+        }
+
+        function editLink(id) {
+            showAddLinkForm(id);
+        }
+
+        async function toggleLink(id, isActive) {
+            await apiRequest(`/admin/links/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ is_active: isActive })
+            });
+            loadSocialLinks();
+        }
+
+        async function deleteLink(id) {
+            if (confirm('Delete this link?')) {
+                await apiRequest(`/admin/links/${id}`, { method: 'DELETE' });
+                loadSocialLinks();
+            }
+        }
+
+        // ========== INTEGRATIONS ==========
+        async function loadIntegrations() {
+            try {
+                const data = await apiRequest('/admin/integrations');
+                if (data.integrations) {
+                    data.integrations.forEach(i => {
+                        const enabledEl = document.getElementById(`int_${i.provider}_enabled`);
+                        const keyEl = document.getElementById(`int_${i.provider}_key`);
+                        const secretEl = document.getElementById(`int_${i.provider}_secret`);
+                        const clientEl = document.getElementById(`int_${i.provider}_client`);
+
+                        if (enabledEl) enabledEl.checked = i.is_enabled;
+                        if (keyEl) keyEl.value = i.api_key || '';
+                        if (secretEl) secretEl.value = i.api_secret || '';
+                        if (clientEl) clientEl.value = i.api_key || '';
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load integrations:', error);
+            }
+        }
+
+        async function saveIntegrations() {
+            const integrations = [
+                // Payment
+                { provider: 'stripe', key: 'int_stripe_key', enabled: 'int_stripe_enabled' },
+                // POD - Major
+                { provider: 'printful', key: 'int_printful_key', enabled: 'int_printful_enabled' },
+                { provider: 'printify', key: 'int_printify_key', enabled: 'int_printify_enabled' },
+                { provider: 'gelato', key: 'int_gelato_key', enabled: 'int_gelato_enabled' },
+                { provider: 'gooten', key: 'int_gooten_key', enabled: 'int_gooten_enabled' },
+                { provider: 'spod', key: 'int_spod_key', enabled: 'int_spod_enabled' },
+                // POD - Specialty
+                { provider: 'popcustoms', key: 'int_popcustoms_key', enabled: 'int_popcustoms_enabled' },
+                { provider: 'customink', key: 'int_customink_key', enabled: 'int_customink_enabled' },
+                { provider: 'prodigi', key: 'int_prodigi_key', enabled: 'int_prodigi_enabled' },
+                { provider: 'apliiq', key: 'int_apliiq_key', enabled: 'int_apliiq_enabled' },
+                { provider: 'dreamship', key: 'int_dreamship_key', enabled: 'int_dreamship_enabled' },
+                { provider: 'spring', key: 'int_spring_key', enabled: 'int_spring_enabled' },
+                // POD - More
+                { provider: 'fourthwall', key: 'int_fourthwall_key', enabled: 'int_fourthwall_enabled' },
+                { provider: 'contrado', key: 'int_contrado_key', enabled: 'int_contrado_enabled' },
+                { provider: 'teelaunch', key: 'int_teelaunch_key', enabled: 'int_teelaunch_enabled' },
+                { provider: 'gearlaunch', key: 'int_gearlaunch_key', enabled: 'int_gearlaunch_enabled' },
+                { provider: 'pillowprofits', key: 'int_pillowprofits_key', enabled: 'int_pillowprofits_enabled' },
+                // Email & Marketing
+                { provider: 'mailchimp', key: 'int_mailchimp_key', enabled: 'int_mailchimp_enabled' },
+                { provider: 'sendgrid', key: 'int_sendgrid_key', enabled: 'int_sendgrid_enabled' },
+                // Analytics
+                { provider: 'google_analytics', key: 'int_google_analytics_key', enabled: 'int_google_analytics_enabled' },
+                { provider: 'facebook_pixel', key: 'int_facebook_pixel_key', enabled: 'int_facebook_pixel_enabled' },
+                // Content Platforms
+                { provider: 'boyfanz', key: 'int_boyfanz_key', enabled: 'int_boyfanz_enabled', extra: 'int_boyfanz_username' },
+                { provider: 'rentmen', key: 'int_rentmen_url', enabled: 'int_rentmen_enabled' },
+                { provider: 'podcast', key: 'int_podcast_url', enabled: 'int_podcast_enabled' }
+            ];
+
+            const updates = integrations.map(int => {
+                const data = {
+                    provider: int.provider,
+                    is_enabled: document.getElementById(int.enabled)?.checked || false
+                };
+
+                if (int.key) {
+                    data.api_key = document.getElementById(int.key)?.value || '';
+                }
+                if (int.client) {
+                    data.api_key = document.getElementById(int.client)?.value || '';
+                }
+                if (int.secret) {
+                    data.api_secret = document.getElementById(int.secret)?.value || '';
+                }
+
+                return data;
+            });
+
+            try {
+                await apiRequest('/admin/integrations', {
+                    method: 'POST',
+                    body: JSON.stringify({ integrations: updates })
+                });
+                alert('Integrations saved successfully!');
+            } catch (error) {
+                console.error('Failed to save integrations:', error);
+                alert('Error saving integrations');
+            }
+        }
+
+        function toggleIntegration(provider) {
+            // Optional: Add visual feedback when toggling
+            console.log(`${provider} integration toggled`);
+        }
+    </script>
+</body>
+</html>

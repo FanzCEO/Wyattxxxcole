@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initForms();
     initAnimations();
     initCalendar();
+    initCommunity();
+    initShop();
+    initPortfolio();
 });
 
 /**
@@ -98,18 +101,19 @@ function initTabs() {
 }
 
 /**
- * Form Handling
+ * Form Handling - Connected to Backend API
  */
 function initForms() {
     const forms = document.querySelectorAll('form');
 
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             // Get form data
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
+            const formId = this.id || this.getAttribute('data-form-type');
 
             // Simple validation
             let isValid = true;
@@ -127,17 +131,51 @@ function initForms() {
                 }
             });
 
-            if (isValid) {
+            if (!isValid) {
+                showNotification('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            // Disable submit button
+            const submitBtn = this.querySelector('button[type="submit"], .btn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitting...';
+            }
+
+            try {
+                let response;
+
+                // Route to correct API endpoint based on form
+                if (formId === 'studio-inquiry-form' || formId === 'epk-form') {
+                    response = await API.submitStudioInquiry(data);
+                } else if (formId === 'professional-booking-form') {
+                    response = await API.submitProfessionalBooking(data);
+                } else if (formId === 'creator-collab-form') {
+                    response = await API.submitCreatorCollab(data);
+                } else if (formId === 'newsletter-form') {
+                    response = await API.subscribeNewsletter(data.email, 'shop');
+                } else if (formId === 'schedule-notify-form') {
+                    response = await API.signUpForNotification(data.email, data.city);
+                } else {
+                    // Default to general contact
+                    response = await API.submitContactForm(data);
+                }
+
                 // Show success message
-                showNotification('Form submitted successfully! We\'ll be in touch soon.', 'success');
+                showNotification(response.message || 'Form submitted successfully! We\'ll be in touch soon.', 'success');
 
                 // Reset form
                 this.reset();
 
-                // Log form data (for demo purposes)
-                console.log('Form submitted:', data);
-            } else {
-                showNotification('Please fill in all required fields.', 'error');
+            } catch (error) {
+                showNotification(error.message || 'Something went wrong. Please try again.', 'error');
+            } finally {
+                // Re-enable submit button
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit';
+                }
             }
         });
 
@@ -249,12 +287,13 @@ function initAnimations() {
 }
 
 /**
- * Calendar Component (Basic)
+ * Calendar Component - Connected to Backend API
  */
 function initCalendar() {
     const prevBtn = document.getElementById('prevMonth');
     const nextBtn = document.getElementById('nextMonth');
     const titleEl = document.getElementById('calendarTitle');
+    const calendarGrid = document.querySelector('.calendar__grid');
 
     if (!prevBtn || !nextBtn || !titleEl) return;
 
@@ -267,8 +306,65 @@ function initCalendar() {
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
 
-    function updateTitle() {
+    async function loadCalendar() {
         titleEl.textContent = `${months[currentMonth]} ${currentYear}`;
+
+        if (!calendarGrid) return;
+
+        try {
+            const data = await API.getCalendar(currentYear, currentMonth + 1);
+            renderCalendar(data.calendar);
+        } catch (error) {
+            console.error('Failed to load calendar:', error);
+        }
+    }
+
+    function renderCalendar(calendarData) {
+        if (!calendarGrid) return;
+
+        // Clear existing days (keep headers)
+        const days = calendarGrid.querySelectorAll('.calendar__day:not(.calendar__day--header)');
+        days.forEach(day => day.remove());
+
+        // Get first day of month
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const today = new Date();
+
+        // Add empty cells for days before first day
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar__day calendar__day--empty';
+            calendarGrid.appendChild(emptyDay);
+        }
+
+        // Add days
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayData = calendarData[dateStr] || { status: 'available' };
+
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar__day';
+            dayEl.textContent = day;
+
+            // Add status class
+            if (dayData.status === 'booked') {
+                dayEl.classList.add('calendar__day--booked');
+            } else if (dayData.status === 'available') {
+                dayEl.classList.add('calendar__day--available');
+            } else if (dayData.status === 'off') {
+                dayEl.classList.add('calendar__day--off');
+            }
+
+            // Check if today
+            if (currentYear === today.getFullYear() &&
+                currentMonth === today.getMonth() &&
+                day === today.getDate()) {
+                dayEl.classList.add('calendar__day--today');
+            }
+
+            calendarGrid.appendChild(dayEl);
+        }
     }
 
     prevBtn.addEventListener('click', function() {
@@ -277,7 +373,7 @@ function initCalendar() {
             currentMonth = 11;
             currentYear--;
         }
-        updateTitle();
+        loadCalendar();
     });
 
     nextBtn.addEventListener('click', function() {
@@ -286,11 +382,27 @@ function initCalendar() {
             currentMonth = 0;
             currentYear++;
         }
-        updateTitle();
+        loadCalendar();
     });
 
+    // Load upcoming cities
+    loadCities();
+
     // Initialize
-    updateTitle();
+    loadCalendar();
+}
+
+async function loadCities() {
+    const citiesContainer = document.querySelector('.cities-list');
+    if (!citiesContainer) return;
+
+    try {
+        const data = await API.getCities();
+        // Cities are already rendered in HTML, but we can update dynamically if needed
+        console.log('Cities loaded:', data.locations);
+    } catch (error) {
+        console.error('Failed to load cities:', error);
+    }
 }
 
 /**
@@ -438,6 +550,419 @@ if ('IntersectionObserver' in window) {
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });
+}
+
+/**
+ * Community Page - Load Posts and Handle Interactions
+ */
+async function initCommunity() {
+    const feedContainer = document.querySelector('.community-feed, .feed');
+    if (!feedContainer) return;
+
+    let currentPage = 1;
+    const postsPerPage = 10;
+
+    // Load initial posts
+    await loadPosts();
+
+    // Load more button
+    const loadMoreBtn = document.querySelector('.load-more-btn, [data-load-more]');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', async () => {
+            currentPage++;
+            await loadPosts(true);
+        });
+    }
+
+    async function loadPosts(append = false) {
+        try {
+            const data = await API.getPosts(currentPage, postsPerPage);
+
+            if (!append) {
+                // Clear existing posts except pinned template
+                const existingPosts = feedContainer.querySelectorAll('.post:not(.post--template)');
+                existingPosts.forEach(p => p.remove());
+            }
+
+            data.posts.forEach(post => {
+                const postEl = createPostElement(post);
+                feedContainer.appendChild(postEl);
+            });
+
+            // Hide load more if no more posts
+            if (loadMoreBtn && !data.pagination.hasMore) {
+                loadMoreBtn.style.display = 'none';
+            }
+
+        } catch (error) {
+            console.error('Failed to load posts:', error);
+        }
+    }
+
+    function createPostElement(post) {
+        const article = document.createElement('article');
+        article.className = 'post card';
+        if (post.isPinned) article.classList.add('post--pinned');
+        article.dataset.postId = post.id;
+
+        let mediaHtml = '';
+        if (post.mediaUrl) {
+            mediaHtml = `<div class="post__media"><img src="${post.mediaUrl}" alt="Post media"></div>`;
+        }
+
+        let pollHtml = '';
+        if (post.poll) {
+            const optionsHtml = post.poll.options.map((opt, idx) => {
+                const percentage = post.poll.totalVotes > 0
+                    ? Math.round((opt.votes / post.poll.totalVotes) * 100)
+                    : 0;
+                return `
+                    <div class="poll__option" data-poll-id="${post.poll.id}" data-option="${idx}">
+                        <span class="poll__text">${opt.text}</span>
+                        <div class="poll__bar" style="width: ${percentage}%"></div>
+                        <span class="poll__percent">${percentage}%</span>
+                    </div>
+                `;
+            }).join('');
+
+            pollHtml = `
+                <div class="post__poll">
+                    ${optionsHtml}
+                    <div class="poll__total">${post.poll.totalVotes.toLocaleString()} votes</div>
+                </div>
+            `;
+        }
+
+        const tagsHtml = post.tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ');
+
+        article.innerHTML = `
+            <div class="post__header">
+                <div class="post__avatar">${post.avatar}</div>
+                <div class="post__meta">
+                    <strong class="post__author">${post.author}</strong>
+                    <span class="post__time">${post.timestamp}</span>
+                </div>
+                ${post.isPinned ? '<span class="post__pinned-badge">PINNED</span>' : ''}
+            </div>
+            <div class="post__content">
+                <p>${post.content}</p>
+                ${mediaHtml}
+                ${pollHtml}
+            </div>
+            <div class="post__tags">${tagsHtml}</div>
+            <div class="post__actions">
+                <button class="post__action post__action--like" data-post-id="${post.id}">
+                    <span>♡</span> ${post.likes}
+                </button>
+                <button class="post__action post__action--comment" data-post-id="${post.id}">
+                    <span>💬</span> ${post.comments}
+                </button>
+                <button class="post__action post__action--share">
+                    <span>↗</span> Share
+                </button>
+            </div>
+        `;
+
+        // Add event listeners
+        const likeBtn = article.querySelector('.post__action--like');
+        likeBtn.addEventListener('click', () => handleLike(post.id, likeBtn));
+
+        const pollOptions = article.querySelectorAll('.poll__option');
+        pollOptions.forEach(opt => {
+            opt.addEventListener('click', () => handlePollVote(opt));
+        });
+
+        return article;
+    }
+
+    async function handleLike(postId, btn) {
+        try {
+            const data = await API.likePost(postId);
+            const icon = data.liked ? '♥' : '♡';
+            btn.innerHTML = `<span>${icon}</span> ${data.likes}`;
+            btn.style.color = data.liked ? 'var(--alert-red)' : '';
+        } catch (error) {
+            console.error('Failed to like post:', error);
+        }
+    }
+
+    async function handlePollVote(optionEl) {
+        const pollId = optionEl.dataset.pollId;
+        const optionIndex = parseInt(optionEl.dataset.option);
+
+        try {
+            const data = await API.voteOnPoll(pollId, optionIndex);
+
+            // Update all options in this poll
+            const pollContainer = optionEl.parentElement;
+            const options = pollContainer.querySelectorAll('.poll__option');
+
+            data.options.forEach((opt, idx) => {
+                const optEl = options[idx];
+                if (optEl) {
+                    optEl.querySelector('.poll__bar').style.width = `${opt.percentage}%`;
+                    optEl.querySelector('.poll__percent').textContent = `${opt.percentage}%`;
+                }
+            });
+
+            pollContainer.querySelector('.poll__total').textContent = `${data.totalVotes.toLocaleString()} votes`;
+            showNotification('Vote recorded!', 'success');
+
+        } catch (error) {
+            showNotification(error.message || 'Failed to vote', 'error');
+        }
+    }
+
+    // Load trending tags
+    loadTrendingTags();
+}
+
+async function loadTrendingTags() {
+    const tagsContainer = document.querySelector('.trending-tags, .sidebar__tags');
+    if (!tagsContainer) return;
+
+    try {
+        const data = await API.getTrendingTags();
+        // Tags are already rendered in HTML, but we can update dynamically
+        console.log('Trending tags:', data.trending);
+    } catch (error) {
+        console.error('Failed to load tags:', error);
+    }
+}
+
+/**
+ * Shop Page - Load Products and Handle Cart
+ */
+async function initShop() {
+    const productsGrid = document.querySelector('.products-grid, .shop__grid');
+    if (!productsGrid) return;
+
+    // Simple cart state
+    window.cart = JSON.parse(localStorage.getItem('wxc_cart') || '[]');
+
+    // Load products
+    await loadProducts();
+
+    // Category filter tabs
+    const categoryTabs = document.querySelectorAll('.shop__tab, [data-category]');
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', async () => {
+            categoryTabs.forEach(t => t.classList.remove('active', 'tab--active'));
+            tab.classList.add('active', 'tab--active');
+            const category = tab.dataset.category || tab.dataset.tab || 'all';
+            await loadProducts(category);
+        });
+    });
+
+    async function loadProducts(category = 'all') {
+        try {
+            const data = await API.getProducts(category);
+            renderProducts(data.products);
+        } catch (error) {
+            console.error('Failed to load products:', error);
+        }
+    }
+
+    function renderProducts(products) {
+        productsGrid.innerHTML = '';
+
+        products.forEach(product => {
+            const productEl = document.createElement('div');
+            productEl.className = 'product card';
+            productEl.dataset.productId = product.id;
+            productEl.dataset.category = product.category;
+
+            productEl.innerHTML = `
+                <div class="product__image">
+                    <div class="product__placeholder">${product.title.charAt(0)}</div>
+                </div>
+                <div class="product__info">
+                    <h3 class="product__title">${product.title}</h3>
+                    <p class="product__price">$${product.price.toFixed(2)}</p>
+                    <span class="product__tag">${product.category}</span>
+                </div>
+                <button class="btn btn--sm product__add-to-cart" data-product='${JSON.stringify(product)}'>
+                    ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                </button>
+            `;
+
+            if (!product.inStock) {
+                productEl.querySelector('.product__add-to-cart').disabled = true;
+            }
+
+            productEl.querySelector('.product__add-to-cart').addEventListener('click', (e) => {
+                e.stopPropagation();
+                addToCart(product);
+            });
+
+            productsGrid.appendChild(productEl);
+        });
+    }
+
+    function addToCart(product) {
+        const existing = window.cart.find(item => item.productId === product.id);
+        if (existing) {
+            existing.quantity++;
+        } else {
+            window.cart.push({
+                productId: product.id,
+                title: product.title,
+                price: product.price,
+                quantity: 1
+            });
+        }
+        localStorage.setItem('wxc_cart', JSON.stringify(window.cart));
+        updateCartBadge();
+        showNotification(`${product.title} added to cart!`, 'success');
+    }
+
+    function updateCartBadge() {
+        const badge = document.querySelector('.cart-badge');
+        if (badge) {
+            const totalItems = window.cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            badge.style.display = totalItems > 0 ? 'block' : 'none';
+        }
+    }
+
+    updateCartBadge();
+}
+
+/**
+ * Portfolio Page - Load Gallery Items
+ */
+async function initPortfolio() {
+    const galleryGrid = document.querySelector('.gallery, .portfolio__grid');
+    if (!galleryGrid) return;
+
+    // Load portfolio items
+    await loadPortfolio();
+
+    // Category tabs
+    const portfolioTabs = document.querySelectorAll('.portfolio__tab, [data-portfolio-category]');
+    portfolioTabs.forEach(tab => {
+        tab.addEventListener('click', async () => {
+            portfolioTabs.forEach(t => t.classList.remove('active', 'tab--active'));
+            tab.classList.add('active', 'tab--active');
+            const category = tab.dataset.portfolioCategory || tab.dataset.tab || 'all';
+            await loadPortfolio(category);
+        });
+    });
+
+    async function loadPortfolio(category = null) {
+        try {
+            const data = await API.getPortfolioItems(category);
+            renderPortfolio(data.items);
+        } catch (error) {
+            console.error('Failed to load portfolio:', error);
+        }
+    }
+
+    function renderPortfolio(items) {
+        // Keep existing structure if items already exist
+        const existingItems = galleryGrid.querySelectorAll('.gallery__item');
+        if (existingItems.length > 0) {
+            console.log('Portfolio items loaded:', items.length);
+            return; // Use existing HTML items for now
+        }
+
+        galleryGrid.innerHTML = '';
+
+        items.forEach(item => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'gallery__item';
+            itemEl.dataset.itemId = item.id;
+            itemEl.dataset.category = item.category;
+
+            const tagsHtml = item.tags.map(tag => `<span class="gallery__tag">${tag}</span>`).join('');
+
+            itemEl.innerHTML = `
+                <div class="gallery__image">
+                    ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.title}">` : `<div class="gallery__placeholder">${item.title.charAt(0)}</div>`}
+                </div>
+                <div class="gallery__overlay">
+                    <h4 class="gallery__title">${item.title}</h4>
+                    <div class="gallery__tags">${tagsHtml}</div>
+                </div>
+            `;
+
+            itemEl.addEventListener('click', () => openLightbox(item));
+            galleryGrid.appendChild(itemEl);
+        });
+    }
+
+    function openLightbox(item) {
+        // Simple lightbox implementation
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = `
+            <div class="lightbox__backdrop"></div>
+            <div class="lightbox__content">
+                <button class="lightbox__close">&times;</button>
+                ${item.videoUrl
+                    ? `<iframe src="${item.videoUrl}" frameborder="0" allowfullscreen></iframe>`
+                    : `<img src="${item.imageUrl || ''}" alt="${item.title}">`
+                }
+                <div class="lightbox__info">
+                    <h3>${item.title}</h3>
+                    <p>${item.description || ''}</p>
+                </div>
+            </div>
+        `;
+
+        lightbox.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+
+        lightbox.querySelector('.lightbox__backdrop').style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+        `;
+
+        lightbox.querySelector('.lightbox__content').style.cssText = `
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+        `;
+
+        lightbox.querySelector('.lightbox__close').style.cssText = `
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        `;
+
+        const closeBtn = lightbox.querySelector('.lightbox__close');
+        const backdrop = lightbox.querySelector('.lightbox__backdrop');
+
+        closeBtn.addEventListener('click', () => lightbox.remove());
+        backdrop.addEventListener('click', () => lightbox.remove());
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                lightbox.remove();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
+
+        document.body.appendChild(lightbox);
+    }
 }
 
 console.log('WXXXC - Neon Cyber Rebel | Site Loaded');
