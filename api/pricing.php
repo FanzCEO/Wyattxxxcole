@@ -17,18 +17,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 define('PRICING_FILE', __DIR__ . '/pricing.json');
 
-// Auth check
+// Auth check - secure token validation
 function checkAuth() {
     $headers = getallheaders();
     $token = $headers['Authorization'] ?? $_GET['token'] ?? '';
     $token = str_replace('Bearer ', '', $token);
 
     $tokenFile = __DIR__ . '/.admin_token';
-    if (file_exists($tokenFile)) {
+    if (file_exists($tokenFile) && !empty($token)) {
         $storedToken = trim(file_get_contents($tokenFile));
-        return $token === $storedToken || $token === 'demo-token';
+        return !empty($storedToken) && hash_equals($storedToken, $token);
     }
-    return $token === 'demo-token';
+    return false;
 }
 
 function respond($data, $code = 200) {

@@ -800,6 +800,179 @@
         .table-container {
             overflow-x: auto;
         }
+
+        /* Theme Editor Styles */
+        .color-control label,
+        .typography-control label,
+        .background-control label,
+        .effect-control label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+        }
+        .color-input-wrapper {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+        .color-input-wrapper input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 0;
+            background: transparent;
+        }
+        .color-input-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 2px;
+        }
+        .color-input-wrapper input[type="color"]::-webkit-color-swatch {
+            border-radius: 6px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .color-hex {
+            flex: 1;
+            padding: var(--space-sm);
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .typography-control select,
+        .background-control select,
+        .effect-control select,
+        .background-control input[type="text"] {
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .range-with-value {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        .range-with-value input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--surface);
+            border-radius: 3px;
+        }
+        .range-with-value input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--whiskey);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        .range-with-value span {
+            min-width: 50px;
+            text-align: right;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        .toggle-wrapper input[type="checkbox"] {
+            width: 44px;
+            height: 24px;
+            -webkit-appearance: none;
+            background: var(--surface);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-wrapper input[type="checkbox"]::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .toggle-wrapper input[type="checkbox"]:checked {
+            background: var(--whiskey);
+        }
+        .toggle-wrapper input[type="checkbox"]:checked::after {
+            transform: translateX(20px);
+        }
+        .toggle-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .theme-preset-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .theme-preset-card:hover {
+            border-color: var(--whiskey);
+            transform: translateY(-2px);
+        }
+        .theme-preset-card.active {
+            border-color: var(--whiskey);
+            box-shadow: 0 0 20px rgba(193,154,107,0.3);
+        }
+        .theme-preset-card .preset-colors {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin-bottom: var(--space-sm);
+        }
+        .theme-preset-card .preset-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .theme-preset-card .preset-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .theme-preset-card .preset-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .effect-preview-card {
+            transition: all 0.3s ease;
+        }
+        .effect-preview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .btn--danger {
+            background: transparent;
+            border: 1px solid var(--rust);
+            color: var(--rust);
+        }
+        .btn--danger:hover {
+            background: var(--rust);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -855,6 +1028,7 @@
                 <button data-panel="featured">Featured</button>
                 <button data-panel="media">Media</button>
                 <button data-panel="gallery">Gallery</button>
+                <button data-panel="theme">Theme Editor</button>
                 <button data-panel="analytics">Analytics</button>
                 <button data-panel="integrations">Integrations</button>
                 <button data-panel="settings">Settings</button>
@@ -1888,6 +2062,341 @@
                             <tr><td colspan="4" class="empty-state">Loading subscribers...</td></tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Theme Editor Panel -->
+            <div class="panel" id="panel-theme">
+                <div class="panel-header">
+                    <h2>Theme Editor</h2>
+                    <div style="display: flex; gap: var(--space-md);">
+                        <button class="btn btn--secondary btn--sm" onclick="exportTheme()">
+                            <span style="margin-right: 4px;">📤</span> Export
+                        </button>
+                        <button class="btn btn--secondary btn--sm" onclick="document.getElementById('themeImport').click()">
+                            <span style="margin-right: 4px;">📥</span> Import
+                        </button>
+                        <input type="file" id="themeImport" accept=".json" style="display: none;" onchange="importTheme(event)">
+                        <button class="btn btn--primary btn--sm" onclick="saveTheme()">
+                            <span style="margin-right: 4px;">💾</span> Save Theme
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Theme Presets Section -->
+                <div class="theme-section" style="margin-bottom: var(--space-xl);">
+                    <h3 style="margin-bottom: var(--space-md); color: var(--text-primary);">🎨 Theme Presets</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Choose a starting point or create your own custom theme</p>
+                    <div class="theme-presets-grid" id="themePresetsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-md);">
+                        <!-- Presets loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Color Editor Section -->
+                <div class="theme-section" style="margin-bottom: var(--space-xl); padding: var(--space-lg); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border-subtle);">
+                    <h3 style="margin-bottom: var(--space-lg); color: var(--text-primary);">🎨 Colors</h3>
+                    <div class="color-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-lg);">
+                        <div class="color-control">
+                            <label>Primary Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-primary" value="#C19A6B" onchange="updateThemeColor('primary', this.value)">
+                                <input type="text" class="color-hex" value="#C19A6B" onchange="updateThemeColorHex('primary', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Secondary Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-secondary" value="#8B7355" onchange="updateThemeColor('secondary', this.value)">
+                                <input type="text" class="color-hex" value="#8B7355" onchange="updateThemeColorHex('secondary', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Accent Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-accent" value="#D4AF37" onchange="updateThemeColor('accent', this.value)">
+                                <input type="text" class="color-hex" value="#D4AF37" onchange="updateThemeColorHex('accent', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Background</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-background" value="#0A0A0A" onchange="updateThemeColor('background', this.value)">
+                                <input type="text" class="color-hex" value="#0A0A0A" onchange="updateThemeColorHex('background', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Surface Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-surface" value="#141414" onchange="updateThemeColor('surface', this.value)">
+                                <input type="text" class="color-hex" value="#141414" onchange="updateThemeColorHex('surface', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Card Background</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-cardBg" value="#1A1A1A" onchange="updateThemeColor('cardBg', this.value)">
+                                <input type="text" class="color-hex" value="#1A1A1A" onchange="updateThemeColorHex('cardBg', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Text Primary</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-textPrimary" value="#F5F5F5" onchange="updateThemeColor('textPrimary', this.value)">
+                                <input type="text" class="color-hex" value="#F5F5F5" onchange="updateThemeColorHex('textPrimary', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Text Secondary</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-textSecondary" value="#A0A0A0" onchange="updateThemeColor('textSecondary', this.value)">
+                                <input type="text" class="color-hex" value="#A0A0A0" onchange="updateThemeColorHex('textSecondary', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Border Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-border" value="#2A2A2A" onchange="updateThemeColor('border', this.value)">
+                                <input type="text" class="color-hex" value="#2A2A2A" onchange="updateThemeColorHex('border', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Success Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-success" value="#4ADE80" onchange="updateThemeColor('success', this.value)">
+                                <input type="text" class="color-hex" value="#4ADE80" onchange="updateThemeColorHex('success', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Warning Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-warning" value="#FBBF24" onchange="updateThemeColor('warning', this.value)">
+                                <input type="text" class="color-hex" value="#FBBF24" onchange="updateThemeColorHex('warning', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Error Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-error" value="#F87171" onchange="updateThemeColor('error', this.value)">
+                                <input type="text" class="color-hex" value="#F87171" onchange="updateThemeColorHex('error', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Gradient Start</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-gradientStart" value="#C19A6B" onchange="updateThemeColor('gradientStart', this.value)">
+                                <input type="text" class="color-hex" value="#C19A6B" onchange="updateThemeColorHex('gradientStart', this.value)">
+                            </div>
+                        </div>
+                        <div class="color-control">
+                            <label>Gradient End</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="color-gradientEnd" value="#8B7355" onchange="updateThemeColor('gradientEnd', this.value)">
+                                <input type="text" class="color-hex" value="#8B7355" onchange="updateThemeColorHex('gradientEnd', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typography Section -->
+                <div class="theme-section" style="margin-bottom: var(--space-xl); padding: var(--space-lg); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border-subtle);">
+                    <h3 style="margin-bottom: var(--space-lg); color: var(--text-primary);">📝 Typography</h3>
+                    <div class="typography-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-lg);">
+                        <div class="typography-control">
+                            <label>Heading Font</label>
+                            <select id="typo-headingFont" onchange="updateTypography('headingFont', this.value)">
+                                <option value="Playfair Display">Playfair Display</option>
+                                <option value="Oswald">Oswald</option>
+                                <option value="Bebas Neue">Bebas Neue</option>
+                                <option value="Montserrat">Montserrat</option>
+                                <option value="Poppins">Poppins</option>
+                                <option value="Raleway">Raleway</option>
+                                <option value="Lora">Lora</option>
+                                <option value="Roboto Slab">Roboto Slab</option>
+                                <option value="Dancing Script">Dancing Script</option>
+                                <option value="Cinzel">Cinzel</option>
+                            </select>
+                        </div>
+                        <div class="typography-control">
+                            <label>Body Font</label>
+                            <select id="typo-bodyFont" onchange="updateTypography('bodyFont', this.value)">
+                                <option value="Inter">Inter</option>
+                                <option value="Open Sans">Open Sans</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Lato">Lato</option>
+                                <option value="Source Sans Pro">Source Sans Pro</option>
+                                <option value="Nunito">Nunito</option>
+                                <option value="Work Sans">Work Sans</option>
+                                <option value="DM Sans">DM Sans</option>
+                            </select>
+                        </div>
+                        <div class="typography-control">
+                            <label>Base Font Size</label>
+                            <div class="range-with-value">
+                                <input type="range" id="typo-baseFontSize" min="14" max="20" value="16" onchange="updateTypography('baseFontSize', this.value + 'px')">
+                                <span id="typo-baseFontSize-value">16px</span>
+                            </div>
+                        </div>
+                        <div class="typography-control">
+                            <label>Heading Weight</label>
+                            <select id="typo-headingWeight" onchange="updateTypography('headingWeight', this.value)">
+                                <option value="400">Regular (400)</option>
+                                <option value="500">Medium (500)</option>
+                                <option value="600">Semi-Bold (600)</option>
+                                <option value="700" selected>Bold (700)</option>
+                                <option value="800">Extra Bold (800)</option>
+                                <option value="900">Black (900)</option>
+                            </select>
+                        </div>
+                        <div class="typography-control">
+                            <label>Body Weight</label>
+                            <select id="typo-bodyWeight" onchange="updateTypography('bodyWeight', this.value)">
+                                <option value="300">Light (300)</option>
+                                <option value="400" selected>Regular (400)</option>
+                                <option value="500">Medium (500)</option>
+                                <option value="600">Semi-Bold (600)</option>
+                            </select>
+                        </div>
+                        <div class="typography-control">
+                            <label>Line Height</label>
+                            <div class="range-with-value">
+                                <input type="range" id="typo-lineHeight" min="1.2" max="2" step="0.1" value="1.6" onchange="updateTypography('lineHeight', this.value)">
+                                <span id="typo-lineHeight-value">1.6</span>
+                            </div>
+                        </div>
+                        <div class="typography-control">
+                            <label>Letter Spacing</label>
+                            <div class="range-with-value">
+                                <input type="range" id="typo-letterSpacing" min="-0.05" max="0.2" step="0.01" value="0" onchange="updateTypography('letterSpacing', this.value + 'em')">
+                                <span id="typo-letterSpacing-value">0em</span>
+                            </div>
+                        </div>
+                        <div class="typography-control">
+                            <label>Heading Letter Spacing</label>
+                            <div class="range-with-value">
+                                <input type="range" id="typo-headingLetterSpacing" min="-0.05" max="0.3" step="0.01" value="0.02" onchange="updateTypography('headingLetterSpacing', this.value + 'em')">
+                                <span id="typo-headingLetterSpacing-value">0.02em</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Typography Preview -->
+                    <div class="typography-preview" style="margin-top: var(--space-xl); padding: var(--space-lg); background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h4 style="margin-bottom: var(--space-sm); color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Preview</h4>
+                        <h2 id="typo-preview-heading" style="margin-bottom: var(--space-md);">The Quick Brown Fox Jumps Over</h2>
+                        <p id="typo-preview-body" style="color: var(--text-secondary);">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                    </div>
+                </div>
+
+                <!-- Background Section -->
+                <div class="theme-section" style="margin-bottom: var(--space-xl); padding: var(--space-lg); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border-subtle);">
+                    <h3 style="margin-bottom: var(--space-lg); color: var(--text-primary);">🖼️ Background</h3>
+                    <div class="background-controls" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-lg);">
+                        <div class="background-control">
+                            <label>Background Type</label>
+                            <select id="bg-type" onchange="updateBackground('type', this.value); toggleBackgroundOptions()">
+                                <option value="solid">Solid Color</option>
+                                <option value="gradient">Gradient</option>
+                                <option value="image">Image</option>
+                            </select>
+                        </div>
+                        <div class="background-control" id="bg-value-wrapper">
+                            <label>Background Value</label>
+                            <input type="text" id="bg-value" placeholder="Color, gradient CSS, or image URL" onchange="updateBackground('value', this.value)">
+                        </div>
+                        <div class="background-control">
+                            <label>Overlay Opacity</label>
+                            <div class="range-with-value">
+                                <input type="range" id="bg-overlay" min="0" max="1" step="0.05" value="0.9" onchange="updateBackground('overlay', this.value)">
+                                <span id="bg-overlay-value">0.9</span>
+                            </div>
+                        </div>
+                        <div class="background-control">
+                            <label>Pattern Overlay</label>
+                            <select id="bg-pattern" onchange="updateBackground('pattern', this.value)">
+                                <option value="none">None</option>
+                                <option value="dots">Dots</option>
+                                <option value="grid">Grid</option>
+                                <option value="diagonal">Diagonal Lines</option>
+                                <option value="noise">Noise Texture</option>
+                                <option value="leather">Leather Texture</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Background Preview -->
+                    <div id="bg-preview" style="margin-top: var(--space-lg); height: 150px; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: var(--text-secondary);">Background Preview</span>
+                    </div>
+                </div>
+
+                <!-- Effects Section -->
+                <div class="theme-section" style="margin-bottom: var(--space-xl); padding: var(--space-lg); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border-subtle);">
+                    <h3 style="margin-bottom: var(--space-lg); color: var(--text-primary);">✨ Effects & Styling</h3>
+                    <div class="effects-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-lg);">
+                        <div class="effect-control">
+                            <label>Border Radius</label>
+                            <div class="range-with-value">
+                                <input type="range" id="effect-borderRadius" min="0" max="24" value="12" onchange="updateEffect('borderRadius', this.value + 'px')">
+                                <span id="effect-borderRadius-value">12px</span>
+                            </div>
+                        </div>
+                        <div class="effect-control">
+                            <label>Card Shadow</label>
+                            <select id="effect-cardShadow" onchange="updateEffect('cardShadow', this.value)">
+                                <option value="none">None</option>
+                                <option value="sm">Small</option>
+                                <option value="md" selected>Medium</option>
+                                <option value="lg">Large</option>
+                                <option value="xl">Extra Large</option>
+                                <option value="glow">Glow Effect</option>
+                            </select>
+                        </div>
+                        <div class="effect-control">
+                            <label>Glow Effect</label>
+                            <div class="toggle-wrapper">
+                                <input type="checkbox" id="effect-glowEffect" onchange="updateEffect('glowEffect', this.checked)">
+                                <label for="effect-glowEffect" class="toggle-label">Enable accent glow on hover</label>
+                            </div>
+                        </div>
+                        <div class="effect-control">
+                            <label>Animations</label>
+                            <div class="toggle-wrapper">
+                                <input type="checkbox" id="effect-animations" checked onchange="updateEffect('animations', this.checked)">
+                                <label for="effect-animations" class="toggle-label">Enable hover animations</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Effects Preview Cards -->
+                    <div style="margin-top: var(--space-lg); display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md);">
+                        <div class="effect-preview-card" style="padding: var(--space-lg); background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">📸</div>
+                            <div style="font-weight: 600;">Card Preview</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Hover to test</div>
+                        </div>
+                        <div class="effect-preview-card" style="padding: var(--space-lg); background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🎬</div>
+                            <div style="font-weight: 600;">Card Preview</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Hover to test</div>
+                        </div>
+                        <div class="effect-preview-card" style="padding: var(--space-lg); background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">⭐</div>
+                            <div style="font-weight: 600;">Card Preview</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Hover to test</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reset & Actions -->
+                <div class="theme-actions" style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border-subtle);">
+                    <button class="btn btn--danger btn--sm" onclick="resetTheme()">
+                        <span style="margin-right: 4px;">🔄</span> Reset to Default
+                    </button>
+                    <div style="display: flex; gap: var(--space-md);">
+                        <button class="btn btn--secondary" onclick="previewTheme()">
+                            <span style="margin-right: 4px;">👁️</span> Preview Live
+                        </button>
+                        <button class="btn btn--primary" onclick="saveAndPublishTheme()">
+                            <span style="margin-right: 4px;">🚀</span> Save & Publish
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -4678,6 +5187,440 @@ If you didn't request this code, please ignore this email.
         };
 
         // Add SMTP, templates, and analytics to dashboard load
+        // ==================== THEME EDITOR FUNCTIONS ====================
+
+        let currentTheme = {
+            colors: {},
+            typography: {},
+            background: {},
+            effects: {}
+        };
+        let themePresets = [];
+
+        // Load theme presets
+        async function loadThemePresets() {
+            try {
+                const res = await fetch('/api/theme.php?action=presets');
+                const data = await res.json();
+                if (data.success) {
+                    themePresets = data.presets;
+                    renderThemePresets();
+                }
+            } catch (e) {
+                console.error('Failed to load theme presets:', e);
+            }
+        }
+
+        // Render preset cards
+        function renderThemePresets() {
+            const grid = document.getElementById('themePresetsGrid');
+            if (!grid) return;
+
+            grid.innerHTML = themePresets.map(preset => `
+                <div class="theme-preset-card" onclick="applyPreset('${preset.id}')" data-preset="${preset.id}">
+                    <div class="preset-colors">
+                        <div class="preset-color" style="background: ${preset.colors.primary}"></div>
+                        <div class="preset-color" style="background: ${preset.colors.secondary}"></div>
+                        <div class="preset-color" style="background: ${preset.colors.accent}"></div>
+                        <div class="preset-color" style="background: ${preset.colors.background}"></div>
+                    </div>
+                    <div class="preset-name">${preset.name}</div>
+                    <div class="preset-desc">${preset.description || ''}</div>
+                </div>
+            `).join('');
+        }
+
+        // Apply a preset theme
+        async function applyPreset(presetId) {
+            try {
+                const res = await fetch('/api/theme.php?action=apply-preset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken
+                    },
+                    body: JSON.stringify({ presetId })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    currentTheme = data.theme;
+                    updateThemeEditorUI();
+                    showNotification('Preset applied!', 'success');
+
+                    // Highlight active preset
+                    document.querySelectorAll('.theme-preset-card').forEach(card => {
+                        card.classList.remove('active');
+                        if (card.dataset.preset === presetId) {
+                            card.classList.add('active');
+                        }
+                    });
+                }
+            } catch (e) {
+                showNotification('Failed to apply preset', 'error');
+            }
+        }
+
+        // Load current theme
+        async function loadTheme() {
+            try {
+                const res = await fetch('/api/theme.php?action=get');
+                const data = await res.json();
+                if (data.success) {
+                    currentTheme = data.theme;
+                    updateThemeEditorUI();
+                }
+            } catch (e) {
+                console.error('Failed to load theme:', e);
+            }
+        }
+
+        // Update all UI controls to match current theme
+        function updateThemeEditorUI() {
+            // Update color inputs
+            if (currentTheme.colors) {
+                Object.entries(currentTheme.colors).forEach(([key, value]) => {
+                    const colorInput = document.getElementById('color-' + key);
+                    const hexInput = colorInput?.nextElementSibling;
+                    if (colorInput) {
+                        colorInput.value = value;
+                        if (hexInput) hexInput.value = value;
+                    }
+                });
+            }
+
+            // Update typography controls
+            if (currentTheme.typography) {
+                Object.entries(currentTheme.typography).forEach(([key, value]) => {
+                    const el = document.getElementById('typo-' + key);
+                    if (el) {
+                        if (el.type === 'range') {
+                            el.value = parseFloat(value);
+                            const valueDisplay = document.getElementById('typo-' + key + '-value');
+                            if (valueDisplay) valueDisplay.textContent = value;
+                        } else {
+                            el.value = value;
+                        }
+                    }
+                });
+                updateTypographyPreview();
+            }
+
+            // Update background controls
+            if (currentTheme.background) {
+                const bgType = document.getElementById('bg-type');
+                const bgValue = document.getElementById('bg-value');
+                const bgOverlay = document.getElementById('bg-overlay');
+                const bgPattern = document.getElementById('bg-pattern');
+
+                if (bgType) bgType.value = currentTheme.background.type || 'solid';
+                if (bgValue) bgValue.value = currentTheme.background.value || '';
+                if (bgOverlay) {
+                    bgOverlay.value = currentTheme.background.overlay || 0.9;
+                    const valueDisplay = document.getElementById('bg-overlay-value');
+                    if (valueDisplay) valueDisplay.textContent = bgOverlay.value;
+                }
+                if (bgPattern) bgPattern.value = currentTheme.background.pattern || 'none';
+
+                updateBackgroundPreview();
+            }
+
+            // Update effects controls
+            if (currentTheme.effects) {
+                const borderRadius = document.getElementById('effect-borderRadius');
+                const cardShadow = document.getElementById('effect-cardShadow');
+                const glowEffect = document.getElementById('effect-glowEffect');
+                const animations = document.getElementById('effect-animations');
+
+                if (borderRadius) {
+                    borderRadius.value = parseInt(currentTheme.effects.borderRadius) || 12;
+                    const valueDisplay = document.getElementById('effect-borderRadius-value');
+                    if (valueDisplay) valueDisplay.textContent = borderRadius.value + 'px';
+                }
+                if (cardShadow) cardShadow.value = currentTheme.effects.cardShadow || 'md';
+                if (glowEffect) glowEffect.checked = currentTheme.effects.glowEffect || false;
+                if (animations) animations.checked = currentTheme.effects.animations !== false;
+            }
+        }
+
+        // Update a single color in the theme
+        function updateThemeColor(key, value) {
+            currentTheme.colors = currentTheme.colors || {};
+            currentTheme.colors[key] = value;
+
+            // Sync hex input
+            const hexInput = document.querySelector('#color-' + key)?.nextElementSibling;
+            if (hexInput) hexInput.value = value;
+
+            applyLivePreview();
+        }
+
+        // Update color from hex input
+        function updateThemeColorHex(key, value) {
+            if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+                currentTheme.colors = currentTheme.colors || {};
+                currentTheme.colors[key] = value;
+
+                const colorInput = document.getElementById('color-' + key);
+                if (colorInput) colorInput.value = value;
+
+                applyLivePreview();
+            }
+        }
+
+        // Update typography setting
+        function updateTypography(key, value) {
+            currentTheme.typography = currentTheme.typography || {};
+            currentTheme.typography[key] = value;
+
+            // Update value display for range inputs
+            const valueDisplay = document.getElementById('typo-' + key + '-value');
+            if (valueDisplay) valueDisplay.textContent = value;
+
+            updateTypographyPreview();
+            applyLivePreview();
+        }
+
+        // Update typography preview
+        function updateTypographyPreview() {
+            const heading = document.getElementById('typo-preview-heading');
+            const body = document.getElementById('typo-preview-body');
+
+            if (heading && currentTheme.typography) {
+                heading.style.fontFamily = currentTheme.typography.headingFont || 'inherit';
+                heading.style.fontWeight = currentTheme.typography.headingWeight || '700';
+                heading.style.letterSpacing = currentTheme.typography.headingLetterSpacing || '0.02em';
+            }
+
+            if (body && currentTheme.typography) {
+                body.style.fontFamily = currentTheme.typography.bodyFont || 'inherit';
+                body.style.fontWeight = currentTheme.typography.bodyWeight || '400';
+                body.style.fontSize = currentTheme.typography.baseFontSize || '16px';
+                body.style.lineHeight = currentTheme.typography.lineHeight || '1.6';
+                body.style.letterSpacing = currentTheme.typography.letterSpacing || '0';
+            }
+        }
+
+        // Update background setting
+        function updateBackground(key, value) {
+            currentTheme.background = currentTheme.background || {};
+            currentTheme.background[key] = value;
+
+            // Update value display for range inputs
+            if (key === 'overlay') {
+                const valueDisplay = document.getElementById('bg-overlay-value');
+                if (valueDisplay) valueDisplay.textContent = value;
+            }
+
+            updateBackgroundPreview();
+            applyLivePreview();
+        }
+
+        // Update background preview
+        function updateBackgroundPreview() {
+            const preview = document.getElementById('bg-preview');
+            if (!preview || !currentTheme.background) return;
+
+            const type = currentTheme.background.type || 'solid';
+            const value = currentTheme.background.value || currentTheme.colors?.background || '#0A0A0A';
+
+            if (type === 'solid') {
+                preview.style.background = value;
+            } else if (type === 'gradient') {
+                preview.style.background = value;
+            } else if (type === 'image') {
+                preview.style.background = `url(${value}) center/cover`;
+            }
+
+            // Apply overlay
+            const overlay = currentTheme.background.overlay || 0.9;
+            preview.style.position = 'relative';
+        }
+
+        // Toggle background options based on type
+        function toggleBackgroundOptions() {
+            const type = document.getElementById('bg-type')?.value;
+            const valueWrapper = document.getElementById('bg-value-wrapper');
+            const valueInput = document.getElementById('bg-value');
+
+            if (valueInput) {
+                if (type === 'solid') {
+                    valueInput.placeholder = 'Color (e.g., #0A0A0A)';
+                } else if (type === 'gradient') {
+                    valueInput.placeholder = 'Gradient CSS (e.g., linear-gradient(...))';
+                } else if (type === 'image') {
+                    valueInput.placeholder = 'Image URL';
+                }
+            }
+        }
+
+        // Update effect setting
+        function updateEffect(key, value) {
+            currentTheme.effects = currentTheme.effects || {};
+            currentTheme.effects[key] = value;
+
+            // Update value display for range inputs
+            if (key === 'borderRadius') {
+                const valueDisplay = document.getElementById('effect-borderRadius-value');
+                if (valueDisplay) valueDisplay.textContent = value;
+            }
+
+            applyLivePreview();
+        }
+
+        // Apply live preview to the page
+        function applyLivePreview() {
+            const root = document.documentElement;
+
+            if (currentTheme.colors) {
+                if (currentTheme.colors.primary) root.style.setProperty('--whiskey', currentTheme.colors.primary);
+                if (currentTheme.colors.secondary) root.style.setProperty('--rust', currentTheme.colors.secondary);
+                if (currentTheme.colors.background) root.style.setProperty('--charcoal', currentTheme.colors.background);
+                if (currentTheme.colors.surface) root.style.setProperty('--surface', currentTheme.colors.surface);
+                if (currentTheme.colors.cardBg) root.style.setProperty('--card-bg', currentTheme.colors.cardBg);
+                if (currentTheme.colors.textPrimary) root.style.setProperty('--text-primary', currentTheme.colors.textPrimary);
+                if (currentTheme.colors.textSecondary) root.style.setProperty('--text-secondary', currentTheme.colors.textSecondary);
+                if (currentTheme.colors.border) root.style.setProperty('--border-subtle', currentTheme.colors.border);
+            }
+
+            if (currentTheme.effects) {
+                if (currentTheme.effects.borderRadius) {
+                    root.style.setProperty('--radius-md', currentTheme.effects.borderRadius);
+                    root.style.setProperty('--radius-lg', `calc(${currentTheme.effects.borderRadius} * 1.5)`);
+                }
+            }
+        }
+
+        // Save theme to server
+        async function saveTheme() {
+            try {
+                const res = await fetch('/api/theme.php?action=save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken
+                    },
+                    body: JSON.stringify(currentTheme)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showNotification('Theme saved successfully!', 'success');
+                } else {
+                    showNotification(data.error || 'Failed to save theme', 'error');
+                }
+            } catch (e) {
+                showNotification('Failed to save theme', 'error');
+            }
+        }
+
+        // Save and publish theme (generates CSS file)
+        async function saveAndPublishTheme() {
+            try {
+                // First save the theme
+                await saveTheme();
+
+                // Then generate CSS
+                const res = await fetch('/api/theme.php?action=generate-css', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + authToken
+                    }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showNotification('Theme published! CSS generated at ' + data.cssPath, 'success');
+                }
+            } catch (e) {
+                showNotification('Failed to publish theme', 'error');
+            }
+        }
+
+        // Reset theme to defaults
+        async function resetTheme() {
+            if (!confirm('Are you sure you want to reset the theme to defaults?')) return;
+
+            try {
+                const res = await fetch('/api/theme.php?action=reset', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + authToken
+                    }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    currentTheme = data.theme;
+                    updateThemeEditorUI();
+                    applyLivePreview();
+                    showNotification('Theme reset to defaults', 'success');
+                }
+            } catch (e) {
+                showNotification('Failed to reset theme', 'error');
+            }
+        }
+
+        // Export theme as JSON
+        async function exportTheme() {
+            try {
+                const res = await fetch('/api/theme.php?action=export');
+                const data = await res.json();
+                if (data.success) {
+                    const blob = new Blob([JSON.stringify(data.theme, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'theme-export.json';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    showNotification('Theme exported!', 'success');
+                }
+            } catch (e) {
+                showNotification('Failed to export theme', 'error');
+            }
+        }
+
+        // Import theme from JSON file
+        async function importTheme(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                const text = await file.text();
+                const themeData = JSON.parse(text);
+
+                const res = await fetch('/api/theme.php?action=import', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken
+                    },
+                    body: JSON.stringify({ theme: themeData })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    currentTheme = data.theme;
+                    updateThemeEditorUI();
+                    applyLivePreview();
+                    showNotification('Theme imported successfully!', 'success');
+                }
+            } catch (e) {
+                showNotification('Failed to import theme. Invalid file format.', 'error');
+            }
+
+            event.target.value = '';
+        }
+
+        // Preview theme on live site
+        function previewTheme() {
+            window.open('/?preview_theme=1', '_blank');
+        }
+
+        // Initialize theme editor when panel is shown
+        function initThemeEditor() {
+            loadThemePresets();
+            loadTheme();
+        }
+
+        // ==================== END THEME EDITOR ====================
+
         async function loadAllDashboardData() {
             loadGallery();
             loadSettings();
@@ -4696,6 +5639,7 @@ If you didn't request this code, please ignore this email.
             loadEmailTemplates();
             loadAnalyticsSettings();
             loadCustomAnalytics();
+            initThemeEditor();
         }
 
         // Load all data if logged in

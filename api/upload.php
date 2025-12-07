@@ -122,7 +122,9 @@ function checkAuth() {
     $token = $headers['Authorization'] ?? $_GET['token'] ?? '';
     $token = str_replace('Bearer ', '', $token);
 
-    if ($token === 'demo-token' || $token === getStoredToken()) {
+    // Security: Only accept valid stored token, no demo tokens in production
+    $storedToken = getStoredToken();
+    if (!empty($token) && !empty($storedToken) && hash_equals($storedToken, $token)) {
         return true;
     }
     return false;
@@ -1177,8 +1179,10 @@ function handleGetAnalytics() {
             $clicks[$row['platform']] = intval($row['clicks']);
         }
 
-        // Get total
-        $total = $db->query("SELECT COUNT(*) FROM click_analytics WHERE clicked_at > DATE_SUB(NOW(), INTERVAL $days DAY)")->fetchColumn();
+        // Get total - use prepared statement for security
+        $totalStmt = $db->prepare("SELECT COUNT(*) FROM click_analytics WHERE clicked_at > DATE_SUB(NOW(), INTERVAL ? DAY)");
+        $totalStmt->execute([$days]);
+        $total = $totalStmt->fetchColumn();
 
         respond(['success' => true, 'clicks' => $clicks, 'total' => intval($total), 'days' => $days]);
     } catch (PDOException $e) {

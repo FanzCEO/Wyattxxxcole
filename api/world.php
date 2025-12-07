@@ -277,11 +277,11 @@ function checkAdminAuth() {
     $token = str_replace('Bearer ', '', $token);
 
     $tokenFile = __DIR__ . '/.admin_token';
-    if (file_exists($tokenFile)) {
+    if (file_exists($tokenFile) && !empty($token)) {
         $storedToken = trim(file_get_contents($tokenFile));
-        return $token === $storedToken || $token === 'demo-token';
+        return !empty($storedToken) && hash_equals($storedToken, $token);
     }
-    return $token === 'demo-token';
+    return false;
 }
 
 function sendVerificationEmail($email, $username, $code) {
