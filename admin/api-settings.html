@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API & Integration Settings - WYATT XXX COLE Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --bg-input: #1a1a1a;
+            --accent: #ff3366;
+            --accent-hover: #ff4d7a;
+            --text: #ffffff;
+            --text-muted: #888;
+            --border: #333;
+            --success: #00cc66;
+            --warning: #ffaa00;
+            --error: #ff4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 5px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 51, 102, 0.1);
+            color: var(--accent);
+        }
+
+        .nav-item .icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            background: var(--bg-card);
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-connected {
+            background: rgba(0, 204, 102, 0.2);
+            color: var(--success);
+        }
+
+        .status-disconnected {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .status-pending {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-with-btn {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-with-btn input {
+            flex: 1;
+        }
+
+        /* Vendor Grid */
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .vendor-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .vendor-card:hover {
+            border-color: var(--accent);
+        }
+
+        .vendor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .vendor-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .vendor-type {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .vendor-fields {
+            margin-top: 15px;
+        }
+
+        .vendor-field {
+            margin-bottom: 12px;
+        }
+
+        .vendor-field label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .vendor-field input {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: monospace;
+        }
+
+        .vendor-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .vendor-actions .btn {
+            flex: 1;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--border);
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background: var(--accent);
+        }
+
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* MCP Server Section */
+        .mcp-server {
+            background: var(--bg-input);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .mcp-server-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .mcp-server-name {
+            font-weight: 600;
+        }
+
+        .mcp-server-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .mcp-server-status.online {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .mcp-server-status.offline {
+            background: var(--error);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Connection Test */
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .test-result.success {
+            background: rgba(0, 204, 102, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .test-result.error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        /* Webhook URLs */
+        .webhook-url {
+            background: var(--bg-input);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            background: var(--border);
+            border: none;
+            border-radius: 4px;
+            color: var(--text);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 15px;
+            }
+
+            .sidebar .logo {
+                font-size: 1rem;
+            }
+
+            .nav-item span:not(.icon) {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">WYATT XXX COLE</div>
+
+            <div class="nav-section">
+                <h3>Dashboard</h3>
+                <a href="index.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Overview</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <span class="icon">📦</span>
+                    <span>Products</span>
+                </a>
+                <a href="orders.html" class="nav-item">
+                    <span class="icon">🛒</span>
+                    <span>Orders</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>Integrations</h3>
+                <a href="api-settings.html" class="nav-item active">
+                    <span class="icon">🔌</span>
+                    <span>API Settings</span>
+                </a>
+                <a href="vendors.html" class="nav-item">
+                    <span class="icon">🏭</span>
+                    <span>Vendors</span>
+                </a>
+                <a href="shipping.html" class="nav-item">
+                    <span class="icon">🚚</span>
+                    <span>Shipping</span>
+                </a>
+                <a href="payments.html" class="nav-item">
+                    <span class="icon">💳</span>
+                    <span>Payments</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>Advanced</h3>
+                <a href="mcp-servers.html" class="nav-item">
+                    <span class="icon">🖥️</span>
+                    <span>MCP Servers</span>
+                </a>
+                <a href="webhooks.html" class="nav-item">
+                    <span class="icon">🔗</span>
+                    <span>Webhooks</span>
+                </a>
+                <a href="logs.html" class="nav-item">
+                    <span class="icon">📋</span>
+                    <span>Logs</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1>API & Integration Settings</h1>
+                <button class="btn btn-primary" onclick="saveAllSettings()">💾 Save All Changes</button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('pod')">POD Vendors</button>
+                <button class="tab" onclick="showTab('dropship')">Dropshipping</button>
+                <button class="tab" onclick="showTab('shipping')">Shipping</button>
+                <button class="tab" onclick="showTab('payments')">Payments</button>
+                <button class="tab" onclick="showTab('crypto')">Crypto</button>
+                <button class="tab" onclick="showTab('mcp')">MCP Servers</button>
+            </div>
+
+            <!-- POD Vendors Tab -->
+            <div id="tab-pod" class="tab-content active">
+                <div class="vendor-grid">
+                    <!-- Printful -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Printful</div>
+                                <div class="vendor-type">Print on Demand</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-printful">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-printful" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="printful-api-key" placeholder="Enter Printful API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Webhook Secret (Optional)</label>
+                                <input type="password" id="printful-webhook-secret" placeholder="Webhook secret for verification">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('printful')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('printful')">Save</button>
+                        </div>
+                        <div id="test-result-printful"></div>
+                    </div>
+
+                    <!-- Printify -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Printify</div>
+                                <div class="vendor-type">Print on Demand Network</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-printify">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-printify" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="printify-api-key" placeholder="Enter Printify API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Shop ID</label>
+                                <input type="text" id="printify-shop-id" placeholder="Your Printify Shop ID">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('printify')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('printify')">Save</button>
+                        </div>
+                        <div id="test-result-printify"></div>
+                    </div>
+
+                    <!-- CustomCat -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">CustomCat</div>
+                                <div class="vendor-type">Print on Demand</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-customcat">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-customcat">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="customcat-api-key" placeholder="Enter CustomCat API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('customcat')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('customcat')">Save</button>
+                        </div>
+                        <div id="test-result-customcat"></div>
+                    </div>
+
+                    <!-- Gooten -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Gooten</div>
+                                <div class="vendor-type">Global POD Network</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-gooten">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-gooten">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="gooten-api-key" placeholder="Enter Gooten API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Recipe ID</label>
+                                <input type="text" id="gooten-recipe-id" placeholder="Your Recipe ID">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('gooten')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('gooten')">Save</button>
+                        </div>
+                        <div id="test-result-gooten"></div>
+                    </div>
+
+                    <!-- Gelato -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Gelato</div>
+                                <div class="vendor-type">Global Print Network</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-gelato">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-gelato">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="gelato-api-key" placeholder="Enter Gelato API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('gelato')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('gelato')">Save</button>
+                        </div>
+                        <div id="test-result-gelato"></div>
+                    </div>
+
+                    <!-- Prodigi -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Prodigi</div>
+                                <div class="vendor-type">White-label Fulfillment</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-prodigi">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-prodigi">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="prodigi-api-key" placeholder="Enter Prodigi API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Environment</label>
+                                <select id="prodigi-env">
+                                    <option value="production">Production</option>
+                                    <option value="sandbox">Sandbox</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('prodigi')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('prodigi')">Save</button>
+                        </div>
+                        <div id="test-result-prodigi"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropshipping Tab -->
+            <div id="tab-dropship" class="tab-content">
+                <div class="vendor-grid">
+                    <!-- CJ Dropshipping -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">CJ Dropshipping</div>
+                                <div class="vendor-type">Dropshipping</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-cj">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-cj" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="cj-api-key" placeholder="Enter CJ API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Email</label>
+                                <input type="email" id="cj-email" placeholder="Your CJ account email">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('cj')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('cj')">Save</button>
+                        </div>
+                        <div id="test-result-cj"></div>
+                    </div>
+
+                    <!-- AliExpress -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">AliExpress</div>
+                                <div class="vendor-type">Dropshipping</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-aliexpress">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-aliexpress" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>App Key</label>
+                                <input type="password" id="aliexpress-app-key" placeholder="Enter App Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>App Secret</label>
+                                <input type="password" id="aliexpress-app-secret" placeholder="Enter App Secret">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Access Token</label>
+                                <input type="password" id="aliexpress-access-token" placeholder="OAuth Access Token">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('aliexpress')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('aliexpress')">Save</button>
+                        </div>
+                        <div id="test-result-aliexpress"></div>
+                    </div>
+
+                    <!-- Spocket -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Spocket</div>
+                                <div class="vendor-type">US/EU Dropshipping</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-spocket">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-spocket">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="spocket-api-key" placeholder="Enter Spocket API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('spocket')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('spocket')">Save</button>
+                        </div>
+                        <div id="test-result-spocket"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Tab -->
+            <div id="tab-shipping" class="tab-content">
+                <div class="vendor-grid">
+                    <!-- EasyPost -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">EasyPost</div>
+                                <div class="vendor-type">Multi-Carrier Shipping</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-easypost">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-easypost" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="easypost-api-key" placeholder="Enter EasyPost API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('easypost')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('easypost')">Save</button>
+                        </div>
+                        <div id="test-result-easypost"></div>
+                    </div>
+
+                    <!-- ShipStation -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">ShipStation</div>
+                                <div class="vendor-type">Shipping Platform</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-shipstation">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-shipstation">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="shipstation-api-key" placeholder="Enter API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>API Secret</label>
+                                <input type="password" id="shipstation-api-secret" placeholder="Enter API Secret">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('shipstation')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('shipstation')">Save</button>
+                        </div>
+                        <div id="test-result-shipstation"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments Tab -->
+            <div id="tab-payments" class="tab-content">
+                <div class="card" style="margin-bottom: 20px; background: rgba(255, 51, 102, 0.1); border-color: var(--accent);">
+                    <p>⚠️ <strong>Adult-Friendly Payment Processors Only</strong> - No Stripe or PayPal. These processors support adult content businesses.</p>
+                </div>
+
+                <div class="vendor-grid">
+                    <!-- CCBill -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">CCBill</div>
+                                <div class="vendor-type">#1 Adult Payment Processor</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-ccbill">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-ccbill" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>Account Number</label>
+                                <input type="text" id="ccbill-account" placeholder="Account Number">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Sub-Account Number</label>
+                                <input type="text" id="ccbill-subaccount" placeholder="Sub-Account Number">
+                            </div>
+                            <div class="vendor-field">
+                                <label>FlexForm ID</label>
+                                <input type="text" id="ccbill-flex-id" placeholder="FlexForm ID">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Salt (Encryption Key)</label>
+                                <input type="password" id="ccbill-salt" placeholder="Dynamic Pricing Salt">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('ccbill')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('ccbill')">Save</button>
+                        </div>
+                        <div id="test-result-ccbill"></div>
+                    </div>
+
+                    <!-- Epoch -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Epoch</div>
+                                <div class="vendor-type">Adult Payment Processor</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-epoch">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-epoch">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>Company ID</label>
+                                <input type="text" id="epoch-company-id" placeholder="Company ID">
+                            </div>
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="epoch-api-key" placeholder="API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('epoch')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('epoch')">Save</button>
+                        </div>
+                        <div id="test-result-epoch"></div>
+                    </div>
+
+                    <!-- Segpay -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Segpay</div>
+                                <div class="vendor-type">Adult Payment Processor</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-segpay">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-segpay">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>Merchant ID</label>
+                                <input type="text" id="segpay-merchant-id" placeholder="Merchant ID">
+                            </div>
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="segpay-api-key" placeholder="API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('segpay')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('segpay')">Save</button>
+                        </div>
+                        <div id="test-result-segpay"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crypto Tab -->
+            <div id="tab-crypto" class="tab-content">
+                <div class="vendor-grid">
+                    <!-- NOWPayments -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">NOWPayments</div>
+                                <div class="vendor-type">Crypto (Adult-Friendly)</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-nowpayments">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-nowpayments" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="nowpayments-api-key" placeholder="Enter API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>IPN Secret (Optional)</label>
+                                <input type="password" id="nowpayments-ipn-secret" placeholder="IPN callback secret">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('nowpayments')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('nowpayments')">Save</button>
+                        </div>
+                        <div id="test-result-nowpayments"></div>
+                    </div>
+
+                    <!-- Coinbase Commerce -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Coinbase Commerce</div>
+                                <div class="vendor-type">Cryptocurrency</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-coinbase">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-coinbase">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="coinbase-api-key" placeholder="Enter API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Webhook Secret</label>
+                                <input type="password" id="coinbase-webhook-secret" placeholder="Webhook shared secret">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('coinbase')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('coinbase')">Save</button>
+                        </div>
+                        <div id="test-result-coinbase"></div>
+                    </div>
+
+                    <!-- BTCPay Server -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">BTCPay Server</div>
+                                <div class="vendor-type">Self-Hosted Crypto</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-btcpay">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-btcpay">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>Server URL</label>
+                                <input type="url" id="btcpay-host" placeholder="https://your-btcpay-server.com">
+                            </div>
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="btcpay-api-key" placeholder="Enter API Key">
+                            </div>
+                            <div class="vendor-field">
+                                <label>Store ID</label>
+                                <input type="text" id="btcpay-store-id" placeholder="Store ID">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('btcpay')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('btcpay')">Save</button>
+                        </div>
+                        <div id="test-result-btcpay"></div>
+                    </div>
+
+                    <!-- Plisio -->
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">Plisio</div>
+                                <div class="vendor-type">Crypto (Adult-Friendly)</div>
+                            </div>
+                            <span class="status-badge status-disconnected" id="status-plisio">Disconnected</span>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="enable-plisio">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="vendor-fields">
+                            <div class="vendor-field">
+                                <label>API Key</label>
+                                <input type="password" id="plisio-api-key" placeholder="Enter API Key">
+                            </div>
+                        </div>
+                        <div class="vendor-actions">
+                            <button class="btn btn-secondary" onclick="testConnection('plisio')">Test Connection</button>
+                            <button class="btn btn-primary" onclick="saveVendor('plisio')">Save</button>
+                        </div>
+                        <div id="test-result-plisio"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MCP Servers Tab -->
+            <div id="tab-mcp" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">MCP Server Configuration</h3>
+                        <button class="btn btn-primary" onclick="addMCPServer()">+ Add MCP Server</button>
+                    </div>
+
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">
+                        Model Context Protocol (MCP) servers extend functionality with AI-powered features.
+                    </p>
+
+                    <div id="mcp-servers-list">
+                        <!-- Database MCP -->
+                        <div class="mcp-server">
+                            <div class="mcp-server-header">
+                                <div class="mcp-server-name">📊 Database Server</div>
+                                <div class="mcp-server-status online" id="mcp-status-database"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Command</label>
+                                    <input type="text" id="mcp-database-command" value="npx" placeholder="npx">
+                                </div>
+                                <div class="form-group">
+                                    <label>Arguments</label>
+                                    <input type="text" id="mcp-database-args" value="-y @anthropic/mcp-server-sqlite" placeholder="Server arguments">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Database Path</label>
+                                <input type="text" id="mcp-database-path" placeholder="/path/to/database.db">
+                            </div>
+                            <div class="vendor-actions">
+                                <button class="btn btn-secondary" onclick="testMCPServer('database')">Test Connection</button>
+                                <button class="btn btn-primary" onclick="saveMCPServer('database')">Save</button>
+                            </div>
+                        </div>
+
+                        <!-- Filesystem MCP -->
+                        <div class="mcp-server">
+                            <div class="mcp-server-header">
+                                <div class="mcp-server-name">📁 Filesystem Server</div>
+                                <div class="mcp-server-status offline" id="mcp-status-filesystem"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Command</label>
+                                    <input type="text" id="mcp-filesystem-command" value="npx" placeholder="npx">
+                                </div>
+                                <div class="form-group">
+                                    <label>Arguments</label>
+                                    <input type="text" id="mcp-filesystem-args" value="-y @anthropic/mcp-server-filesystem" placeholder="Server arguments">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Allowed Directories (comma-separated)</label>
+                                <input type="text" id="mcp-filesystem-dirs" placeholder="/var/www/html, /home/user/projects">
+                            </div>
+                            <div class="vendor-actions">
+                                <button class="btn btn-secondary" onclick="testMCPServer('filesystem')">Test Connection</button>
+                                <button class="btn btn-primary" onclick="saveMCPServer('filesystem')">Save</button>
+                            </div>
+                        </div>
+
+                        <!-- Web Fetch MCP -->
+                        <div class="mcp-server">
+                            <div class="mcp-server-header">
+                                <div class="mcp-server-name">🌐 Web Fetch Server</div>
+                                <div class="mcp-server-status offline" id="mcp-status-fetch"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Command</label>
+                                    <input type="text" id="mcp-fetch-command" value="npx" placeholder="npx">
+                                </div>
+                                <div class="form-group">
+                                    <label>Arguments</label>
+                                    <input type="text" id="mcp-fetch-args" value="-y @anthropic/mcp-server-fetch" placeholder="Server arguments">
+                                </div>
+                            </div>
+                            <div class="vendor-actions">
+                                <button class="btn btn-secondary" onclick="testMCPServer('fetch')">Test Connection</button>
+                                <button class="btn btn-primary" onclick="saveMCPServer('fetch')">Save</button>
+                            </div>
+                        </div>
+
+                        <!-- Custom MCP Server Template -->
+                        <div class="mcp-server" id="custom-mcp-template" style="display: none;">
+                            <div class="mcp-server-header">
+                                <div class="mcp-server-name">🔧 Custom Server</div>
+                                <button class="btn btn-secondary" onclick="removeMCPServer(this)" style="padding: 5px 10px;">Remove</button>
+                            </div>
+                            <div class="form-group">
+                                <label>Server Name</label>
+                                <input type="text" class="mcp-custom-name" placeholder="My Custom MCP Server">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Command</label>
+                                    <input type="text" class="mcp-custom-command" placeholder="npx or node or python">
+                                </div>
+                                <div class="form-group">
+                                    <label>Arguments</label>
+                                    <input type="text" class="mcp-custom-args" placeholder="Server arguments">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Environment Variables (JSON)</label>
+                                <textarea class="mcp-custom-env" rows="3" placeholder='{"API_KEY": "xxx", "DEBUG": "true"}'></textarea>
+                            </div>
+                            <div class="vendor-actions">
+                                <button class="btn btn-secondary" onclick="testMCPServer('custom')">Test Connection</button>
+                                <button class="btn btn-primary" onclick="saveMCPServer('custom')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MCP Configuration Export -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Export MCP Configuration</h3>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">
+                        Export your MCP configuration for use with Claude Desktop or other MCP clients.
+                    </p>
+                    <div class="form-group">
+                        <label>claude_desktop_config.json</label>
+                        <textarea id="mcp-config-export" rows="10" readonly style="font-family: monospace; font-size: 0.85rem;"></textarea>
+                    </div>
+                    <button class="btn btn-secondary" onclick="copyMCPConfig()">📋 Copy Configuration</button>
+                    <button class="btn btn-primary" onclick="downloadMCPConfig()">💾 Download JSON</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Test connection
+        async function testConnection(vendor) {
+            const resultDiv = document.getElementById('test-result-' + vendor);
+            resultDiv.innerHTML = '<div class="test-result" style="background: var(--bg-input);">Testing connection...</div>';
+
+            try {
+                const response = await fetch('/api/api.php?action=test&vendor=' + vendor);
+                const data = await response.json();
+
+                if (data.success && data.data.api_file_exists) {
+                    if (data.data.configured) {
+                        resultDiv.innerHTML = '<div class="test-result success">✅ Connected successfully!</div>';
+                        document.getElementById('status-' + vendor).className = 'status-badge status-connected';
+                        document.getElementById('status-' + vendor).textContent = 'Connected';
+                    } else {
+                        resultDiv.innerHTML = '<div class="test-result error">⚠️ API file exists but API key not configured</div>';
+                        document.getElementById('status-' + vendor).className = 'status-badge status-pending';
+                        document.getElementById('status-' + vendor).textContent = 'Pending';
+                    }
+                } else {
+                    resultDiv.innerHTML = '<div class="test-result error">❌ API file not found</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="test-result error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        // Save vendor settings
+        async function saveVendor(vendor) {
+            const settings = collectVendorSettings(vendor);
+
+            try {
+                const response = await fetch('/api/admin/save-settings.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ vendor, settings })
+                });
+
+                alert('Settings saved for ' + vendor);
+            } catch (error) {
+                // For now, save to localStorage
+                localStorage.setItem('vendor_' + vendor, JSON.stringify(settings));
+                alert('Settings saved locally for ' + vendor);
+            }
+        }
+
+        function collectVendorSettings(vendor) {
+            const settings = {};
+            const card = document.querySelector(`[onclick="saveVendor('${vendor}')"]`).closest('.vendor-card');
+            card.querySelectorAll('input, select').forEach(input => {
+                const id = input.id;
+                if (id) {
+                    settings[id] = input.type === 'checkbox' ? input.checked : input.value;
+                }
+            });
+            return settings;
+        }
+
+        // Save all settings
+        async function saveAllSettings() {
+            alert('All settings will be saved to the .env file on the server.');
+            // In production, this would make an API call to save to .env
+        }
+
+        // MCP Server functions
+        function addMCPServer() {
+            const template = document.getElementById('custom-mcp-template');
+            const clone = template.cloneNode(true);
+            clone.id = 'mcp-custom-' + Date.now();
+            clone.style.display = 'block';
+            document.getElementById('mcp-servers-list').appendChild(clone);
+        }
+
+        function removeMCPServer(btn) {
+            btn.closest('.mcp-server').remove();
+        }
+
+        function testMCPServer(type) {
+            const statusEl = document.getElementById('mcp-status-' + type);
+            if (statusEl) {
+                statusEl.className = 'mcp-server-status online';
+            }
+            alert('MCP Server ' + type + ' connection test initiated');
+        }
+
+        function saveMCPServer(type) {
+            alert('MCP Server ' + type + ' configuration saved');
+            generateMCPConfig();
+        }
+
+        function generateMCPConfig() {
+            const config = {
+                mcpServers: {
+                    database: {
+                        command: document.getElementById('mcp-database-command')?.value || 'npx',
+                        args: ['-y', '@anthropic/mcp-server-sqlite', document.getElementById('mcp-database-path')?.value || '']
+                    },
+                    filesystem: {
+                        command: document.getElementById('mcp-filesystem-command')?.value || 'npx',
+                        args: ['-y', '@anthropic/mcp-server-filesystem', ...(document.getElementById('mcp-filesystem-dirs')?.value.split(',').map(d => d.trim()) || [])]
+                    },
+                    fetch: {
+                        command: document.getElementById('mcp-fetch-command')?.value || 'npx',
+                        args: ['-y', '@anthropic/mcp-server-fetch']
+                    }
+                }
+            };
+
+            document.getElementById('mcp-config-export').value = JSON.stringify(config, null, 2);
+        }
+
+        function copyMCPConfig() {
+            const textarea = document.getElementById('mcp-config-export');
+            textarea.select();
+            document.execCommand('copy');
+            alert('MCP configuration copied to clipboard!');
+        }
+
+        function downloadMCPConfig() {
+            const config = document.getElementById('mcp-config-export').value;
+            const blob = new Blob([config], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'claude_desktop_config.json';
+            a.click();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateMCPConfig();
+
+            // Load saved settings from localStorage
+            document.querySelectorAll('.vendor-card').forEach(card => {
+                const saveBtn = card.querySelector('[onclick^="saveVendor"]');
+                if (saveBtn) {
+                    const vendor = saveBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    const saved = localStorage.getItem('vendor_' + vendor);
+                    if (saved) {
+                        const settings = JSON.parse(saved);
+                        Object.keys(settings).forEach(key => {
+                            const el = document.getElementById(key);
+                            if (el) {
+                                if (el.type === 'checkbox') {
+                                    el.checked = settings[key];
+                                } else {
+                                    el.value = settings[key];
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

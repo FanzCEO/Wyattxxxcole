@@ -1,0 +1,37 @@
+[
+    {
+        "id": "user_692a01aaebd9b5.52354202",
+        "username": "testuser",
+        "email": "test@test.com",
+        "password": "$2y$10$pBvQ\/LuG26KcIfKWF53qfuXVgLfcx68BLZU7SPEzhWq\/iYvQnlM4O",
+        "tier": "free",
+        "createdAt": "2025-11-28T20:10:19+00:00",
+        "lastLogin": "2025-11-28T20:10:24+00:00",
+        "token": "05d35eba369e344b26acf91301d92115090080f3bba2e8c4d3e00a0c946f2fcc",
+        "tokenExpires": "2025-12-05T20:10:24+00:00"
+    },
+    {
+        "id": "user_692a027eb230a4.20686546",
+        "username": "WyattCole",
+        "email": "wyatt@wyattxxxcole.com",
+        "password": "$2y$10$MbLIL4g2AxnanqC.3Nj6.etG5f7qZ23TxaNB9P0U1UbFoUGviS5VG",
+        "tier": "free",
+        "createdAt": "2025-11-28T20:13:50+00:00",
+        "lastLogin": "2025-11-28T20:14:16+00:00",
+        "token": "f7ba31145538846a89dd8faa77c4eaad36821011f6cfabec5fd42b792e6a04d1",
+        "tokenExpires": "2025-12-05T20:14:16+00:00"
+    },
+    {
+        "id": "user_692a039d9b9688.25368728",
+        "username": "testuser2",
+        "email": "test2@example.com",
+        "password": "$2y$10$EOpN45RxolTJAAciY6dDRuGQLkwUruZByPkv\/IepS3uRK2jnVmYVO",
+        "tier": "free",
+        "status": "pending",
+        "emailVerified": false,
+        "verificationCode": "7C3B9A",
+        "verificationExpires": "2025-11-29T20:18:37+00:00",
+        "createdAt": "2025-11-28T20:18:37+00:00",
+        "lastLogin": null
+    }
+]

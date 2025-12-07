@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Uploads (user content)
+uploads/
+gallery/
+
+# Cache
+.cache/
+*.cache
+
+# Credentials (never commit)
+*credentials*
+*secret*
+.admin_token
+api/.admin_token
+*.sqlite

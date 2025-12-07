@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WYATT XXX COLE Gallery - Exclusive content previews">
+    <title>Gallery | WYATT XXX COLE</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/effects.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container nav__container">
+            <a href="index.html" class="nav__logo">WYATT <span>XXX</span> COLE</a>
+            <ul class="nav__menu" id="navMenu">
+                <li><a href="index.html" class="nav__link">Home</a></li>
+                <li><a href="gallery.html" class="nav__link nav__link--active">Gallery</a></li>
+                <li><a href="booking.html" class="nav__link">Book Me</a></li>
+                <li><a href="merch.html" class="nav__link">Merch</a></li>
+                <li><a href="world.html" class="nav__link">World</a></li>
+                <li><a href="contact.html" class="nav__link">Contact</a></li>
+            </ul>
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header__title"><span class="gradient-text">Gallery</span></h1>
+            <p class="page-header__subtitle">Exclusive content previews. Full access on my platforms.</p>
+        </div>
+    </section>
+
+    <!-- Gallery Filters -->
+    <section class="section">
+        <div class="container">
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="photos">Photos</button>
+                <button class="filter-btn" data-filter="videos">Videos</button>
+                <button class="filter-btn" data-filter="exclusive">Exclusive</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery" id="galleryGrid">
+                <div class="gallery__item" data-category="photos">
+                    <img src="images/placeholder-1.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay">
+                        <span class="badge badge--gold">New</span>
+                    </div>
+                </div>
+                <div class="gallery__item" data-category="photos">
+                    <img src="images/placeholder-2.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay"></div>
+                </div>
+                <div class="gallery__item" data-category="exclusive">
+                    <img src="images/placeholder-3.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay">
+                        <span class="badge badge--rust">Exclusive</span>
+                    </div>
+                </div>
+                <div class="gallery__item" data-category="videos">
+                    <img src="images/placeholder-4.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay">
+                        <svg class="play-icon" viewBox="0 0 24 24" width="48" height="48" fill="#C68E3F">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="gallery__item" data-category="photos">
+                    <img src="images/placeholder-5.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay"></div>
+                </div>
+                <div class="gallery__item" data-category="exclusive">
+                    <img src="images/placeholder-6.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay">
+                        <span class="badge badge--rust">VIP</span>
+                    </div>
+                </div>
+                <div class="gallery__item" data-category="videos">
+                    <img src="images/placeholder-7.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay">
+                        <svg class="play-icon" viewBox="0 0 24 24" width="48" height="48" fill="#C68E3F">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="gallery__item" data-category="photos">
+                    <img src="images/placeholder-8.jpg" alt="Gallery item" loading="lazy">
+                    <div class="gallery__overlay"></div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="gallery-cta text-center">
+                <h3>Want to See More?</h3>
+                <p>Full uncensored content available on my platforms</p>
+                <div class="hero__buttons">
+                    <a href="#" class="btn btn--primary">Boyfanz</a>
+                    <a href="#" class="btn btn--secondary">PupFanz</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__brand">
+                    <div class="footer__logo">WYATT <span>XXX</span> COLE</div>
+                    <p class="footer__tagline">"Country Bred. Fully Loaded."</p>
+                </div>
+                <div class="footer__column">
+                    <h4 class="footer__title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="gallery.html" class="footer__link">Gallery</a></li>
+                        <li><a href="booking.html" class="footer__link">Book Me</a></li>
+                        <li><a href="merch.html" class="footer__link">Merch Store</a></li>
+                        <li><a href="contact.html" class="footer__link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer__column">
+                    <h4 class="footer__title">Platforms</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Boyfanz</a></li>
+                        <li><a href="#" class="footer__link">PupFanz</a></li>
+                        <li><a href="#" class="footer__link">Twitter/X</a></li>
+                    </ul>
+                </div>
+                <div class="footer__column">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__links">
+                        <li><a href="terms.html" class="footer__link">Terms</a></li>
+                        <li><a href="privacy.html" class="footer__link">Privacy</a></li>
+                        <li><a href="2257.html" class="footer__link">2257</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 WYATT XXX COLE. All Rights Reserved.</p>
+                <p>Must be 18+ to view.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/effects.js"></script>
+    <script>
+        // Gallery filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery__item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .page-header {
+            padding: calc(100px + var(--space-2xl)) 0 var(--space-2xl);
+            text-align: center;
+            background: var(--bg-secondary);
+        }
+        .page-header__title {
+            margin-bottom: var(--space-sm);
+        }
+        .page-header__subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--bg-card);
+            border: 1px solid rgba(198, 142, 63, 0.2);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-family: var(--font-condensed);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            border-color: var(--whiskey);
+        }
+        .gallery-cta {
+            margin-top: var(--space-3xl);
+            padding: var(--space-2xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.2);
+        }
+        .gallery-cta h3 {
+            margin-bottom: var(--space-sm);
+        }
+        .gallery-cta p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: var(--transition-normal);
+        }
+        .gallery__item:hover .play-icon {
+            opacity: 1;
+        }
+    </style>
+</body>
+</html>

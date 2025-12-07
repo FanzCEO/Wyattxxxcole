@@ -1,0 +1,49 @@
+{
+  "name": "WYATT XXX COLE",
+  "short_name": "WXXXC",
+  "description": "Country Bred. Fully Loaded. - Adult performer, model & content creator",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#C68E3F",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["entertainment", "lifestyle"],
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Gallery",
+      "short_name": "Gallery",
+      "url": "/gallery.html",
+      "icons": [{"src": "images/logo.png", "sizes": "any"}]
+    },
+    {
+      "name": "Book Me",
+      "short_name": "Book",
+      "url": "/booking.html",
+      "icons": [{"src": "images/logo.png", "sizes": "any"}]
+    },
+    {
+      "name": "Merch",
+      "short_name": "Merch",
+      "url": "/merch.html",
+      "icons": [{"src": "images/logo.png", "sizes": "any"}]
+    },
+    {
+      "name": "WXXXC World",
+      "short_name": "World",
+      "url": "/world.html",
+      "icons": [{"src": "images/logo.png", "sizes": "any"}]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

@@ -1,0 +1,19 @@
+# WYATT XXX COLE Admin Area
+# Protected access
+
+# Allow HTML and static files
+<FilesMatch "\.(html|css|js|png|jpg|gif|svg|ico)$">
+    Require all granted
+</FilesMatch>
+
+# Basic authentication (optional - can be enabled if needed)
+# AuthType Basic
+# AuthName "Admin Area"
+# AuthUserFile /path/to/.htpasswd
+# Require valid-user
+
+# Enable directory browsing for development
+Options +Indexes
+
+# Default document
+DirectoryIndex index.html

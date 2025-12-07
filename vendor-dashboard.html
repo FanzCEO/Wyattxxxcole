@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard | WYATT XXX COLE</title>
+    <link rel="stylesheet" href="css/styles.css?v=6">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a25;
+            --accent: #C68E3F;
+            --accent-light: #d9a654;
+            --text: #ffffff;
+            --text-muted: #8b8b9e;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Barlow', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-card);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar__logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar__section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar__title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar__nav {
+            list-style: none;
+        }
+
+        .sidebar__nav-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar__nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar__nav-link:hover,
+        .sidebar__nav-link.active {
+            background: rgba(198, 142, 63, 0.1);
+            color: var(--accent);
+        }
+
+        .sidebar__nav-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .main__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .main__title {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-card__label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card__value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-card__value.success { color: var(--success); }
+        .stat-card__value.warning { color: var(--warning); }
+        .stat-card__value.info { color: var(--info); }
+
+        /* Vendor Cards */
+        .vendors-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .vendor-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s;
+        }
+
+        .vendor-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(198, 142, 63, 0.3);
+        }
+
+        .vendor-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .vendor-card__name {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .vendor-card__status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .vendor-card__status.configured {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .vendor-card__status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .vendor-card__meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .vendor-card__meta-item {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vendor-card__categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .vendor-card__category {
+            background: rgba(255,255,255,0.05);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .vendor-card__actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn--primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn--primary:hover {
+            background: var(--accent-light);
+        }
+
+        .btn--secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+        }
+
+        .btn--secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .btn--small {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.8125rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            background: rgba(198, 142, 63, 0.1);
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        th {
+            background: rgba(255,255,255,0.02);
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        td {
+            font-size: 0.875rem;
+        }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal__content {
+            background: var(--bg-card);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal__title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal__close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal__body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.875rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-help {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--error); }
+        .toast.warning { border-left: 4px solid var(--warning); }
+
+        /* Panel views */
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                z-index: 100;
+                transition: left 0.3s;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar__logo">
+                <span>WXXXC</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Vendors</span>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">Overview</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link active" data-panel="dashboard">
+                            <span class="sidebar__nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="orders">
+                            <span class="sidebar__nav-icon">📦</span>
+                            Orders
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">POD Vendors</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="printful">
+                            <span class="sidebar__nav-icon">🖨️</span>
+                            Printful
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="printify">
+                            <span class="sidebar__nav-icon">🎨</span>
+                            Printify
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="pod-all">
+                            <span class="sidebar__nav-icon">📋</span>
+                            All POD Vendors
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">Dropshipping</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="aliexpress">
+                            <span class="sidebar__nav-icon">🌏</span>
+                            AliExpress
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="cj">
+                            <span class="sidebar__nav-icon">📦</span>
+                            CJ Dropshipping
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="dropship-all">
+                            <span class="sidebar__nav-icon">📋</span>
+                            All Dropship Vendors
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">Shipping</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="shipping">
+                            <span class="sidebar__nav-icon">🚚</span>
+                            Shipping Partners
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="tracking">
+                            <span class="sidebar__nav-icon">📍</span>
+                            Tracking
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">Catalog</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="taxonomy">
+                            <span class="sidebar__nav-icon">🏷️</span>
+                            Product Taxonomy
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="products">
+                            <span class="sidebar__nav-icon">🛍️</span>
+                            Products
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">Payments (Adult-Friendly)</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="payments">
+                            <span class="sidebar__nav-icon">💳</span>
+                            All Processors
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="crypto">
+                            <span class="sidebar__nav-icon">₿</span>
+                            Crypto Payments
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar__section">
+                <div class="sidebar__title">Settings</div>
+                <ul class="sidebar__nav">
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" data-panel="api-keys">
+                            <span class="sidebar__nav-icon">🔑</span>
+                            API Keys
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a class="sidebar__nav-link" href="admin.html">
+                            <span class="sidebar__nav-icon">⚙️</span>
+                            Site Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Dashboard Panel -->
+            <div class="panel active" id="panel-dashboard">
+                <div class="main__header">
+                    <h1 class="main__title">Vendor Dashboard</h1>
+                    <button class="btn btn--primary" onclick="refreshAll()">Refresh All</button>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__label">POD Vendors</div>
+                        <div class="stat-card__value info" id="stat-pod">15</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__label">Dropship Vendors</div>
+                        <div class="stat-card__value info" id="stat-dropship">15</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__label">Shipping Partners</div>
+                        <div class="stat-card__value info" id="stat-shipping">12</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__label">Configured</div>
+                        <div class="stat-card__value success" id="stat-configured">0</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="vendors-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Quick Setup</h2>
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">Printful</div>
+                                <span class="vendor-card__status pending" id="status-printful">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">📍 US, EU, CA, AU, JP</span>
+                                <span class="vendor-card__meta-item">⏱️ ~3 days</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Apparel</span>
+                                <span class="vendor-card__category">Accessories</span>
+                                <span class="vendor-card__category">Home</span>
+                                <span class="vendor-card__category">Prints</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('printful')">Configure</button>
+                                <a href="https://developers.printful.com/" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">Printify</div>
+                                <span class="vendor-card__status pending" id="status-printify">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">📍 US, EU, UK, CA, AU</span>
+                                <span class="vendor-card__meta-item">⏱️ ~4 days</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Apparel</span>
+                                <span class="vendor-card__category">Accessories</span>
+                                <span class="vendor-card__category">Home</span>
+                                <span class="vendor-card__category">Stickers</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('printify')">Configure</button>
+                                <a href="https://developers.printify.com/" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">CJ Dropshipping</div>
+                                <span class="vendor-card__status pending" id="status-cj">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">📍 CN, US, EU, TH</span>
+                                <span class="vendor-card__meta-item">⏱️ ~7 days</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">General</span>
+                                <span class="vendor-card__category">Fashion</span>
+                                <span class="vendor-card__category">Electronics</span>
+                                <span class="vendor-card__category">Home</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('cjdropshipping')">Configure</button>
+                                <a href="https://developers.cjdropshipping.com/" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">AliExpress</div>
+                                <span class="vendor-card__status pending" id="status-aliexpress">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">📍 CN, RU, ES, FR, PL</span>
+                                <span class="vendor-card__meta-item">⏱️ ~15 days</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Electronics</span>
+                                <span class="vendor-card__category">Fashion</span>
+                                <span class="vendor-card__category">Home</span>
+                                <span class="vendor-card__category">Beauty</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('aliexpress')">Configure</button>
+                                <a href="https://developers.aliexpress.com/" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">EasyPost</div>
+                                <span class="vendor-card__status pending" id="status-easypost">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">🚚 USPS, UPS, FedEx, DHL</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Rate Shopping</span>
+                                <span class="vendor-card__category">Tracking</span>
+                                <span class="vendor-card__category">Insurance</span>
+                                <span class="vendor-card__category">Returns</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('easypost')">Configure</button>
+                                <a href="https://www.easypost.com/docs/api" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">CCBill</div>
+                                <span class="vendor-card__status pending" id="status-ccbill">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">💳 #1 Adult Processor</span>
+                                <span class="vendor-card__meta-item">💰 10-15%</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Subscriptions</span>
+                                <span class="vendor-card__category">One-Time</span>
+                                <span class="vendor-card__category">Crypto</span>
+                                <span class="vendor-card__category">Global</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('ccbill')">Configure</button>
+                                <a href="https://ccbill.com/developers" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">Epoch</div>
+                                <span class="vendor-card__status pending" id="status-epoch">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">💳 Adult Payments</span>
+                                <span class="vendor-card__meta-item">💰 10-14%</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Subscriptions</span>
+                                <span class="vendor-card__category">Micropayments</span>
+                                <span class="vendor-card__category">Global</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('epoch')">Configure</button>
+                                <a href="https://epoch.com/documentation" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-card__header">
+                                <div class="vendor-card__name">Crypto (NOWPayments)</div>
+                                <span class="vendor-card__status pending" id="status-crypto">Not Configured</span>
+                            </div>
+                            <div class="vendor-card__meta">
+                                <span class="vendor-card__meta-item">₿ BTC, ETH, XMR, 100+</span>
+                                <span class="vendor-card__meta-item">💰 0.5%</span>
+                            </div>
+                            <div class="vendor-card__categories">
+                                <span class="vendor-card__category">Anonymous</span>
+                                <span class="vendor-card__category">No Chargebacks</span>
+                                <span class="vendor-card__category">Adult OK</span>
+                            </div>
+                            <div class="vendor-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="configureVendor('nowpayments')">Configure</button>
+                                <a href="https://nowpayments.io/help/api-documentation" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- POD All Panel -->
+            <div class="panel" id="panel-pod-all">
+                <div class="main__header">
+                    <h1 class="main__title">All POD Vendors</h1>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vendor</th>
+                                <th>Fulfillment</th>
+                                <th>Categories</th>
+                                <th>Production</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pod-vendors-table">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Dropship All Panel -->
+            <div class="panel" id="panel-dropship-all">
+                <div class="main__header">
+                    <h1 class="main__title">All Dropship Vendors</h1>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vendor</th>
+                                <th>Fulfillment</th>
+                                <th>Categories</th>
+                                <th>Shipping</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dropship-vendors-table">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Shipping Panel -->
+            <div class="panel" id="panel-shipping">
+                <div class="main__header">
+                    <h1 class="main__title">Shipping Partners</h1>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>Carriers</th>
+                                <th>Features</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shipping-table">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Taxonomy Panel -->
+            <div class="panel" id="panel-taxonomy">
+                <div class="main__header">
+                    <h1 class="main__title">Product Taxonomy</h1>
+                </div>
+
+                <div id="taxonomy-content">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Payments Panel -->
+            <div class="panel" id="panel-payments">
+                <div class="main__header">
+                    <h1 class="main__title">Adult-Friendly Payment Processors</h1>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Processor</th>
+                                <th>Features</th>
+                                <th>Fees</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-table">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Crypto Panel -->
+            <div class="panel" id="panel-crypto">
+                <div class="main__header">
+                    <h1 class="main__title">Cryptocurrency Payments</h1>
+                </div>
+
+                <div class="vendor-grid">
+                    <div class="vendor-card">
+                        <div class="vendor-card__header">
+                            <div class="vendor-card__name">NOWPayments</div>
+                            <span class="vendor-card__status pending">Not Configured</span>
+                        </div>
+                        <div class="vendor-card__meta">
+                            <span class="vendor-card__meta-item">₿ 100+ coins</span>
+                            <span class="vendor-card__meta-item">💰 0.5% fee</span>
+                        </div>
+                        <div class="vendor-card__categories">
+                            <span class="vendor-card__category">BTC</span>
+                            <span class="vendor-card__category">ETH</span>
+                            <span class="vendor-card__category">XMR</span>
+                            <span class="vendor-card__category">USDT</span>
+                            <span class="vendor-card__category">Adult OK</span>
+                        </div>
+                        <div class="vendor-card__actions">
+                            <button class="btn btn--primary btn--small" onclick="configureVendor('nowpayments')">Configure</button>
+                            <a href="https://nowpayments.io/help/api-documentation" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                        </div>
+                    </div>
+
+                    <div class="vendor-card">
+                        <div class="vendor-card__header">
+                            <div class="vendor-card__name">Plisio</div>
+                            <span class="vendor-card__status pending">Not Configured</span>
+                        </div>
+                        <div class="vendor-card__meta">
+                            <span class="vendor-card__meta-item">₿ Multi-coin</span>
+                            <span class="vendor-card__meta-item">💰 0.5% fee</span>
+                        </div>
+                        <div class="vendor-card__categories">
+                            <span class="vendor-card__category">BTC</span>
+                            <span class="vendor-card__category">ETH</span>
+                            <span class="vendor-card__category">LTC</span>
+                            <span class="vendor-card__category">XMR</span>
+                            <span class="vendor-card__category">Adult OK</span>
+                        </div>
+                        <div class="vendor-card__actions">
+                            <button class="btn btn--primary btn--small" onclick="configureVendor('plisio')">Configure</button>
+                            <a href="https://plisio.net/documentation" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                        </div>
+                    </div>
+
+                    <div class="vendor-card">
+                        <div class="vendor-card__header">
+                            <div class="vendor-card__name">BTCPay Server</div>
+                            <span class="vendor-card__status pending">Not Configured</span>
+                        </div>
+                        <div class="vendor-card__meta">
+                            <span class="vendor-card__meta-item">🏠 Self-Hosted</span>
+                            <span class="vendor-card__meta-item">💰 0% fee</span>
+                        </div>
+                        <div class="vendor-card__categories">
+                            <span class="vendor-card__category">BTC</span>
+                            <span class="vendor-card__category">LTC</span>
+                            <span class="vendor-card__category">XMR</span>
+                            <span class="vendor-card__category">No KYC</span>
+                        </div>
+                        <div class="vendor-card__actions">
+                            <button class="btn btn--primary btn--small" onclick="configureVendor('btcpay')">Configure</button>
+                            <a href="https://docs.btcpayserver.org/" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                        </div>
+                    </div>
+
+                    <div class="vendor-card">
+                        <div class="vendor-card__header">
+                            <div class="vendor-card__name">Coinbase Commerce</div>
+                            <span class="vendor-card__status pending">Not Configured</span>
+                        </div>
+                        <div class="vendor-card__meta">
+                            <span class="vendor-card__meta-item">₿ Major coins</span>
+                            <span class="vendor-card__meta-item">💰 1% fee</span>
+                        </div>
+                        <div class="vendor-card__categories">
+                            <span class="vendor-card__category">BTC</span>
+                            <span class="vendor-card__category">ETH</span>
+                            <span class="vendor-card__category">USDC</span>
+                            <span class="vendor-card__category">DAI</span>
+                        </div>
+                        <div class="vendor-card__actions">
+                            <button class="btn btn--primary btn--small" onclick="configureVendor('coinbase')">Configure</button>
+                            <a href="https://commerce.coinbase.com/docs/" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Keys Panel -->
+            <div class="panel" id="panel-api-keys">
+                <div class="main__header">
+                    <h1 class="main__title">API Keys Configuration</h1>
+                </div>
+
+                <div class="vendor-card" style="max-width: 800px;">
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        API keys are stored securely in the server's .env file. Contact your administrator to update credentials.
+                    </p>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        <strong>Location:</strong> <code>/api/.env</code>
+                    </p>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.875rem; overflow-x: auto;">
+                        <pre style="margin: 0; white-space: pre-wrap;">
+# POD Vendors
+PRINTFUL_API_KEY=your_key_here
+PRINTIFY_API_KEY=your_key_here
+PRINTIFY_SHOP_ID=your_shop_id
+
+# Dropship Vendors
+ALIEXPRESS_APP_KEY=your_key
+ALIEXPRESS_APP_SECRET=your_secret
+CJ_API_KEY=your_key
+CJ_EMAIL=your_email
+
+# Shipping
+EASYPOST_API_KEY=your_key
+SHIPSTATION_API_KEY=your_key
+SHIPPO_API_KEY=your_key
+
+# Payments
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PUBLISHABLE_KEY=pk_live_...
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Configure Modal -->
+    <div class="modal" id="configureModal">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3 class="modal__title" id="modalTitle">Configure Vendor</h3>
+                <button class="modal__close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal__body" id="modalBody">
+                <!-- Dynamic form -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Vendor data
+        const podVendors = [
+            { key: 'printful', name: 'Printful', countries: 'US, EU, CA, AU, JP', categories: ['apparel', 'accessories', 'home', 'prints'], days: 3, docs: 'https://developers.printful.com/' },
+            { key: 'printify', name: 'Printify', countries: 'US, EU, UK, CA, AU', categories: ['apparel', 'accessories', 'home', 'stickers'], days: 4, docs: 'https://developers.printify.com/' },
+            { key: 'customcat', name: 'CustomCat', countries: 'US', categories: ['apparel', 'drinkware', 'accessories'], days: 2, docs: 'https://customcat.com/api-documentation/' },
+            { key: 'gooten', name: 'Gooten', countries: 'US, EU, UK, AU, CN', categories: ['apparel', 'home', 'accessories', 'wall_art'], days: 5, docs: 'https://www.gooten.com/api/' },
+            { key: 'gelato', name: 'Gelato', countries: 'US, EU, UK, CA, AU, JP, SG', categories: ['apparel', 'wall_art', 'photo_books', 'cards'], days: 3, docs: 'https://developers.gelato.com/' },
+            { key: 'prodigi', name: 'Prodigi', countries: 'US, UK, EU, AU', categories: ['wall_art', 'prints', 'canvas', 'photo'], days: 4, docs: 'https://www.prodigi.com/print-api/docs/' },
+            { key: 'teelaunch', name: 'Teelaunch', countries: 'US', categories: ['apparel', 'drinkware', 'accessories', 'home'], days: 4, docs: 'https://teelaunch.com/pages/api' },
+            { key: 'scalablepress', name: 'Scalable Press', countries: 'US', categories: ['apparel', 'posters', 'stickers'], days: 5, docs: 'https://scalablepress.com/docs' },
+            { key: 'merchize', name: 'Merchize', countries: 'VN, US, EU', categories: ['apparel', 'home', 'accessories'], days: 7, docs: 'https://merchize.com/api-documentation/' },
+            { key: 'awkwardstyles', name: 'Awkward Styles', countries: 'US', categories: ['apparel', 'baby', 'accessories'], days: 3, docs: 'https://awkwardstyles.com/api' },
+            { key: 'tpop', name: 'T-Pop', countries: 'FR, EU', categories: ['apparel', 'bags', 'accessories'], days: 5, docs: 'https://t-pop.fr/en/api' },
+            { key: 'monsterdigital', name: 'Monster Digital', countries: 'US', categories: ['apparel'], days: 4, docs: 'https://monsterdigital.com/api-docs' },
+            { key: 'apliiq', name: 'Apliiq', countries: 'US', categories: ['apparel'], days: 7, docs: 'https://apliiq.com/api' },
+            { key: 'subliminator', name: 'Subliminator', countries: 'US, EU', categories: ['apparel', 'accessories', 'home'], days: 5, docs: 'https://subliminator.com/api' },
+            { key: 'printaura', name: 'Print Aura', countries: 'US', categories: ['apparel', 'accessories'], days: 5, docs: 'https://printaura.com/api' }
+        ];
+
+        const dropshipVendors = [
+            { key: 'aliexpress', name: 'AliExpress', countries: 'CN, RU, ES, FR, PL', categories: ['electronics', 'fashion', 'home', 'beauty'], days: 15, docs: 'https://developers.aliexpress.com/' },
+            { key: 'alibaba', name: 'Alibaba', countries: 'CN', categories: ['wholesale', 'manufacturing', 'bulk'], days: 'Varies', docs: 'https://developers.alibaba.com/' },
+            { key: 'cjdropshipping', name: 'CJ Dropshipping', countries: 'CN, US, EU, TH', categories: ['general', 'fashion', 'electronics', 'home'], days: 7, docs: 'https://developers.cjdropshipping.com/' },
+            { key: 'spocket', name: 'Spocket', countries: 'US, EU, CA, UK', categories: ['fashion', 'home', 'beauty', 'tech'], days: 5, docs: 'https://spocket.co/integrations' },
+            { key: 'modalyst', name: 'Modalyst', countries: 'US, EU', categories: ['fashion', 'accessories', 'beauty'], days: 6, docs: 'https://modalyst.co/integrations' },
+            { key: 'syncee', name: 'Syncee', countries: 'US, EU, UK, CA, AU', categories: ['fashion', 'electronics', 'home', 'pet'], days: 7, docs: 'https://syncee.co/api' },
+            { key: 'doba', name: 'Doba', countries: 'US', categories: ['general', 'electronics', 'fashion', 'home'], days: 5, docs: 'https://doba.com/api' },
+            { key: 'salehoo', name: 'SaleHoo', countries: 'US, UK, AU, NZ', categories: ['wholesale', 'dropship', 'general'], days: 7, docs: 'https://salehoo.com/api' },
+            { key: 'megagoods', name: 'MegaGoods', countries: 'US', categories: ['electronics', 'consumer_tech'], days: 3, docs: 'https://megagoods.com/api' },
+            { key: 'inventorysource', name: 'Inventory Source', countries: 'US, EU', categories: ['general', 'multi_supplier'], days: 5, docs: 'https://inventorysource.com/api' },
+            { key: 'dsers', name: 'DSers', countries: 'CN', categories: ['aliexpress'], days: 12, docs: 'https://dsers.com/api' },
+            { key: 'zendrop', name: 'Zendrop', countries: 'US, CN', categories: ['general', 'fashion', 'electronics'], days: 6, docs: 'https://zendrop.com/api' },
+            { key: 'dropified', name: 'Dropified', countries: 'US, CN', categories: ['multi_source'], days: 10, docs: 'https://dropified.com/api' },
+            { key: 'wholesale2b', name: 'Wholesale2B', countries: 'US', categories: ['general', 'home', 'toys', 'electronics'], days: 5, docs: 'https://wholesale2b.com/api' },
+            { key: 'banggood', name: 'Banggood', countries: 'CN, US, EU', categories: ['electronics', 'gadgets', 'outdoor', 'toys'], days: 8, docs: 'https://developer.banggood.com/' }
+        ];
+
+        // Adult-friendly payment processors
+        const paymentProcessors = [
+            { key: 'ccbill', name: 'CCBill', features: 'Subscriptions, One-Time, Trials, Crypto, Global', fees: '10-15% + $0.50', docs: 'https://ccbill.com/developers' },
+            { key: 'epoch', name: 'Epoch', features: 'Subscriptions, One-Time, Micropayments, Global', fees: '10-14%', docs: 'https://epoch.com/documentation' },
+            { key: 'segpay', name: 'Segpay', features: 'Subscriptions, One-Time, Trials, Affiliate Payouts', fees: '10-12% + $0.35', docs: 'https://segpay.com/developers' },
+            { key: 'verotel', name: 'Verotel', features: 'Subscriptions, One-Time, EU Focus, SEPA', fees: '12-15%', docs: 'https://www.verotel.com/en/integration.html' },
+            { key: 'sticky', name: 'Sticky.io', features: 'Subscriptions, Upsells, Retention', fees: 'Custom', docs: 'https://developers.sticky.io/' },
+            { key: 'zombaio', name: 'Zombaio', features: 'Subscriptions, One-Time, Trials', fees: '12-15%', docs: 'https://www.zombaio.com/developers' },
+            { key: 'nats', name: 'NATS (Too Much Media)', features: 'Affiliate Tracking, Billing, Content Delivery', fees: 'Platform + processor', docs: 'https://toomuchmedia.com/products/nats/' },
+            { key: 'paxum', name: 'Paxum', features: 'E-Wallet, Bank Transfers, Payouts, Mass Pay', fees: '1-3%', docs: 'https://www.paxum.com/developers' },
+            { key: 'cosmo', name: 'Cosmo Payment', features: 'Subscriptions, One-Time, High Risk', fees: '8-12%', docs: 'https://cosmopayment.com/api-docs' },
+            { key: 'webbilling', name: 'WebBilling', features: 'Subscriptions, One-Time, Trials', fees: '12-15%', docs: 'https://www.webbilling.com/developers' },
+            { key: 'probiller', name: 'Probiller', features: 'Subscriptions, One-Time, Enterprise', fees: 'Enterprise', docs: 'https://probiller.com/integration' }
+        ];
+
+        const shippingProviders = [
+            { key: 'easypost', name: 'EasyPost', carriers: 'USPS, UPS, FedEx, DHL, Canada Post, Australia Post', features: ['rate_shopping', 'tracking', 'insurance', 'returns'], docs: 'https://www.easypost.com/docs/api' },
+            { key: 'shipstation', name: 'ShipStation', carriers: 'USPS, UPS, FedEx, DHL, Amazon, Stamps.com', features: ['order_management', 'automation_rules', 'branded_tracking'], docs: 'https://www.shipstation.com/docs/api/' },
+            { key: 'shippo', name: 'Shippo', carriers: 'USPS, UPS, FedEx, DHL, Sendle, Purolator', features: ['discounted_rates', 'tracking', 'returns', 'batch_shipping'], docs: 'https://goshippo.com/docs/' },
+            { key: 'aftership', name: 'AfterShip', carriers: '900+ carriers worldwide', features: ['tracking', 'notifications', 'analytics'], docs: 'https://docs.aftership.com/' },
+            { key: 'pirateship', name: 'Pirate Ship', carriers: 'USPS, UPS', features: ['cheapest_usps_rates', 'simple_pricing'], docs: 'https://pirateship.com/api' },
+            { key: 'shiphero', name: 'ShipHero', carriers: 'Multi-carrier', features: ['warehouse_management', '3pl', 'inventory'], docs: 'https://shiphero.com/api' },
+            { key: 'easyship', name: 'Easyship', carriers: '250+ couriers globally', features: ['international', 'duties_taxes', 'insurance'], docs: 'https://developers.easyship.com/' },
+            { key: 'shipengine', name: 'ShipEngine', carriers: 'USPS, UPS, FedEx, DHL, Stamps.com', features: ['address_validation', 'rate_comparison', 'label_generation'], docs: 'https://www.shipengine.com/docs/' },
+            { key: 'ordoro', name: 'Ordoro', carriers: 'USPS, UPS, FedEx, DHL', features: ['multi_channel', 'dropship', 'inventory'], docs: 'https://docs.ordoro.com/' },
+            { key: 'shipbob', name: 'ShipBob', carriers: 'Multi-carrier', features: ['2_day_shipping', 'nationwide_warehouses'], docs: 'https://developer.shipbob.com/' },
+            { key: 'dhl', name: 'DHL eCommerce', carriers: 'DHL', features: ['international', 'parcel', 'returns', 'tracking'], docs: 'https://developer.dhl.com/' },
+            { key: 'stamps', name: 'Stamps.com', carriers: 'USPS', features: ['usps_commercial_rates', 'batch', 'scan_forms'], docs: 'https://developer.stamps.com/' }
+        ];
+
+        // Panel navigation
+        document.querySelectorAll('.sidebar__nav-link[data-panel]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const panel = link.dataset.panel;
+
+                // Update active nav
+                document.querySelectorAll('.sidebar__nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Show panel
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                const targetPanel = document.getElementById(`panel-${panel}`);
+                if (targetPanel) targetPanel.classList.add('active');
+            });
+        });
+
+        // Populate tables
+        function populateTables() {
+            // POD vendors
+            const podTable = document.getElementById('pod-vendors-table');
+            podTable.innerHTML = podVendors.map(v => `
+                <tr>
+                    <td><strong>${v.name}</strong></td>
+                    <td>${v.countries}</td>
+                    <td>${v.categories.join(', ')}</td>
+                    <td>~${v.days} days</td>
+                    <td><span class="vendor-card__status pending">Not Configured</span></td>
+                    <td>
+                        <button class="btn btn--primary btn--small" onclick="configureVendor('${v.key}')">Configure</button>
+                        <a href="${v.docs}" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Dropship vendors
+            const dropshipTable = document.getElementById('dropship-vendors-table');
+            dropshipTable.innerHTML = dropshipVendors.map(v => `
+                <tr>
+                    <td><strong>${v.name}</strong></td>
+                    <td>${v.countries}</td>
+                    <td>${v.categories.join(', ')}</td>
+                    <td>~${v.days} days</td>
+                    <td><span class="vendor-card__status pending">Not Configured</span></td>
+                    <td>
+                        <button class="btn btn--primary btn--small" onclick="configureVendor('${v.key}')">Configure</button>
+                        <a href="${v.docs}" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Shipping providers
+            const shippingTable = document.getElementById('shipping-table');
+            shippingTable.innerHTML = shippingProviders.map(p => `
+                <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.carriers}</td>
+                    <td>${p.features.join(', ')}</td>
+                    <td><span class="vendor-card__status pending">Not Configured</span></td>
+                    <td>
+                        <button class="btn btn--primary btn--small" onclick="configureVendor('${p.key}')">Configure</button>
+                        <a href="${p.docs}" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Payment processors
+            const paymentsTable = document.getElementById('payments-table');
+            paymentsTable.innerHTML = paymentProcessors.map(p => `
+                <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.features}</td>
+                    <td>${p.fees}</td>
+                    <td><span class="vendor-card__status pending">Not Configured</span></td>
+                    <td>
+                        <button class="btn btn--primary btn--small" onclick="configureVendor('${p.key}')">Configure</button>
+                        <a href="${p.docs}" target="_blank" class="btn btn--secondary btn--small">Docs</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load taxonomy
+        async function loadTaxonomy() {
+            try {
+                const response = await fetch('api/taxonomy/product-taxonomy.php?action=categories');
+                const data = await response.json();
+
+                if (data.success) {
+                    const container = document.getElementById('taxonomy-content');
+                    container.innerHTML = `
+                        <div class="vendor-grid">
+                            ${Object.entries(data.categories).map(([key, cat]) => `
+                                <div class="vendor-card">
+                                    <div class="vendor-card__header">
+                                        <div class="vendor-card__name">${cat.icon} ${cat.name}</div>
+                                    </div>
+                                    <div class="vendor-card__meta">
+                                        <span class="vendor-card__meta-item">📁 ${cat.subcategory_count} subcategories</span>
+                                        <span class="vendor-card__meta-item">🏷️ Google: ${cat.google_category}</span>
+                                    </div>
+                                    <div class="vendor-card__actions">
+                                        <button class="btn btn--secondary btn--small" onclick="viewCategory('${key}')">View Products</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                console.error('Failed to load taxonomy:', e);
+            }
+        }
+
+        // Configure vendor modal
+        function configureVendor(vendor) {
+            const modal = document.getElementById('configureModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            const vendorForms = {
+                printful: `
+                    <form onsubmit="saveVendorConfig(event, 'printful')">
+                        <div class="form-group">
+                            <label class="form-label">API Key</label>
+                            <input type="text" class="form-input" name="api_key" placeholder="Your Printful API key">
+                            <p class="form-help">Get your API key from <a href="https://www.printful.com/dashboard/settings/developer-api" target="_blank">Printful Dashboard</a></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Webhook Secret (optional)</label>
+                            <input type="text" class="form-input" name="webhook_secret" placeholder="Webhook secret for order updates">
+                        </div>
+                        <button type="submit" class="btn btn--primary">Save Configuration</button>
+                    </form>
+                `,
+                printify: `
+                    <form onsubmit="saveVendorConfig(event, 'printify')">
+                        <div class="form-group">
+                            <label class="form-label">API Key</label>
+                            <input type="text" class="form-input" name="api_key" placeholder="Your Printify API key">
+                            <p class="form-help">Get your API key from <a href="https://printify.com/app/account/api" target="_blank">Printify Account</a></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shop ID</label>
+                            <input type="text" class="form-input" name="shop_id" placeholder="Your Printify shop ID">
+                        </div>
+                        <button type="submit" class="btn btn--primary">Save Configuration</button>
+                    </form>
+                `,
+                aliexpress: `
+                    <form onsubmit="saveVendorConfig(event, 'aliexpress')">
+                        <div class="form-group">
+                            <label class="form-label">App Key</label>
+                            <input type="text" class="form-input" name="app_key" placeholder="Your AliExpress App Key">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">App Secret</label>
+                            <input type="password" class="form-input" name="app_secret" placeholder="Your AliExpress App Secret">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Access Token</label>
+                            <input type="text" class="form-input" name="access_token" placeholder="OAuth Access Token">
+                            <p class="form-help">Get credentials from <a href="https://developers.aliexpress.com/" target="_blank">AliExpress Developer Portal</a></p>
+                        </div>
+                        <button type="submit" class="btn btn--primary">Save Configuration</button>
+                    </form>
+                `,
+                cjdropshipping: `
+                    <form onsubmit="saveVendorConfig(event, 'cjdropshipping')">
+                        <div class="form-group">
+                            <label class="form-label">API Key</label>
+                            <input type="text" class="form-input" name="api_key" placeholder="Your CJ API key">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" name="email" placeholder="Your CJ account email">
+                            <p class="form-help">Get credentials from <a href="https://cjdropshipping.com/" target="_blank">CJ Dropshipping</a></p>
+                        </div>
+                        <button type="submit" class="btn btn--primary">Save Configuration</button>
+                    </form>
+                `,
+                easypost: `
+                    <form onsubmit="saveVendorConfig(event, 'easypost')">
+                        <div class="form-group">
+                            <label class="form-label">API Key</label>
+                            <input type="text" class="form-input" name="api_key" placeholder="Your EasyPost API key">
+                            <p class="form-help">Get your API key from <a href="https://www.easypost.com/account/api-keys" target="_blank">EasyPost Dashboard</a></p>
+                        </div>
+                        <button type="submit" class="btn btn--primary">Save Configuration</button>
+                    </form>
+                `,
+            };
+
+            const vendorNames = {
+                printful: 'Printful',
+                printify: 'Printify',
+                aliexpress: 'AliExpress',
+                cjdropshipping: 'CJ Dropshipping',
+                easypost: 'EasyPost'
+            };
+
+            title.textContent = `Configure ${vendorNames[vendor] || vendor}`;
+            body.innerHTML = vendorForms[vendor] || `
+                <p style="color: var(--text-muted);">Configuration form for ${vendor} coming soon.</p>
+                <p style="color: var(--text-muted); margin-top: 1rem;">For now, please add API keys directly to the .env file:</p>
+                <code style="display: block; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+                    ${vendor.toUpperCase()}_API_KEY=your_key_here
+                </code>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('configureModal').classList.remove('active');
+        }
+
+        function saveVendorConfig(e, vendor) {
+            e.preventDefault();
+            showToast(`${vendor} configuration saved! Update .env file on server.`, 'success');
+            closeModal();
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toast.className = `toast ${type} show`;
+            toastMessage.textContent = message;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function refreshAll() {
+            showToast('Refreshing vendor statuses...', 'info');
+        }
+
+        function viewCategory(key) {
+            showToast(`Loading ${key} products...`, 'info');
+        }
+
+        // Initialize
+        populateTables();
+        loadTaxonomy();
+
+        // Close modal on outside click
+        document.getElementById('configureModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) closeModal();
+        });
+    </script>
+</body>
+</html>

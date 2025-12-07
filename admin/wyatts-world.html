@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyatt's World - Moderation Panel</title>
+    <link rel="stylesheet" href="../css/styles.css?v=6">
+    <style>
+        :root {
+            --cream: #F5EDE4;
+            --whiskey: #C68E3F;
+            --rust: #A44A2A;
+            --bg-primary: #0D0B09;
+            --bg-secondary: #1A1612;
+            --text-secondary: #B8A99A;
+            --success: #4ade80;
+            --error: #f87171;
+            --warning: #facc15;
+            --info: #60a5fa;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--cream);
+            font-family: 'Source Sans Pro', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.3);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .admin-header a {
+            color: var(--whiskey);
+            text-decoration: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card__value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--whiskey);
+            display: block;
+        }
+
+        .stat-card__label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .stat-card__change {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .stat-card__change.positive { color: var(--success); }
+        .stat-card__change.negative { color: var(--error); }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab:hover, .tab.active {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            border-color: var(--whiskey);
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .content-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .content-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .content-card.flagged {
+            border-color: var(--error);
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .content-card.pending {
+            border-color: var(--warning);
+        }
+
+        .content-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--whiskey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--bg-primary);
+        }
+
+        .content-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .content-body {
+            min-width: 0;
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .content-username {
+            font-weight: 700;
+            color: var(--cream);
+        }
+
+        .content-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .content-text {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-media {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .content-media img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .content-flags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .flag {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .flag-spam { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+        .flag-inappropriate { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+        .flag-reported { background: rgba(250, 204, 21, 0.2); color: var(--warning); }
+        .flag-new { background: rgba(96, 165, 250, 0.2); color: var(--info); }
+
+        .content-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-approve { background: var(--success); color: #000; }
+        .btn-reject { background: var(--error); color: #fff; }
+        .btn-warn { background: var(--warning); color: #000; }
+        .btn-ban { background: #7f1d1d; color: #fff; }
+        .btn-view { background: var(--bg-primary); color: var(--cream); border: 1px solid rgba(198, 142, 63, 0.3); }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .user-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .user-card.banned {
+            opacity: 0.5;
+            border-color: var(--error);
+        }
+
+        .user-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .user-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .user-status.active { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+        .user-status.warned { background: rgba(250, 204, 21, 0.2); color: var(--warning); }
+        .user-status.banned { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 1rem;
+        }
+
+        .filter-bar input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .report-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--error);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .report-type {
+            padding: 0.25rem 0.75rem;
+            background: rgba(248, 113, 113, 0.2);
+            color: var(--error);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .report-content {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-reason {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--cream);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            flex: 1;
+            min-width: 200px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            border-color: var(--whiskey);
+            transform: translateY(-2px);
+        }
+
+        .quick-action svg {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 0.5rem;
+            color: var(--whiskey);
+        }
+
+        .quick-action h4 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-card,
+            .user-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .content-avatar {
+                margin: 0 auto;
+            }
+
+            .content-actions,
+            .user-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Wyatt's World - Moderation</h1>
+            <a href="index.html">&larr; Back to Admin</a>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-card__value" id="totalUsers">0</span>
+                <span class="stat-card__label">Total Users</span>
+                <span class="stat-card__change positive">+12 this week</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__value" id="totalPosts">0</span>
+                <span class="stat-card__label">Total Posts</span>
+                <span class="stat-card__change positive">+45 this week</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__value" id="pendingReports">0</span>
+                <span class="stat-card__label">Pending Reports</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__value" id="flaggedContent">0</span>
+                <span class="stat-card__label">Flagged Content</span>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="quick-action" onclick="switchTab('reports')">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <h4>Review Reports</h4>
+            </div>
+            <div class="quick-action" onclick="switchTab('flagged')">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                </svg>
+                <h4>Flagged Content</h4>
+            </div>
+            <div class="quick-action" onclick="switchTab('users')">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <h4>Manage Users</h4>
+            </div>
+            <div class="quick-action" onclick="switchTab('feed')">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+                <h4>View Feed</h4>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="feed">Feed</button>
+            <button class="tab" data-tab="reports">Reports <span id="reportsBadge" style="background: var(--error); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; margin-left: 4px;">3</span></button>
+            <button class="tab" data-tab="flagged">Flagged</button>
+            <button class="tab" data-tab="users">Users</button>
+            <button class="tab" data-tab="settings">Settings</button>
+        </div>
+
+        <!-- Feed Tab -->
+        <div class="tab-content active" id="tab-feed">
+            <div class="filter-bar">
+                <input type="text" placeholder="Search posts..." id="searchPosts">
+                <select id="filterPosts">
+                    <option value="all">All Posts</option>
+                    <option value="recent">Most Recent</option>
+                    <option value="popular">Most Popular</option>
+                    <option value="media">With Media</option>
+                </select>
+            </div>
+
+            <div class="content-grid" id="feedGrid">
+                <!-- Sample posts -->
+                <div class="content-card">
+                    <div class="content-avatar">JD</div>
+                    <div class="content-body">
+                        <div class="content-header">
+                            <span class="content-username">@johndoe</span>
+                            <span class="content-time">2 hours ago</span>
+                            <span class="flag flag-new">New</span>
+                        </div>
+                        <p class="content-text">Loving the new content! Can't wait for more updates from Wyatt's World. This community is amazing!</p>
+                    </div>
+                    <div class="content-actions">
+                        <button class="btn btn-view">View</button>
+                        <button class="btn btn-warn">Warn</button>
+                        <button class="btn btn-reject">Remove</button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-avatar">SM</div>
+                    <div class="content-body">
+                        <div class="content-header">
+                            <span class="content-username">@sarahmiller</span>
+                            <span class="content-time">5 hours ago</span>
+                        </div>
+                        <p class="content-text">Just joined the community! Excited to be here. Any tips for newcomers?</p>
+                    </div>
+                    <div class="content-actions">
+                        <button class="btn btn-view">View</button>
+                        <button class="btn btn-warn">Warn</button>
+                        <button class="btn btn-reject">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div class="tab-content" id="tab-reports">
+            <div class="content-grid" id="reportsGrid">
+                <div class="report-card">
+                    <div class="report-header">
+                        <div>
+                            <strong>Post by @user123</strong>
+                            <span style="color: var(--text-secondary); font-size: 0.875rem; margin-left: 1rem;">Reported by @reporter1</span>
+                        </div>
+                        <span class="report-type">Spam</span>
+                    </div>
+                    <div class="report-content">
+                        <p>Check out this amazing offer! Click here for free money...</p>
+                    </div>
+                    <p class="report-reason">"This looks like spam/scam content"</p>
+                    <div class="report-actions">
+                        <button class="btn btn-approve">Dismiss Report</button>
+                        <button class="btn btn-reject">Remove Post</button>
+                        <button class="btn btn-warn">Warn User</button>
+                        <button class="btn btn-ban">Ban User</button>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-header">
+                        <div>
+                            <strong>Comment by @testuser</strong>
+                            <span style="color: var(--text-secondary); font-size: 0.875rem; margin-left: 1rem;">Reported by @reporter2</span>
+                        </div>
+                        <span class="report-type">Harassment</span>
+                    </div>
+                    <div class="report-content">
+                        <p>[Content hidden - potentially offensive]</p>
+                    </div>
+                    <p class="report-reason">"Rude and offensive comment towards another user"</p>
+                    <div class="report-actions">
+                        <button class="btn btn-approve">Dismiss Report</button>
+                        <button class="btn btn-reject">Remove Comment</button>
+                        <button class="btn btn-warn">Warn User</button>
+                        <button class="btn btn-ban">Ban User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flagged Tab -->
+        <div class="tab-content" id="tab-flagged">
+            <div class="filter-bar">
+                <select id="filterFlagged">
+                    <option value="all">All Flagged</option>
+                    <option value="spam">Spam</option>
+                    <option value="inappropriate">Inappropriate</option>
+                    <option value="reported">User Reported</option>
+                </select>
+            </div>
+
+            <div class="content-grid" id="flaggedGrid">
+                <div class="content-card flagged">
+                    <div class="content-avatar">??</div>
+                    <div class="content-body">
+                        <div class="content-header">
+                            <span class="content-username">@suspicious_user</span>
+                            <span class="content-time">1 day ago</span>
+                        </div>
+                        <p class="content-text">[Auto-flagged: Contains suspicious links]</p>
+                        <div class="content-flags">
+                            <span class="flag flag-spam">Auto-flagged: Spam</span>
+                            <span class="flag flag-reported">2 Reports</span>
+                        </div>
+                    </div>
+                    <div class="content-actions">
+                        <button class="btn btn-approve">Approve</button>
+                        <button class="btn btn-reject">Remove</button>
+                        <button class="btn btn-ban">Ban User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div class="tab-content" id="tab-users">
+            <div class="filter-bar">
+                <input type="text" placeholder="Search users..." id="searchUsers">
+                <select id="filterUsers">
+                    <option value="all">All Users</option>
+                    <option value="active">Active</option>
+                    <option value="warned">Warned</option>
+                    <option value="banned">Banned</option>
+                    <option value="new">New (7 days)</option>
+                </select>
+            </div>
+
+            <div class="content-grid" id="usersGrid">
+                <div class="user-card">
+                    <div class="content-avatar">JD</div>
+                    <div class="user-info">
+                        <h3>John Doe</h3>
+                        <span style="color: var(--text-secondary);">@johndoe</span>
+                        <div class="user-stats">
+                            <span>42 posts</span>
+                            <span>156 comments</span>
+                            <span>Joined: Nov 2024</span>
+                        </div>
+                    </div>
+                    <span class="user-status active">Active</span>
+                    <div class="content-actions">
+                        <button class="btn btn-view">Profile</button>
+                        <button class="btn btn-warn">Warn</button>
+                        <button class="btn btn-ban">Ban</button>
+                    </div>
+                </div>
+
+                <div class="user-card">
+                    <div class="content-avatar">SM</div>
+                    <div class="user-info">
+                        <h3>Sarah Miller</h3>
+                        <span style="color: var(--text-secondary);">@sarahmiller</span>
+                        <div class="user-stats">
+                            <span>12 posts</span>
+                            <span>89 comments</span>
+                            <span>Joined: Dec 2024</span>
+                        </div>
+                    </div>
+                    <span class="user-status active">Active</span>
+                    <div class="content-actions">
+                        <button class="btn btn-view">Profile</button>
+                        <button class="btn btn-warn">Warn</button>
+                        <button class="btn btn-ban">Ban</button>
+                    </div>
+                </div>
+
+                <div class="user-card banned">
+                    <div class="content-avatar">XX</div>
+                    <div class="user-info">
+                        <h3>Banned User</h3>
+                        <span style="color: var(--text-secondary);">@spammer123</span>
+                        <div class="user-stats">
+                            <span>0 posts</span>
+                            <span>3 violations</span>
+                            <span>Banned: Dec 2024</span>
+                        </div>
+                    </div>
+                    <span class="user-status banned">Banned</span>
+                    <div class="content-actions">
+                        <button class="btn btn-approve">Unban</button>
+                        <button class="btn btn-view">View History</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="tab-settings">
+            <div class="content-grid">
+                <div class="content-card" style="display: block;">
+                    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Moderation Settings</h3>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                            <input type="checkbox" id="autoModEnabled" checked>
+                            <span>Enable Auto-Moderation</span>
+                        </label>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            Automatically flag posts containing spam keywords or suspicious links
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                            <input type="checkbox" id="requireApproval">
+                            <span>Require Post Approval</span>
+                        </label>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            All new posts must be approved before appearing publicly
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                            <input type="checkbox" id="newUserRestrictions" checked>
+                            <span>New User Restrictions</span>
+                        </label>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            Limit new users (< 7 days) to 3 posts per day
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Banned Words</label>
+                        <textarea style="width: 100%; padding: 0.75rem; background: var(--bg-primary); border: 1px solid rgba(198, 142, 63, 0.3); border-radius: 8px; color: var(--cream); min-height: 100px;" placeholder="Enter banned words, one per line..."></textarea>
+                    </div>
+
+                    <button class="btn btn-approve" style="padding: 0.75rem 2rem;">Save Settings</button>
+                </div>
+
+                <div class="content-card" style="display: block;">
+                    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Notification Settings</h3>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                            <input type="checkbox" id="emailReports" checked>
+                            <span>Email on New Reports</span>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                            <input type="checkbox" id="emailFlagged" checked>
+                            <span>Email on Auto-Flagged Content</span>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Notification Email</label>
+                        <input type="email" value="wyatt@wyattxxxcole.com" style="width: 100%; padding: 0.75rem; background: var(--bg-primary); border: 1px solid rgba(198, 142, 63, 0.3); border-radius: 8px; color: var(--cream);">
+                    </div>
+
+                    <button class="btn btn-approve" style="padding: 0.75rem 2rem;">Save Notifications</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                switchTab(tabName);
+            });
+        });
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tabName);
+            });
+            document.querySelectorAll('.tab-content').forEach(c => {
+                c.classList.toggle('active', c.id === `tab-${tabName}`);
+            });
+        }
+
+        // Sample data loading
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simulate loading stats
+            document.getElementById('totalUsers').textContent = '247';
+            document.getElementById('totalPosts').textContent = '1,842';
+            document.getElementById('pendingReports').textContent = '3';
+            document.getElementById('flaggedContent').textContent = '5';
+        });
+
+        // Action handlers (placeholders)
+        function approveContent(id) {
+            alert('Content approved: ' + id);
+        }
+
+        function removeContent(id) {
+            if (confirm('Remove this content?')) {
+                alert('Content removed: ' + id);
+            }
+        }
+
+        function warnUser(username) {
+            const reason = prompt('Enter warning reason:');
+            if (reason) {
+                alert(`Warning sent to ${username}: ${reason}`);
+            }
+        }
+
+        function banUser(username) {
+            if (confirm(`Ban user ${username}? This will prevent them from posting.`)) {
+                const reason = prompt('Enter ban reason:');
+                if (reason) {
+                    alert(`User ${username} has been banned: ${reason}`);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

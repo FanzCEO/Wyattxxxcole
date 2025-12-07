@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Wyatt World | WYATT XXX COLE</title>
+    <meta name="title" content="Wyatt World | WYATT XXX COLE">
+    <meta name="description" content="Enter Wyatt World - The exclusive social universe of WYATT XXX COLE. Feed, explore, and connect with the country boy community.">
+    <meta name="keywords" content="wyatt world, wyatt xxx cole, social feed, exclusive content, country boy community">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://wyattxxxcole.com/world.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wyattxxxcole.com/world.html">
+    <meta property="og:title" content="Wyatt World | WYATT XXX COLE">
+    <meta property="og:description" content="Enter Wyatt World - Feed, explore, and connect. Country bred community.">
+    <meta property="og:image" content="https://wyattxxxcole.com/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Wyatt World | WYATT XXX COLE">
+
+    <!-- Favicon & Theme -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <meta name="theme-color" content="#C68E3F">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css?v=6">
+    <link rel="stylesheet" href="css/effects.css?v=6">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container nav__container">
+            <a href="index.html" class="nav__logo">
+                <img src="images/logo.png" alt="WYATT XXX COLE" class="nav__logo-img">
+            </a>
+            <ul class="nav__menu" id="navMenu">
+                <li><a href="index.html" class="nav__link">Home</a></li>
+                <li><a href="gallery.html" class="nav__link">Gallery</a></li>
+                <li><a href="booking.html" class="nav__link">Book Me</a></li>
+                <li><a href="subscribe.html" class="nav__link">Subscribe</a></li>
+                <li><a href="world.html" class="nav__link nav__link--active">World</a></li>
+                <li><a href="contact.html" class="nav__link">Contact</a></li>
+            </ul>
+            <div class="nav__auth" id="navAuth">
+                <button class="btn btn--sm btn--outline" id="signInBtn">Sign In</button>
+                <button class="btn btn--sm btn--primary" id="joinBtn">Join Free</button>
+            </div>
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- World Layout -->
+    <main class="world-layout">
+        <!-- Left Sidebar -->
+        <aside class="world-sidebar">
+            <div class="world-sidebar__header">
+                <h2 class="gradient-text">WYATT</h2>
+                <span class="world-sidebar__subtitle">WORLD</span>
+            </div>
+
+            <nav class="world-nav">
+                <a href="#feed" class="world-nav__item active" data-section="feed">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
+                    <span>Feed</span>
+                </a>
+                <a href="#explore" class="world-nav__item" data-section="explore">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <span>Explore</span>
+                </a>
+                <a href="#live" class="world-nav__item world-nav__item--live" data-section="live">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><circle cx="12" cy="12" r="10"/></svg>
+                    <span>LIVE</span>
+                    <span class="live-dot"></span>
+                </a>
+                <a href="#friends" class="world-nav__item world-nav__item--locked" data-section="friends" data-requires-auth="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    <span>Friends</span>
+                    <span class="lock-icon">🔒</span>
+                </a>
+                <a href="#messages" class="world-nav__item world-nav__item--locked" data-section="messages" data-requires-auth="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                    <span>Messages</span>
+                    <span class="lock-icon">🔒</span>
+                </a>
+                <a href="#vault" class="world-nav__item world-nav__item--vip" data-section="vault" data-requires-premium="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                    <span>The Vault</span>
+                    <span class="vip-tag">VIP</span>
+                </a>
+            </nav>
+
+            <!-- User Status -->
+            <div class="world-sidebar__status" id="userStatus">
+                <div class="guest-status">
+                    <p>Browsing as Guest</p>
+                    <button class="btn btn--primary btn--sm" onclick="showAuthModal('register')">Join to Post</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="world-main">
+            <!-- FEED SECTION -->
+            <div class="world-section" id="section-feed">
+                <!-- Wyatt Status Bar -->
+                <div class="wyatt-status">
+                    <div class="wyatt-status__avatar">
+                        <img src="images/logo.png" alt="Wyatt">
+                        <span class="online-dot"></span>
+                    </div>
+                    <div class="wyatt-status__info">
+                        <strong>Wyatt is Online</strong>
+                        <span>Feeling good today... who's around? 🔥</span>
+                    </div>
+                    <button class="btn btn--sm btn--outline" onclick="showAuthModal('register')">Say Hey</button>
+                </div>
+
+            <!-- Post Composer (Requires Auth) -->
+            <div class="post-composer" id="postComposer">
+                <div class="post-composer__avatar">
+                    <div class="avatar-placeholder">?</div>
+                </div>
+                <div class="post-composer__input" onclick="showAuthModal('register')">
+                    <textarea placeholder="What's on your mind? Sign up to post..." disabled></textarea>
+                    <div class="post-composer__overlay">
+                        <span>Join free to share your thoughts</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feed Tabs -->
+            <div class="feed-tabs">
+                <button class="feed-tab active" data-feed="for-you">For You</button>
+                <button class="feed-tab" data-feed="wyatt">Wyatt Only</button>
+                <button class="feed-tab feed-tab--hot" data-feed="spicy">🔥 Spicy</button>
+                <button class="feed-tab feed-tab--locked" data-feed="vip" onclick="showAuthModal('register', true)">VIP 🔒</button>
+            </div>
+
+            <!-- Feed Posts -->
+            <div class="feed" id="feedContainer">
+                <!-- Pinned Post -->
+                <article class="post post--pinned">
+                    <div class="post__pin">📌 Pinned</div>
+                    <div class="post__header">
+                        <div class="post__avatar">
+                            <img src="images/logo.png" alt="Wyatt XXX Cole">
+                            <span class="verified-badge">✓</span>
+                        </div>
+                        <div class="post__meta">
+                            <strong>Wyatt XXX Cole</strong>
+                            <span class="post__handle">@WyattXXXCole</span>
+                            <span class="post__time">· Pinned</span>
+                        </div>
+                    </div>
+                    <div class="post__content">
+                        <p>Welcome to <strong>Wyatt World</strong> 🌎🔥</p>
+                        <p>This is YOUR space to connect with me directly. No algorithms, no bullshit. Just real talk, exclusive pics, and a community of like-minded folks who appreciate a good country boy.</p>
+                        <p>Sign up free to join the conversation. Upgrade to VIP for exclusive content, DMs with me, and access to The Vault. Let's have some fun. 😈</p>
+                    </div>
+                    <div class="post__actions">
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                            <span>2.4k</span>
+                        </button>
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                            <span>847</span>
+                        </button>
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Regular Post 1 -->
+                <article class="post">
+                    <div class="post__header">
+                        <div class="post__avatar">
+                            <img src="images/logo.png" alt="Wyatt XXX Cole">
+                            <span class="verified-badge">✓</span>
+                        </div>
+                        <div class="post__meta">
+                            <strong>Wyatt XXX Cole</strong>
+                            <span class="post__handle">@WyattXXXCole</span>
+                            <span class="post__time">· 2h</span>
+                        </div>
+                    </div>
+                    <div class="post__content">
+                        <p>Just finished a custom video session 🎬 Y'all keep the requests coming - I love making your fantasies real. DM me or hit up the booking page if you want something special made just for you 😏</p>
+                    </div>
+                    <div class="post__media">
+                        <div class="post__image-placeholder">
+                            <span>📸 Preview Image</span>
+                        </div>
+                    </div>
+                    <div class="post__actions">
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                            <span>892</span>
+                        </button>
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                            <span>156</span>
+                        </button>
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- VIP Post (Locked) -->
+                <article class="post post--locked">
+                    <div class="post__header">
+                        <div class="post__avatar">
+                            <img src="images/logo.png" alt="Wyatt XXX Cole">
+                            <span class="verified-badge">✓</span>
+                        </div>
+                        <div class="post__meta">
+                            <strong>Wyatt XXX Cole</strong>
+                            <span class="post__handle">@WyattXXXCole</span>
+                            <span class="post__time">· 5h</span>
+                            <span class="vip-badge">VIP</span>
+                        </div>
+                    </div>
+                    <div class="post__content post__content--blurred">
+                        <p>This content is for VIP members only...</p>
+                    </div>
+                    <div class="post__locked-overlay" onclick="showAuthModal('register', true)">
+                        <div class="locked-content">
+                            <span class="lock-icon-large">🔒</span>
+                            <h3>VIP Exclusive Content</h3>
+                            <p>Join VIP to unlock this post and access The Vault</p>
+                            <button class="btn btn--primary">Unlock for $9.99/mo</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Regular Post 2 -->
+                <article class="post">
+                    <div class="post__header">
+                        <div class="post__avatar">
+                            <img src="images/logo.png" alt="Wyatt XXX Cole">
+                            <span class="verified-badge">✓</span>
+                        </div>
+                        <div class="post__meta">
+                            <strong>Wyatt XXX Cole</strong>
+                            <span class="post__handle">@WyattXXXCole</span>
+                            <span class="post__time">· 8h</span>
+                        </div>
+                    </div>
+                    <div class="post__content">
+                        <p>Morning y'all! ☀️ Starting the day right with some coffee and content creation. Got a lot of custom requests to work through today. What kind of content do y'all want to see more of? Let me know in the comments! 👇</p>
+                    </div>
+                    <div class="post__poll">
+                        <div class="poll__option" onclick="showAuthModal('register')">
+                            <span>Behind the scenes</span>
+                            <div class="poll__bar" style="width: 45%"></div>
+                            <span class="poll__percent">45%</span>
+                        </div>
+                        <div class="poll__option" onclick="showAuthModal('register')">
+                            <span>Workout content</span>
+                            <div class="poll__bar" style="width: 30%"></div>
+                            <span class="poll__percent">30%</span>
+                        </div>
+                        <div class="poll__option" onclick="showAuthModal('register')">
+                            <span>Country boy aesthetic</span>
+                            <div class="poll__bar" style="width: 25%"></div>
+                            <span class="poll__percent">25%</span>
+                        </div>
+                    </div>
+                    <div class="post__actions">
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                            <span>1.2k</span>
+                        </button>
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                            <span>324</span>
+                        </button>
+                        <button class="post__action" onclick="showAuthModal('register')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Load More -->
+                <div class="feed__load-more">
+                    <button class="btn btn--outline" onclick="showAuthModal('register')">Sign up to see more posts</button>
+                </div>
+            </div>
+            </div><!-- End Feed Section -->
+
+            <!-- EXPLORE SECTION -->
+            <div class="world-section" id="section-explore" style="display: none;">
+                <div class="section-header">
+                    <h2 class="gradient-text">Explore</h2>
+                    <p>Discover trending content and users in Wyatt World</p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="explore-search">
+                    <input type="text" id="exploreSearch" placeholder="Search users, posts, or hashtags..." class="form__input">
+                    <button class="btn btn--primary" onclick="searchExplore()">Search</button>
+                </div>
+
+                <!-- Trending Hashtags -->
+                <div class="explore-section">
+                    <h3>Trending Topics</h3>
+                    <div class="trending-tags" id="trendingTags">
+                        <a href="#" class="trending-hashtag" onclick="searchHashtag('CountryBoy')">#CountryBoy</a>
+                        <a href="#" class="trending-hashtag" onclick="searchHashtag('WyattWorld')">#WyattWorld</a>
+                        <a href="#" class="trending-hashtag" onclick="searchHashtag('SouthernCharm')">#SouthernCharm</a>
+                        <a href="#" class="trending-hashtag" onclick="searchHashtag('FarmLife')">#FarmLife</a>
+                        <a href="#" class="trending-hashtag" onclick="searchHashtag('BluejeanBaby')">#BluejeanBaby</a>
+                    </div>
+                </div>
+
+                <!-- Suggested Users -->
+                <div class="explore-section">
+                    <h3>Suggested For You</h3>
+                    <div class="suggested-users" id="suggestedUsers">
+                        <div class="suggested-user">
+                            <img src="images/logo.png" alt="Wyatt XXX Cole" class="suggested-user__avatar">
+                            <div class="suggested-user__info">
+                                <strong>Wyatt XXX Cole</strong>
+                                <span>@WyattXXXCole</span>
+                                <p class="suggested-user__bio">The country boy you've been looking for</p>
+                            </div>
+                            <button class="btn btn--sm btn--primary" onclick="showAuthModal('register')">Follow</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Posts -->
+                <div class="explore-section">
+                    <h3>Popular This Week</h3>
+                    <div id="popularPosts" class="explore-posts">
+                        <!-- Will be populated dynamically -->
+                        <p class="explore-empty">Loading popular posts...</p>
+                    </div>
+                </div>
+            </div><!-- End Explore Section -->
+
+            <!-- LIVE SECTION -->
+            <div class="world-section" id="section-live" style="display: none;">
+                <div class="section-header">
+                    <h2 class="gradient-text">LIVE</h2>
+                    <p>Catch Wyatt's live streams and broadcasts</p>
+                </div>
+
+                <div class="live-status" id="liveStatus">
+                    <div class="no-live-stream">
+                        <div class="no-live-icon">📺</div>
+                        <h3>No Live Stream Right Now</h3>
+                        <p>Wyatt isn't streaming at the moment. Check back soon or turn on notifications to get alerted when he goes live!</p>
+                        <button class="btn btn--primary" onclick="enableNotifications()">Turn On Notifications</button>
+                    </div>
+                </div>
+
+                <!-- Upcoming Streams -->
+                <div class="explore-section">
+                    <h3>Upcoming Streams</h3>
+                    <div class="upcoming-streams" id="upcomingStreams">
+                        <div class="upcoming-stream">
+                            <div class="stream-date">
+                                <span class="stream-day">TBD</span>
+                            </div>
+                            <div class="stream-info">
+                                <strong>Next Stream Coming Soon</strong>
+                                <p>Stay tuned for announcements</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Past Streams -->
+                <div class="explore-section">
+                    <h3>Past Broadcasts</h3>
+                    <div class="past-streams" id="pastStreams">
+                        <p class="explore-empty">No past broadcasts yet. Join VIP to access exclusive recorded streams!</p>
+                    </div>
+                </div>
+            </div><!-- End Live Section -->
+
+            <!-- FRIENDS SECTION -->
+            <div class="world-section" id="section-friends" style="display: none;">
+                <div class="section-header">
+                    <h2 class="gradient-text">Friends</h2>
+                    <p>Connect with other members of Wyatt World</p>
+                </div>
+
+                <!-- Friends Tabs -->
+                <div class="friends-tabs">
+                    <button class="friends-tab active" data-friends-tab="my-friends">My Friends</button>
+                    <button class="friends-tab" data-friends-tab="pending">Pending</button>
+                    <button class="friends-tab" data-friends-tab="find-friends">Find Friends</button>
+                </div>
+
+                <!-- My Friends List -->
+                <div class="friends-panel" id="panel-my-friends">
+                    <div id="friendsList" class="friends-list">
+                        <p class="explore-empty" id="noFriendsMsg">You haven't added any friends yet. Start connecting with other members!</p>
+                    </div>
+                </div>
+
+                <!-- Pending Requests -->
+                <div class="friends-panel" id="panel-pending" style="display: none;">
+                    <div id="pendingRequests" class="friends-list">
+                        <p class="explore-empty" id="noPendingMsg">No pending friend requests</p>
+                    </div>
+                </div>
+
+                <!-- Find Friends -->
+                <div class="friends-panel" id="panel-find-friends" style="display: none;">
+                    <div class="explore-search">
+                        <input type="text" id="friendSearch" placeholder="Search for users..." class="form__input">
+                        <button class="btn btn--primary" onclick="searchUsers()">Search</button>
+                    </div>
+                    <div id="userSearchResults" class="friends-list">
+                        <p class="explore-empty">Search for users to add as friends</p>
+                    </div>
+                </div>
+            </div><!-- End Friends Section -->
+
+            <!-- MESSAGES SECTION -->
+            <div class="world-section" id="section-messages" style="display: none;">
+                <div class="section-header">
+                    <h2 class="gradient-text">Messages</h2>
+                    <p>Chat with your friends and Wyatt</p>
+                </div>
+
+                <div class="messages-container">
+                    <div class="conversations-list" id="conversationsList">
+                        <p class="explore-empty">No conversations yet. Add friends to start chatting!</p>
+                    </div>
+                    <div class="chat-window" id="chatWindow" style="display: none;">
+                        <div class="chat-header" id="chatHeader"></div>
+                        <div class="chat-messages" id="chatMessages"></div>
+                        <div class="chat-input">
+                            <input type="text" id="messageInput" placeholder="Type a message..." class="form__input">
+                            <button class="btn btn--primary" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Messages Section -->
+
+            <!-- VAULT SECTION -->
+            <div class="world-section" id="section-vault" style="display: none;">
+                <div class="section-header">
+                    <h2 class="gradient-text">The Vault</h2>
+                    <p>Exclusive VIP content</p>
+                </div>
+
+                <div class="vault-locked">
+                    <div class="vault-icon">🔐</div>
+                    <h3>VIP Access Required</h3>
+                    <p>The Vault contains exclusive uncensored content available only to VIP members.</p>
+                    <button class="btn btn--primary btn--lg" onclick="showAuthModal('register', true)">Unlock The Vault - $9.99/mo</button>
+                </div>
+            </div><!-- End Vault Section -->
+        </div>
+
+        <!-- Right Sidebar -->
+        <aside class="world-sidebar world-sidebar--right">
+            <div class="sidebar-card">
+                <h3>Who to Follow</h3>
+                <div class="follow-suggestion">
+                    <img src="images/logo.png" alt="Wyatt" class="follow-avatar">
+                    <div class="follow-info">
+                        <strong>Wyatt XXX Cole</strong>
+                        <span>@WyattXXXCole</span>
+                    </div>
+                    <button class="btn btn--sm btn--primary" onclick="showAuthModal('register')">Follow</button>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Trending</h3>
+                <div class="trending-item">
+                    <span class="trending-tag">#CountryBoy</span>
+                    <span class="trending-count">2.4k posts</span>
+                </div>
+                <div class="trending-item">
+                    <span class="trending-tag">#WyattWorld</span>
+                    <span class="trending-count">1.8k posts</span>
+                </div>
+                <div class="trending-item">
+                    <span class="trending-tag">#SouthernCharm</span>
+                    <span class="trending-count">956 posts</span>
+                </div>
+            </div>
+
+            <div class="sidebar-card sidebar-card--cta">
+                <h3>Join the Community</h3>
+                <p>Sign up free to post, comment, and connect with Wyatt and other fans.</p>
+                <button class="btn btn--primary btn--full" onclick="showAuthModal('register')">Join Free</button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal__backdrop" onclick="closeAuthModal()"></div>
+        <div class="modal__content">
+            <button class="modal__close" onclick="closeAuthModal()">&times;</button>
+
+            <!-- Modal Tabs -->
+            <div class="modal__tabs">
+                <button class="modal__tab active" data-tab="register">Sign Up</button>
+                <button class="modal__tab" data-tab="login">Sign In</button>
+            </div>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="modal__form active">
+                <h2>Join Wyatt World</h2>
+                <p class="modal__subtitle">Create your free account to post, comment, and connect.</p>
+
+                <div class="form__group">
+                    <label class="form__label" for="reg-username">Username</label>
+                    <input type="text" id="reg-username" class="form__input" placeholder="Choose a username" required>
+                </div>
+                <div class="form__group">
+                    <label class="form__label" for="reg-email">Email</label>
+                    <input type="email" id="reg-email" class="form__input" placeholder="your@email.com" required>
+                </div>
+                <div class="form__group">
+                    <label class="form__label" for="reg-password">Password</label>
+                    <input type="password" id="reg-password" class="form__input" placeholder="Create a password" required minlength="8">
+                </div>
+                <div class="form__group">
+                    <label class="form__checkbox">
+                        <input type="checkbox" required>
+                        <span>I am 18+ and agree to the <a href="terms.html">Terms of Service</a></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full">Create Account</button>
+                <p class="modal__note">You'll receive a verification email to confirm your account.</p>
+            </form>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="modal__form">
+                <h2>Welcome Back</h2>
+                <p class="modal__subtitle">Sign in to your Wyatt World account.</p>
+
+                <div class="form__group">
+                    <label class="form__label" for="login-email">Email</label>
+                    <input type="email" id="login-email" class="form__input" placeholder="your@email.com" required>
+                </div>
+                <div class="form__group">
+                    <label class="form__label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form__input" placeholder="Your password" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full">Sign In</button>
+                <a href="#" class="modal__forgot">Forgot password?</a>
+            </form>
+
+            <!-- VIP Upgrade Section (shown when accessing premium content) -->
+            <div id="vipUpgrade" class="modal__form" style="display: none;">
+                <h2>Unlock VIP Access</h2>
+                <p class="modal__subtitle">Get exclusive content, DMs with Wyatt, and access to The Vault.</p>
+                <ul class="vip-benefits">
+                    <li>✓ Exclusive uncensored content</li>
+                    <li>✓ Direct messages with Wyatt</li>
+                    <li>✓ Access to The Vault</li>
+                    <li>✓ Early access to new content</li>
+                    <li>✓ VIP-only live streams</li>
+                </ul>
+                <button class="btn btn--primary btn--full">Upgrade to VIP - $9.99/mo</button>
+                <p class="modal__note">Cancel anytime. 18+ only.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Verification Modal -->
+    <div class="modal" id="verifyModal">
+        <div class="modal__backdrop"></div>
+        <div class="modal__content">
+            <div class="verify-content">
+                <div class="verify-icon">📧</div>
+                <h2>Verify Your Email</h2>
+                <p>We've sent a verification code to <strong id="verifyEmail"></strong></p>
+                <div class="verify-code-input">
+                    <input type="text" maxlength="1" class="code-digit" autofocus>
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                </div>
+                <button class="btn btn--primary btn--full" id="verifyBtn">Verify Email</button>
+                <p class="modal__note">Didn't receive it? <a href="#" id="resendCode">Resend code</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js?v=6"></script>
+    <script src="js/effects.js?v=6"></script>
+    <script>
+        // Auth state
+        let isLoggedIn = false;
+        let currentUser = null;
+        let pendingEmail = '';
+
+        // Check if user is logged in and validate token with server
+        async function checkAuth() {
+            const token = localStorage.getItem('worldToken');
+            const user = localStorage.getItem('worldUser');
+
+            if (token && user) {
+                try {
+                    // Validate token with server
+                    const res = await fetch('api/world.php?action=verify', {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    const data = await res.json();
+
+                    if (data.success && data.user) {
+                        isLoggedIn = true;
+                        currentUser = data.user;
+                        // Update stored user data with fresh data from server
+                        localStorage.setItem('worldUser', JSON.stringify(data.user));
+                        updateUIForLoggedInUser();
+                    } else {
+                        // Token invalid or expired - clear session
+                        clearSession();
+                    }
+                } catch (err) {
+                    // Network error - use cached data but flag for re-validation
+                    try {
+                        isLoggedIn = true;
+                        currentUser = JSON.parse(user);
+                        updateUIForLoggedInUser();
+                    } catch (e) {
+                        clearSession();
+                    }
+                }
+            }
+        }
+
+        // Clear session data
+        function clearSession() {
+            localStorage.removeItem('worldToken');
+            localStorage.removeItem('worldUser');
+            isLoggedIn = false;
+            currentUser = null;
+        }
+
+        // Update UI for logged-in user
+        function updateUIForLoggedInUser() {
+            document.getElementById('navAuth').innerHTML = `
+                <span class="user-greeting">Hey, ${currentUser.username}!</span>
+                <button class="btn btn--sm btn--outline" onclick="logout()">Sign Out</button>
+            `;
+            document.getElementById('userStatus').innerHTML = `
+                <div class="logged-in-status">
+                    <p>Welcome, <strong>${currentUser.username}</strong></p>
+                    <span class="tier-badge">${currentUser.tier || 'Free'}</span>
+                </div>
+            `;
+            // Enable post composer
+            const composer = document.getElementById('postComposer');
+            composer.innerHTML = `
+                <div class="post-composer__avatar">
+                    <img src="images/logo.png" alt="${currentUser.username}">
+                </div>
+                <div class="post-composer__input">
+                    <textarea placeholder="What's on your mind?" id="postInput"></textarea>
+                    <div class="post-composer__actions">
+                        <button class="btn btn--primary btn--sm" onclick="submitPost()">Post</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show auth modal
+        function showAuthModal(tab = 'register', showVip = false) {
+            const modal = document.getElementById('authModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            if (showVip && isLoggedIn) {
+                // Show VIP upgrade for logged-in users
+                document.querySelectorAll('.modal__form').forEach(f => f.style.display = 'none');
+                document.getElementById('vipUpgrade').style.display = 'block';
+                document.querySelector('.modal__tabs').style.display = 'none';
+            } else {
+                document.getElementById('vipUpgrade').style.display = 'none';
+                document.querySelector('.modal__tabs').style.display = 'flex';
+                switchTab(tab);
+            }
+        }
+
+        // Close auth modal
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.modal__tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.querySelectorAll('.modal__form').forEach(f => {
+                f.classList.remove('active');
+                f.style.display = 'none';
+            });
+            document.getElementById(`${tab}Form`).classList.add('active');
+            document.getElementById(`${tab}Form`).style.display = 'block';
+        }
+
+        // Tab click handlers
+        document.querySelectorAll('.modal__tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        });
+
+        // Register form
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+
+            try {
+                const res = await fetch('api/world.php?action=register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    pendingEmail = email;
+                    closeAuthModal();
+                    showVerifyModal(email);
+                } else {
+                    showNotification(data.error || 'Registration failed', 'error');
+                }
+            } catch (err) {
+                // For demo, simulate success
+                pendingEmail = email;
+                closeAuthModal();
+                showVerifyModal(email);
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Create Account';
+        });
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+
+            try {
+                const res = await fetch('api/world.php?action=login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (data.token) {
+                    localStorage.setItem('worldToken', data.token);
+                    localStorage.setItem('worldUser', JSON.stringify(data.user));
+                    isLoggedIn = true;
+                    currentUser = data.user;
+                    closeAuthModal();
+                    updateUIForLoggedInUser();
+                    showNotification('Welcome back!', 'success');
+                } else {
+                    showNotification(data.error || 'Login failed', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Sign In';
+        });
+
+        // Show verification modal
+        function showVerifyModal(email) {
+            document.getElementById('verifyEmail').textContent = email;
+            document.getElementById('verifyModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Focus first input
+            document.querySelector('.code-digit').focus();
+        }
+
+        // Code input handling
+        document.querySelectorAll('.code-digit').forEach((input, index, inputs) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Verify button
+        document.getElementById('verifyBtn').addEventListener('click', async () => {
+            const code = Array.from(document.querySelectorAll('.code-digit'))
+                .map(i => i.value).join('');
+
+            if (code.length !== 6) {
+                showNotification('Please enter the 6-digit code', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch('api/world.php?action=verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: pendingEmail, code })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('verifyModal').classList.remove('active');
+                    document.body.style.overflow = '';
+                    localStorage.setItem('worldToken', data.token);
+                    localStorage.setItem('worldUser', JSON.stringify(data.user));
+                    isLoggedIn = true;
+                    currentUser = data.user;
+                    updateUIForLoggedInUser();
+                    showNotification('Email verified! Welcome to Wyatt World!', 'success');
+                } else {
+                    showNotification(data.error || 'Invalid code', 'error');
+                }
+            } catch (err) {
+                // Demo: simulate success
+                document.getElementById('verifyModal').classList.remove('active');
+                document.body.style.overflow = '';
+                currentUser = { username: 'NewUser', email: pendingEmail, tier: 'Free' };
+                localStorage.setItem('worldToken', 'demo-token');
+                localStorage.setItem('worldUser', JSON.stringify(currentUser));
+                isLoggedIn = true;
+                updateUIForLoggedInUser();
+                showNotification('Email verified! Welcome to Wyatt World!', 'success');
+            }
+        });
+
+        // Logout
+        function logout() {
+            clearSession();
+            location.reload();
+        }
+
+        // Nav button handlers
+        document.getElementById('signInBtn')?.addEventListener('click', () => showAuthModal('login'));
+        document.getElementById('joinBtn')?.addEventListener('click', () => showAuthModal('register'));
+
+        // Feed tabs
+        document.querySelectorAll('.feed-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (tab.classList.contains('feed-tab--locked') && !isLoggedIn) return;
+                document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // World nav - section switching
+        document.querySelectorAll('.world-nav__item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                if (item.dataset.requiresAuth && !isLoggedIn) {
+                    showAuthModal('register');
+                    return;
+                }
+                if (item.dataset.requiresPremium) {
+                    showAuthModal('register', true);
+                    return;
+                }
+
+                const section = item.dataset.section;
+                switchSection(section);
+            });
+        });
+
+        // Switch between sections
+        function switchSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.world-section').forEach(s => s.style.display = 'none');
+
+            // Show selected section
+            const sectionEl = document.getElementById('section-' + section);
+            if (sectionEl) {
+                sectionEl.style.display = 'block';
+            }
+
+            // Update nav active state
+            document.querySelectorAll('.world-nav__item').forEach(i => i.classList.remove('active'));
+            document.querySelector(`[data-section="${section}"]`)?.classList.add('active');
+
+            // Load section-specific data
+            if (section === 'explore') {
+                loadPopularPosts();
+            } else if (section === 'friends') {
+                loadFriends();
+            } else if (section === 'messages') {
+                loadConversations();
+            }
+        }
+
+        // ============ POST FUNCTIONS ============
+
+        // Load posts from server
+        async function loadPosts() {
+            try {
+                const token = localStorage.getItem('worldToken');
+                const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+                const res = await fetch('api/world.php?action=get-posts', { headers });
+                const data = await res.json();
+
+                if (data.success && data.posts) {
+                    renderPosts(data.posts);
+                }
+            } catch (err) {
+                console.error('Failed to load posts:', err);
+            }
+        }
+
+        // Render posts to feed
+        function renderPosts(posts) {
+            const container = document.getElementById('feedContainer');
+            if (!container) return;
+
+            // Keep pinned/static content, clear dynamic posts
+            let html = '';
+
+            // Pinned posts will be loaded from API (posts with isPinned: true)
+
+            // Separate pinned and regular posts
+            const pinnedPosts = posts.filter(p => p.isPinned);
+            const regularPosts = posts.filter(p => !p.isPinned);
+
+            // Render pinned posts first
+            pinnedPosts.forEach(post => {
+                html += renderPostHtml(post, true);
+            });
+
+            // Render regular posts
+            regularPosts.forEach(post => {
+                html += renderPostHtml(post, false);
+            });
+
+            finishRenderPosts(container, html);
+        }
+
+        function renderPostHtml(post, isPinned) {
+            const isOwn = currentUser && post.userId === currentUser.id;
+            const isAdmin = currentUser && (currentUser.username === 'Wyatt' || currentUser.username === 'WyattXXXCole' || currentUser.tier === 'admin');
+            const timeAgo = isPinned ? 'Pinned' : getTimeAgo(post.createdAt);
+            const isVip = post.tier === 'vip';
+            const isVerified = post.username === 'Wyatt XXX Cole' || post.username === 'WyattXXXCole' || post.username === 'Wyatt';
+
+            return `
+                <article class="post ${isPinned ? 'post--pinned' : ''} ${isVip ? 'post--vip' : ''}" data-post-id="${post.id}">
+                    ${isPinned ? '<div class="post__pin">📌 Pinned</div>' : ''}
+                    <div class="post__header">
+                        <div class="post__avatar">
+                            <img src="images/logo.png" alt="${post.username}">
+                            ${isVerified ? '<span class="verified-badge">✓</span>' : ''}
+                        </div>
+                        <div class="post__meta">
+                            <strong>${post.username}</strong>
+                            <span class="post__handle">@${post.username.replace(/\s+/g, '')}</span>
+                            <span class="post__time">· ${timeAgo}</span>
+                            ${isVip ? '<span class="vip-badge">VIP</span>' : ''}
+                        </div>
+                        ${isAdmin ? `<button class="post__pin-btn" onclick="togglePin('${post.id}')" title="${isPinned ? 'Unpin' : 'Pin'}">${isPinned ? '📌' : '📍'}</button>` : ''}
+                        ${isOwn || isAdmin ? `<button class="post__delete" onclick="deletePost('${post.id}')" title="Delete post">×</button>` : ''}
+                    </div>
+                    <div class="post__content">
+                        <p>${escapeHtml(post.content)}</p>
+                    </div>
+                    <div class="post__actions">
+                        <button class="post__action ${post.isLiked ? 'post__action--liked' : ''}" onclick="${isLoggedIn ? `toggleLike('${post.id}')` : 'showAuthModal(\"register\")'}">
+                            <svg viewBox="0 0 24 24" fill="${post.isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                            <span class="like-count">${post.likeCount || 0}</span>
+                        </button>
+                        <button class="post__action" onclick="${isLoggedIn ? `toggleComments('${post.id}')` : 'showAuthModal(\"register\")'}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                            <span class="comment-count">${post.commentCount || 0}</span>
+                        </button>
+                        <button class="post__action" onclick="sharePost('${post.id}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                    <div class="post__comments" id="comments-${post.id}" style="display: none;"></div>
+                </article>
+            `;
+        }
+
+        function finishRenderPosts(container, html) {
+            // Add load more button
+            html += `
+                <div class="feed__load-more">
+                    <button class="btn btn--outline" onclick="${isLoggedIn ? 'loadMorePosts()' : 'showAuthModal(\"register\")'}">
+                        ${isLoggedIn ? 'Load more posts' : 'Sign up to see more posts'}
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Submit a new post
+        async function submitPost() {
+            const input = document.getElementById('postInput');
+            if (!input) return;
+
+            const content = input.value.trim();
+            if (!content) {
+                showNotification('Please enter some content', 'error');
+                return;
+            }
+
+            const token = localStorage.getItem('worldToken');
+            if (!token) {
+                showAuthModal('register');
+                return;
+            }
+
+            try {
+                const res = await fetch('api/world.php?action=create-post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ content })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    input.value = '';
+                    showNotification('Post created!', 'success');
+                    loadPosts(); // Reload posts
+                } else {
+                    showNotification(data.error || 'Failed to create post', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        // Delete a post
+        async function deletePost(postId) {
+            if (!confirm('Are you sure you want to delete this post?')) return;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=delete-post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ id: postId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showNotification('Post deleted', 'success');
+                    loadPosts();
+                } else {
+                    showNotification(data.error || 'Failed to delete post', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        // ============ LIKE FUNCTIONS ============
+
+        async function toggleLike(postId) {
+            const token = localStorage.getItem('worldToken');
+            if (!token) {
+                showAuthModal('register');
+                return;
+            }
+
+            const postEl = document.querySelector(`[data-post-id="${postId}"]`);
+            const likeBtn = postEl?.querySelector('.post__action');
+            const likeCount = postEl?.querySelector('.like-count');
+            const isLiked = likeBtn?.classList.contains('post__action--liked');
+
+            try {
+                const action = isLiked ? 'unlike' : 'like';
+                const res = await fetch(`api/world.php?action=${action}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ postId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    likeBtn.classList.toggle('post__action--liked');
+                    if (likeCount && data.likeCount !== undefined) {
+                        likeCount.textContent = data.likeCount;
+                    }
+                    // Update heart fill
+                    const svg = likeBtn.querySelector('svg');
+                    if (svg) {
+                        svg.setAttribute('fill', isLiked ? 'none' : 'currentColor');
+                    }
+                }
+            } catch (err) {
+                console.error('Like error:', err);
+            }
+        }
+
+        // ============ COMMENT FUNCTIONS ============
+
+        async function toggleComments(postId) {
+            const commentsEl = document.getElementById(`comments-${postId}`);
+            if (!commentsEl) return;
+
+            if (commentsEl.style.display === 'none') {
+                commentsEl.style.display = 'block';
+                await loadComments(postId);
+            } else {
+                commentsEl.style.display = 'none';
+            }
+        }
+
+        async function loadComments(postId) {
+            const commentsEl = document.getElementById(`comments-${postId}`);
+            if (!commentsEl) return;
+
+            commentsEl.innerHTML = '<div class="comments-loading">Loading comments...</div>';
+
+            try {
+                const token = localStorage.getItem('worldToken');
+                const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+                const res = await fetch(`api/world.php?action=get-comments&postId=${postId}`, { headers });
+                const data = await res.json();
+
+                if (data.success) {
+                    renderComments(postId, data.comments || []);
+                }
+            } catch (err) {
+                commentsEl.innerHTML = '<div class="comments-error">Failed to load comments</div>';
+            }
+        }
+
+        function renderComments(postId, comments) {
+            const commentsEl = document.getElementById(`comments-${postId}`);
+            if (!commentsEl) return;
+
+            let html = '<div class="comments-list">';
+
+            if (comments.length === 0) {
+                html += '<div class="no-comments">No comments yet. Be the first!</div>';
+            } else {
+                comments.forEach(comment => {
+                    const isOwn = currentUser && comment.userId === currentUser.id;
+                    html += `
+                        <div class="comment" data-comment-id="${comment.id}">
+                            <div class="comment__avatar">
+                                <img src="images/logo.png" alt="${comment.username}">
+                            </div>
+                            <div class="comment__body">
+                                <strong>${comment.username}</strong>
+                                <span class="comment__time">${getTimeAgo(comment.createdAt)}</span>
+                                <p>${escapeHtml(comment.content)}</p>
+                            </div>
+                            ${isOwn ? `<button class="comment__delete" onclick="deleteComment('${comment.id}', '${postId}')" title="Delete">×</button>` : ''}
+                        </div>
+                    `;
+                });
+            }
+
+            html += '</div>';
+
+            // Add comment form if logged in
+            if (isLoggedIn) {
+                html += `
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" id="comment-input-${postId}" placeholder="Write a comment..." maxlength="500">
+                        <button class="btn btn--sm btn--primary" onclick="submitComment('${postId}')">Post</button>
+                    </div>
+                `;
+            }
+
+            commentsEl.innerHTML = html;
+
+            // Add enter key listener
+            const input = document.getElementById(`comment-input-${postId}`);
+            if (input) {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') submitComment(postId);
+                });
+            }
+        }
+
+        async function submitComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            if (!input) return;
+
+            const content = input.value.trim();
+            if (!content) return;
+
+            const token = localStorage.getItem('worldToken');
+            if (!token) {
+                showAuthModal('register');
+                return;
+            }
+
+            try {
+                const res = await fetch('api/world.php?action=create-comment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ postId, content })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    input.value = '';
+                    loadComments(postId);
+                    // Update comment count
+                    const postEl = document.querySelector(`[data-post-id="${postId}"]`);
+                    const countEl = postEl?.querySelector('.comment-count');
+                    if (countEl) {
+                        countEl.textContent = parseInt(countEl.textContent || 0) + 1;
+                    }
+                } else {
+                    showNotification(data.error || 'Failed to post comment', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        async function deleteComment(commentId, postId) {
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=delete-comment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ id: commentId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    loadComments(postId);
+                    // Update comment count
+                    const postEl = document.querySelector(`[data-post-id="${postId}"]`);
+                    const countEl = postEl?.querySelector('.comment-count');
+                    if (countEl) {
+                        countEl.textContent = Math.max(0, parseInt(countEl.textContent || 0) - 1);
+                    }
+                }
+            } catch (err) {
+                console.error('Delete comment error:', err);
+            }
+        }
+
+        // ============ ADMIN FUNCTIONS ============
+
+        async function togglePin(postId) {
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=toggle-pin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ id: postId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    loadPosts();
+                } else {
+                    showNotification(data.error || 'Failed to toggle pin', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        // ============ UTILITY FUNCTIONS ============
+
+        function sharePost(postId) {
+            const url = `${window.location.origin}/world.html#post-${postId}`;
+            if (navigator.share) {
+                navigator.share({ title: 'Wyatt World Post', url });
+            } else {
+                navigator.clipboard.writeText(url);
+                showNotification('Link copied to clipboard!', 'success');
+            }
+        }
+
+        function loadMorePosts() {
+            showNotification('More posts coming soon!', 'info');
+        }
+
+        function getTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const seconds = Math.floor((now - date) / 1000);
+
+            if (seconds < 60) return 'just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h';
+            if (seconds < 604800) return Math.floor(seconds / 86400) + 'd';
+            return date.toLocaleDateString();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============ EXPLORE FUNCTIONS ============
+
+        async function loadPopularPosts() {
+            try {
+                const token = localStorage.getItem('worldToken');
+                const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+                const res = await fetch('api/world.php?action=get-posts&sort=popular', { headers });
+                const data = await res.json();
+
+                const container = document.getElementById('popularPosts');
+                if (data.success && data.posts && data.posts.length > 0) {
+                    container.innerHTML = data.posts.slice(0, 5).map(post => `
+                        <div class="explore-post-preview" onclick="viewPost('${post.id}')">
+                            <strong>${post.username}</strong>
+                            <p>${escapeHtml(post.content.substring(0, 100))}${post.content.length > 100 ? '...' : ''}</p>
+                            <span class="post-stats">${post.likeCount || 0} likes · ${post.commentCount || 0} comments</span>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p class="explore-empty">No popular posts yet</p>';
+                }
+            } catch (err) {
+                console.error('Failed to load popular posts:', err);
+            }
+        }
+
+        function searchExplore() {
+            const query = document.getElementById('exploreSearch').value.trim();
+            if (!query) return;
+            showNotification('Search feature coming soon!', 'info');
+        }
+
+        function searchHashtag(tag) {
+            event.preventDefault();
+            showNotification(`Searching for #${tag}...`, 'info');
+        }
+
+        function viewPost(postId) {
+            switchSection('feed');
+            // Scroll to post if on page
+            setTimeout(() => {
+                const postEl = document.querySelector(`[data-post-id="${postId}"]`);
+                if (postEl) postEl.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // ============ FRIENDS FUNCTIONS ============
+
+        async function loadFriends() {
+            if (!isLoggedIn) return;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=get-friends', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                const container = document.getElementById('friendsList');
+                if (data.success && data.friends && data.friends.length > 0) {
+                    document.getElementById('noFriendsMsg').style.display = 'none';
+                    container.innerHTML = data.friends.map(friend => `
+                        <div class="friend-item">
+                            <img src="images/logo.png" alt="${friend.username}" class="friend-avatar">
+                            <div class="friend-info">
+                                <strong>${friend.username}</strong>
+                                <span>@${friend.username}</span>
+                            </div>
+                            <button class="btn btn--sm btn--outline" onclick="startChat('${friend.id}')">Message</button>
+                            <button class="btn btn--sm btn--outline" onclick="removeFriend('${friend.id}')">Remove</button>
+                        </div>
+                    `).join('');
+                }
+
+                // Load pending requests
+                loadPendingRequests();
+            } catch (err) {
+                console.error('Failed to load friends:', err);
+            }
+        }
+
+        async function loadPendingRequests() {
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=get-friend-requests', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                const container = document.getElementById('pendingRequests');
+                if (data.success && data.requests && data.requests.length > 0) {
+                    document.getElementById('noPendingMsg').style.display = 'none';
+                    container.innerHTML = data.requests.map(req => `
+                        <div class="friend-request">
+                            <img src="images/logo.png" alt="${req.username}" class="friend-avatar">
+                            <div class="friend-info">
+                                <strong>${req.username}</strong>
+                                <span>wants to be friends</span>
+                            </div>
+                            <button class="btn btn--sm btn--primary" onclick="acceptFriend('${req.id}')">Accept</button>
+                            <button class="btn btn--sm btn--outline" onclick="declineFriend('${req.id}')">Decline</button>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Failed to load pending requests:', err);
+            }
+        }
+
+        async function searchUsers() {
+            const query = document.getElementById('friendSearch').value.trim();
+            if (!query) return;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch(`api/world.php?action=search-users&q=${encodeURIComponent(query)}`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                const container = document.getElementById('userSearchResults');
+                if (data.success && data.users && data.users.length > 0) {
+                    container.innerHTML = data.users.map(user => `
+                        <div class="friend-item">
+                            <img src="images/logo.png" alt="${user.username}" class="friend-avatar">
+                            <div class="friend-info">
+                                <strong>${user.username}</strong>
+                                <span>@${user.username}</span>
+                            </div>
+                            <button class="btn btn--sm btn--primary" onclick="addFriend('${user.id}')">Add Friend</button>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p class="explore-empty">No users found</p>';
+                }
+            } catch (err) {
+                showNotification('Search failed', 'error');
+            }
+        }
+
+        async function addFriend(userId) {
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=add-friend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ userId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showNotification('Friend request sent!', 'success');
+                } else {
+                    showNotification(data.error || 'Failed to send request', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        async function acceptFriend(requestId) {
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=accept-friend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ requestId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showNotification('Friend added!', 'success');
+                    loadFriends();
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        async function declineFriend(requestId) {
+            const token = localStorage.getItem('worldToken');
+            try {
+                await fetch('api/world.php?action=decline-friend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ requestId })
+                });
+                loadFriends();
+            } catch (err) {
+                console.error('Decline friend error:', err);
+            }
+        }
+
+        async function removeFriend(userId) {
+            if (!confirm('Remove this friend?')) return;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=remove-friend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ userId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showNotification('Friend removed', 'success');
+                    loadFriends();
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        // Friends tabs
+        document.querySelectorAll('.friends-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.friends-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                document.querySelectorAll('.friends-panel').forEach(p => p.style.display = 'none');
+                document.getElementById('panel-' + tab.dataset.friendsTab).style.display = 'block';
+            });
+        });
+
+        // ============ MESSAGES FUNCTIONS ============
+
+        let currentChatUser = null;
+
+        async function loadConversations() {
+            if (!isLoggedIn) return;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=get-conversations', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                const container = document.getElementById('conversationsList');
+                if (data.success && data.conversations && data.conversations.length > 0) {
+                    container.innerHTML = data.conversations.map(conv => `
+                        <div class="conversation-item" onclick="openChat('${conv.userId}', '${conv.username}')">
+                            <img src="images/logo.png" alt="${conv.username}" class="conversation-avatar">
+                            <div class="conversation-info">
+                                <strong>${conv.username}</strong>
+                                <p>${escapeHtml(conv.lastMessage || 'No messages yet')}</p>
+                            </div>
+                            ${conv.unread > 0 ? `<span class="unread-badge">${conv.unread}</span>` : ''}
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Failed to load conversations:', err);
+            }
+        }
+
+        function startChat(userId) {
+            switchSection('messages');
+            setTimeout(() => openChat(userId), 100);
+        }
+
+        async function openChat(userId, username) {
+            currentChatUser = { id: userId, username };
+            document.getElementById('chatWindow').style.display = 'flex';
+            document.getElementById('chatHeader').innerHTML = `<strong>${username || 'Chat'}</strong>`;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch(`api/world.php?action=get-messages&userId=${userId}`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                const container = document.getElementById('chatMessages');
+                if (data.success && data.messages) {
+                    container.innerHTML = data.messages.map(msg => `
+                        <div class="chat-message ${msg.fromMe ? 'chat-message--sent' : 'chat-message--received'}">
+                            <p>${escapeHtml(msg.content)}</p>
+                            <span class="message-time">${getTimeAgo(msg.createdAt)}</span>
+                        </div>
+                    `).join('');
+                    container.scrollTop = container.scrollHeight;
+                }
+            } catch (err) {
+                console.error('Failed to load messages:', err);
+            }
+        }
+
+        async function sendMessage() {
+            if (!currentChatUser) return;
+
+            const input = document.getElementById('messageInput');
+            const content = input.value.trim();
+            if (!content) return;
+
+            const token = localStorage.getItem('worldToken');
+            try {
+                const res = await fetch('api/world.php?action=send-message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ userId: currentChatUser.id, content })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    input.value = '';
+                    openChat(currentChatUser.id, currentChatUser.username);
+                } else {
+                    showNotification(data.error || 'Failed to send message', 'error');
+                }
+            } catch (err) {
+                showNotification('Connection error', 'error');
+            }
+        }
+
+        // Message input enter key
+        document.getElementById('messageInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // ============ LIVE FUNCTIONS ============
+
+        function enableNotifications() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showNotification('Notifications enabled! You\'ll be notified when Wyatt goes live.', 'success');
+                    } else {
+                        showNotification('Please enable notifications in your browser settings.', 'info');
+                    }
+                });
+            } else {
+                showNotification('Your browser doesn\'t support notifications.', 'error');
+            }
+        }
+
+        // Init
+        checkAuth();
+        loadPosts();
+    </script>
+
+    <style>
+        /* World Layout */
+        .world-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr 300px;
+            min-height: 100vh;
+            padding-top: 80px;
+            background: var(--bg-primary);
+        }
+
+        @media (max-width: 1200px) {
+            .world-layout { grid-template-columns: 220px 1fr; }
+            .world-sidebar--right { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .world-layout { grid-template-columns: 1fr; }
+            .world-sidebar:not(.world-sidebar--right) {
+                display: none;
+            }
+        }
+
+        /* Sidebar */
+        .world-sidebar {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            padding: var(--space-lg);
+            border-right: 1px solid rgba(198, 142, 63, 0.1);
+            overflow-y: auto;
+        }
+
+        .world-sidebar--right {
+            border-right: none;
+            border-left: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .world-sidebar__header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .world-sidebar__header h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .world-sidebar__subtitle {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+        }
+
+        /* World Nav */
+        .world-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .world-nav__item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .world-nav__item:hover {
+            background: rgba(198, 142, 63, 0.1);
+            color: var(--whiskey);
+        }
+
+        .world-nav__item.active {
+            background: rgba(198, 142, 63, 0.15);
+            color: var(--whiskey);
+        }
+
+        .world-nav__item--live { color: #ef4444; }
+        .world-nav__item--live .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .world-nav__item--locked .lock-icon,
+        .world-nav__item--vip .vip-tag {
+            margin-left: auto;
+            font-size: 0.75rem;
+        }
+
+        .vip-tag {
+            background: linear-gradient(135deg, var(--whiskey), var(--rust));
+            color: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* User Status */
+        .world-sidebar__status {
+            margin-top: auto;
+            padding-top: var(--space-lg);
+            border-top: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .guest-status {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .guest-status p { margin-bottom: var(--space-sm); }
+
+        /* Main Content */
+        .world-main {
+            padding: var(--space-lg);
+            max-width: 680px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Wyatt Status */
+        .wyatt-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.2);
+            margin-bottom: var(--space-lg);
+        }
+
+        .wyatt-status__avatar {
+            position: relative;
+        }
+
+        .wyatt-status__avatar img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .online-dot {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: #22c55e;
+            border: 2px solid var(--bg-card);
+            border-radius: 50%;
+        }
+
+        .wyatt-status__info {
+            flex: 1;
+        }
+
+        .wyatt-status__info strong {
+            display: block;
+            color: var(--whiskey);
+        }
+
+        .wyatt-status__info span {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Post Composer */
+        .post-composer {
+            display: flex;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            margin-bottom: var(--space-lg);
+        }
+
+        .post-composer__avatar .avatar-placeholder {
+            width: 45px;
+            height: 45px;
+            background: rgba(198, 142, 63, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--whiskey);
+            font-size: 1.25rem;
+        }
+
+        .post-composer__input {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .post-composer__input textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            resize: none;
+            font-size: 1rem;
+            min-height: 60px;
+        }
+
+        .post-composer__input textarea:disabled {
+            cursor: pointer;
+        }
+
+        .post-composer__overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 11, 9, 0.8);
+            border-radius: var(--radius-md);
+            color: var(--whiskey);
+            font-weight: 600;
+        }
+
+        /* Feed Tabs */
+        .feed-tabs {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-lg);
+            overflow-x: auto;
+            padding-bottom: var(--space-xs);
+        }
+
+        .feed-tab {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-card);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .feed-tab:hover { border-color: var(--whiskey); }
+        .feed-tab.active {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            border-color: var(--whiskey);
+        }
+
+        .feed-tab--locked { opacity: 0.6; }
+
+        /* Posts */
+        .post {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        .post--pinned {
+            border-color: var(--whiskey);
+        }
+
+        .post__pin {
+            font-size: 0.75rem;
+            color: var(--whiskey);
+            margin-bottom: var(--space-sm);
+        }
+
+        .post__header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .post__avatar {
+            position: relative;
+        }
+
+        .post__avatar img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .verified-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            border: 2px solid var(--bg-card);
+        }
+
+        .post__meta {
+            flex: 1;
+        }
+
+        .post__meta strong {
+            display: block;
+        }
+
+        .post__handle, .post__time {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .vip-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--whiskey), var(--rust));
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-left: var(--space-sm);
+        }
+
+        .post__content {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+        }
+
+        .post__content p { margin-bottom: var(--space-sm); }
+
+        .post__media .post__image-placeholder {
+            background: rgba(198, 142, 63, 0.1);
+            border-radius: var(--radius-md);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
+        }
+
+        .post__actions {
+            display: flex;
+            gap: var(--space-xl);
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .post__action {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .post__action:hover { color: var(--whiskey); }
+
+        /* Locked Post */
+        .post--locked {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post__content--blurred {
+            filter: blur(8px);
+            user-select: none;
+        }
+
+        .post__locked-overlay {
+            position: absolute;
+            inset: 60px 0 0 0;
+            background: linear-gradient(to bottom, transparent, rgba(13, 11, 9, 0.95) 30%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .locked-content {
+            text-align: center;
+            padding: var(--space-xl);
+        }
+
+        .lock-icon-large {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: var(--space-md);
+        }
+
+        .locked-content h3 {
+            margin-bottom: var(--space-sm);
+        }
+
+        .locked-content p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Poll */
+        .post__poll {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .poll__option {
+            position: relative;
+            padding: var(--space-md);
+            background: rgba(198, 142, 63, 0.1);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .poll__bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(198, 142, 63, 0.3);
+            z-index: 0;
+        }
+
+        .poll__option span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .poll__percent {
+            position: absolute;
+            right: var(--space-md);
+            color: var(--whiskey);
+            font-weight: 600;
+        }
+
+        /* Feed Load More */
+        .feed__load-more {
+            text-align: center;
+            padding: var(--space-xl);
+        }
+
+        /* Right Sidebar */
+        .sidebar-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .sidebar-card h3 {
+            font-size: 1rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .follow-suggestion {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .follow-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .follow-info {
+            flex: 1;
+        }
+
+        .follow-info strong { display: block; font-size: 0.875rem; }
+        .follow-info span { color: var(--text-muted); font-size: 0.75rem; }
+
+        .trending-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .trending-item:last-child { border-bottom: none; }
+
+        .trending-tag { color: var(--whiskey); font-weight: 600; }
+        .trending-count { color: var(--text-muted); font-size: 0.875rem; }
+
+        .sidebar-card--cta {
+            background: linear-gradient(135deg, rgba(198, 142, 63, 0.2), rgba(164, 74, 42, 0.2));
+            border-color: var(--whiskey);
+        }
+
+        .sidebar-card--cta p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: var(--space-md);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+        }
+
+        .modal.active { display: flex; }
+
+        .modal__backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal__content {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            max-width: 420px;
+            width: 100%;
+            border: 1px solid rgba(198, 142, 63, 0.2);
+        }
+
+        .modal__close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal__tabs {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-xl);
+            background: var(--bg-secondary);
+            padding: var(--space-xs);
+            border-radius: var(--radius-md);
+        }
+
+        .modal__tab {
+            flex: 1;
+            padding: var(--space-sm);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal__tab.active {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+        }
+
+        .modal__form {
+            display: none;
+        }
+
+        .modal__form.active {
+            display: block;
+        }
+
+        .modal__form h2 {
+            text-align: center;
+            margin-bottom: var(--space-xs);
+        }
+
+        .modal__subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+
+        .modal__note {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: var(--space-md);
+        }
+
+        .modal__forgot {
+            display: block;
+            text-align: center;
+            margin-top: var(--space-md);
+            color: var(--whiskey);
+            font-size: 0.875rem;
+        }
+
+        .vip-benefits {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-lg) 0;
+        }
+
+        .vip-benefits li {
+            padding: var(--space-sm) 0;
+            color: var(--text-secondary);
+        }
+
+        /* Verification Modal */
+        .verify-content {
+            text-align: center;
+        }
+
+        .verify-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .verify-code-input {
+            display: flex;
+            gap: var(--space-sm);
+            justify-content: center;
+            margin: var(--space-xl) 0;
+        }
+
+        .code-digit {
+            width: 45px;
+            height: 55px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--bg-secondary);
+            border: 2px solid rgba(198, 142, 63, 0.3);
+            border-radius: var(--radius-md);
+            color: var(--whiskey);
+        }
+
+        .code-digit:focus {
+            border-color: var(--whiskey);
+            outline: none;
+        }
+
+        /* Nav Auth */
+        .nav__auth {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        .user-greeting {
+            color: var(--whiskey);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav__auth { display: none; }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Post action buttons */
+        .post__pin-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 var(--space-xs);
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .post__pin-btn:hover {
+            opacity: 1;
+        }
+
+        /* Delete buttons */
+        .post__delete {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 var(--space-sm);
+            opacity: 0.5;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        .post__delete:hover {
+            opacity: 1;
+            color: #ef4444;
+        }
+
+        /* Liked state */
+        .post__action--liked {
+            color: #ef4444 !important;
+        }
+        .post__action--liked svg {
+            fill: #ef4444;
+            stroke: #ef4444;
+        }
+
+        /* Comments section */
+        .post__comments {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .comments-list {
+            margin-bottom: var(--space-md);
+        }
+
+        .comments-loading, .comments-error, .no-comments {
+            text-align: center;
+            color: var(--text-muted);
+            padding: var(--space-md);
+            font-size: 0.875rem;
+        }
+
+        .comment {
+            display: flex;
+            gap: var(--space-sm);
+            padding: var(--space-sm) 0;
+            position: relative;
+        }
+
+        .comment__avatar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment__body {
+            flex: 1;
+            background: var(--bg-secondary);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+        }
+
+        .comment__body strong {
+            color: var(--whiskey);
+            font-size: 0.875rem;
+        }
+
+        .comment__time {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-left: var(--space-sm);
+        }
+
+        .comment__body p {
+            margin: var(--space-xs) 0 0;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .comment__delete {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .comment:hover .comment__delete {
+            opacity: 0.5;
+        }
+
+        .comment__delete:hover {
+            opacity: 1;
+            color: #ef4444;
+        }
+
+        /* Comment form */
+        .comment-form {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        .comment-input {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.2);
+            border-radius: var(--radius-full);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--whiskey);
+        }
+
+        /* Post composer actions */
+        .post-composer__actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: var(--space-sm);
+        }
+
+        /* Logged in status */
+        .logged-in-status {
+            text-align: center;
+        }
+
+        .logged-in-status p {
+            margin-bottom: var(--space-xs);
+        }
+
+        .tier-badge {
+            display: inline-block;
+            background: rgba(198, 142, 63, 0.2);
+            color: var(--whiskey);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        /* Post composer avatar when logged in */
+        .post-composer__avatar img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* VIP post styling */
+        .post--vip {
+            border-color: rgba(198, 142, 63, 0.3);
+            background: linear-gradient(135deg, var(--bg-card), rgba(198, 142, 63, 0.05));
+        }
+
+        /* World Sections */
+        .world-section {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-header {
+            text-align: center;
+            padding: var(--space-xl) 0;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Explore Section */
+        .explore-search {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .explore-search .form__input {
+            flex: 1;
+        }
+
+        .explore-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .explore-section h3 {
+            margin-bottom: var(--space-md);
+            color: var(--whiskey);
+        }
+
+        .trending-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+        }
+
+        .trending-hashtag {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(198, 142, 63, 0.1);
+            border-radius: var(--radius-full);
+            color: var(--whiskey);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .trending-hashtag:hover {
+            background: rgba(198, 142, 63, 0.2);
+        }
+
+        .suggested-user {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .suggested-user:last-child {
+            border-bottom: none;
+        }
+
+        .suggested-user__avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .suggested-user__info {
+            flex: 1;
+        }
+
+        .suggested-user__info strong {
+            display: block;
+        }
+
+        .suggested-user__info span {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .suggested-user__bio {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: var(--space-xs);
+        }
+
+        .explore-post-preview {
+            padding: var(--space-md);
+            border-bottom: 1px solid rgba(198, 142, 63, 0.1);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .explore-post-preview:hover {
+            background: rgba(198, 142, 63, 0.05);
+        }
+
+        .explore-post-preview:last-child {
+            border-bottom: none;
+        }
+
+        .explore-post-preview p {
+            color: var(--text-secondary);
+            margin: var(--space-xs) 0;
+        }
+
+        .post-stats {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .explore-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: var(--space-xl);
+        }
+
+        /* Live Section */
+        .no-live-stream {
+            text-align: center;
+            padding: var(--space-2xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .no-live-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .no-live-stream h3 {
+            margin-bottom: var(--space-sm);
+        }
+
+        .no-live-stream p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .upcoming-stream {
+            display: flex;
+            gap: var(--space-md);
+            padding: var(--space-md);
+        }
+
+        .stream-date {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .stream-day {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--whiskey);
+        }
+
+        .stream-info strong {
+            display: block;
+            margin-bottom: var(--space-xs);
+        }
+
+        .stream-info p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Friends Section */
+        .friends-tabs {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-lg);
+            background: var(--bg-card);
+            padding: var(--space-xs);
+            border-radius: var(--radius-md);
+        }
+
+        .friends-tab {
+            flex: 1;
+            padding: var(--space-sm) var(--space-md);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .friends-tab.active {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+        }
+
+        .friends-list {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            padding: var(--space-lg);
+        }
+
+        .friend-item, .friend-request {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .friend-item:last-child, .friend-request:last-child {
+            border-bottom: none;
+        }
+
+        .friend-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-info strong {
+            display: block;
+        }
+
+        .friend-info span {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Messages Section */
+        .messages-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+        }
+
+        .conversations-list {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            padding: var(--space-md);
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .conversation-item:hover {
+            background: rgba(198, 142, 63, 0.1);
+        }
+
+        .conversation-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .conversation-info {
+            flex: 1;
+        }
+
+        .conversation-info strong {
+            display: block;
+        }
+
+        .conversation-info p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .unread-badge {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .chat-window {
+            flex-direction: column;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.1);
+            height: 500px;
+        }
+
+        .chat-header {
+            padding: var(--space-md) var(--space-lg);
+            border-bottom: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: var(--space-md);
+            overflow-y: auto;
+        }
+
+        .chat-message {
+            max-width: 70%;
+            margin-bottom: var(--space-md);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-lg);
+        }
+
+        .chat-message--sent {
+            margin-left: auto;
+            background: var(--whiskey);
+            color: var(--bg-primary);
+        }
+
+        .chat-message--received {
+            background: var(--bg-secondary);
+        }
+
+        .message-time {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: var(--space-xs);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            border-top: 1px solid rgba(198, 142, 63, 0.1);
+        }
+
+        .chat-input .form__input {
+            flex: 1;
+        }
+
+        /* Vault Section */
+        .vault-locked {
+            text-align: center;
+            padding: var(--space-2xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(198, 142, 63, 0.2);
+            background: linear-gradient(135deg, rgba(198, 142, 63, 0.1), rgba(164, 74, 42, 0.1));
+        }
+
+        .vault-icon {
+            font-size: 5rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .vault-locked h3 {
+            margin-bottom: var(--space-sm);
+        }
+
+        .vault-locked p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+    </style>
+</body>
+</html>

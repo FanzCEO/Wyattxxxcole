@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Manager - Admin</title>
+    <link rel="stylesheet" href="../css/styles.css?v=6">
+    <style>
+        :root {
+            --cream: #F5EDE4;
+            --whiskey: #C68E3F;
+            --rust: #A44A2A;
+            --bg-primary: #0D0B09;
+            --bg-secondary: #1A1612;
+            --text-secondary: #B8A99A;
+            --success: #4ade80;
+            --error: #f87171;
+            --warning: #facc15;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--cream);
+            font-family: 'Source Sans Pro', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.3);
+        }
+
+        .admin-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .admin-header a {
+            color: var(--whiskey);
+            text-decoration: none;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 1rem;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--whiskey);
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--whiskey), var(--rust));
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(198, 142, 63, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--whiskey);
+            color: var(--whiskey);
+        }
+
+        .btn-secondary:hover {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .pages-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .page-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 1.5rem;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .page-card:hover {
+            border-color: var(--whiskey);
+        }
+
+        .page-card.disabled {
+            opacity: 0.5;
+        }
+
+        .page-card.hidden-page {
+            border-left: 4px solid var(--warning);
+        }
+
+        .page-status {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-toggle {
+            width: 50px;
+            height: 26px;
+            background: #333;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .status-toggle.active {
+            background: var(--success);
+        }
+
+        .status-toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .status-toggle.active::after {
+            transform: translateX(24px);
+        }
+
+        .status-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .page-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--cream);
+            margin: 0;
+        }
+
+        .page-url {
+            font-size: 0.875rem;
+            color: var(--whiskey);
+            text-decoration: none;
+        }
+
+        .page-url:hover {
+            text-decoration: underline;
+        }
+
+        .page-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .page-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-nav { background: rgba(198, 142, 63, 0.2); color: var(--whiskey); }
+        .badge-footer { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+        .badge-hidden { background: rgba(250, 204, 21, 0.2); color: var(--warning); }
+        .badge-system { background: rgba(96, 165, 250, 0.2); color: #60a5fa; }
+
+        .page-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            background: transparent;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            border-color: var(--whiskey);
+            color: var(--whiskey);
+        }
+
+        .action-btn.delete:hover {
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--cream);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--whiskey);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(198, 142, 63, 0.3);
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid rgba(198, 142, 63, 0.3);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--whiskey);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .page-status {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .page-actions {
+                justify-content: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Page Manager</h1>
+            <a href="index.html">&larr; Back to Admin</a>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-value" id="totalPages">0</span>
+                <span class="stat-label">Total Pages</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="activePages">0</span>
+                <span class="stat-label">Active</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="hiddenPages">0</span>
+                <span class="stat-label">Hidden</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="disabledPages">0</span>
+                <span class="stat-label">Disabled</span>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input type="text" class="search-box" id="searchPages" placeholder="Search pages...">
+            <select class="filter-select" id="filterStatus">
+                <option value="all">All Pages</option>
+                <option value="active">Active Only</option>
+                <option value="hidden">Hidden Only</option>
+                <option value="disabled">Disabled Only</option>
+                <option value="nav">In Navigation</option>
+                <option value="footer">In Footer</option>
+            </select>
+            <button class="btn btn-primary" onclick="openCreateModal()">
+                + Create Page
+            </button>
+            <button class="btn btn-secondary" onclick="exportPages()">
+                Export
+            </button>
+            <button class="btn btn-secondary" onclick="resetToDefaults()" style="border-color: var(--error); color: var(--error);">
+                Reset All
+            </button>
+        </div>
+
+        <div class="pages-grid" id="pagesGrid">
+            <!-- Pages will be rendered here -->
+        </div>
+    </div>
+
+    <!-- Create/Edit Modal -->
+    <div class="modal-overlay" id="pageModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create New Page</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="pageForm" onsubmit="savePage(event)">
+                <input type="hidden" id="pageId">
+
+                <div class="form-group">
+                    <label>Page Title *</label>
+                    <input type="text" id="pageTitle" required placeholder="e.g., About Me">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>URL Slug *</label>
+                        <input type="text" id="pageSlug" required placeholder="e.g., about">
+                    </div>
+                    <div class="form-group">
+                        <label>Page Type</label>
+                        <select id="pageType">
+                            <option value="content">Content Page</option>
+                            <option value="gallery">Gallery</option>
+                            <option value="contact">Contact</option>
+                            <option value="shop">Shop</option>
+                            <option value="links">Link Tree</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Meta Description</label>
+                    <textarea id="pageDescription" placeholder="SEO description for this page..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Navigation Order</label>
+                        <input type="number" id="pageOrder" value="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Icon (optional)</label>
+                        <input type="text" id="pageIcon" placeholder="e.g., camera, heart, star">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Visibility & Display</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pageEnabled" checked>
+                            <span>Enabled (page is accessible)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pageInNav">
+                            <span>Show in Navigation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pageInFooter">
+                            <span>Show in Footer</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pageHidden">
+                            <span>Hidden (unlisted but accessible)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="pageRequiresAuth">
+                            <span>Requires Login</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Custom CSS Class (optional)</label>
+                    <input type="text" id="pageClass" placeholder="e.g., dark-theme special-layout">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Page</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Page data storage
+        const STORAGE_KEY = 'wyatt_pages_config';
+
+        // Default pages (these exist on the site)
+        const DEFAULT_PAGES = [
+            // Main Pages
+            {
+                id: 'home',
+                title: 'Home',
+                slug: '',
+                file: 'index.html',
+                type: 'content',
+                description: 'Welcome to Wyatt XXX Cole - Country Bred. Fully Loaded.',
+                enabled: true,
+                inNav: true,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 0,
+                isSystem: true
+            },
+            {
+                id: 'gallery',
+                title: 'Gallery',
+                slug: 'gallery',
+                file: 'gallery.html',
+                type: 'gallery',
+                description: 'Photo and video gallery',
+                enabled: true,
+                inNav: true,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 1,
+                isSystem: false
+            },
+            {
+                id: 'shop',
+                title: 'Shop',
+                slug: 'shop',
+                file: 'shop.html',
+                type: 'shop',
+                description: 'Official merchandise and products',
+                enabled: true,
+                inNav: true,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 2,
+                isSystem: false
+            },
+            {
+                id: 'merch',
+                title: 'Merch',
+                slug: 'merch',
+                file: 'merch.html',
+                type: 'shop',
+                description: 'Official merchandise',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 3,
+                isSystem: false
+            },
+            {
+                id: 'links',
+                title: 'Links',
+                slug: 'links',
+                file: 'links.html',
+                type: 'links',
+                description: 'All my links in one place',
+                enabled: true,
+                inNav: true,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 4,
+                isSystem: false
+            },
+            {
+                id: 'contact',
+                title: 'Contact',
+                slug: 'contact',
+                file: 'contact.html',
+                type: 'contact',
+                description: 'Get in touch',
+                enabled: true,
+                inNav: true,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 5,
+                isSystem: false
+            },
+            {
+                id: 'booking',
+                title: 'Book Me',
+                slug: 'booking',
+                file: 'booking.html',
+                type: 'contact',
+                description: 'Book a session or collaboration',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 6,
+                isSystem: false
+            },
+            {
+                id: 'schedule',
+                title: 'Schedule',
+                slug: 'schedule',
+                file: 'schedule.html',
+                type: 'content',
+                description: 'Upcoming schedule and availability',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 7,
+                isSystem: false
+            },
+            {
+                id: 'portfolio',
+                title: 'Portfolio',
+                slug: 'portfolio',
+                file: 'portfolio.html',
+                type: 'gallery',
+                description: 'Professional portfolio',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 8,
+                isSystem: false
+            },
+            {
+                id: 'epk',
+                title: 'EPK',
+                slug: 'epk',
+                file: 'epk.html',
+                type: 'content',
+                description: 'Electronic Press Kit',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 9,
+                isSystem: false
+            },
+            {
+                id: 'studios',
+                title: 'Studios',
+                slug: 'studios',
+                file: 'studios.html',
+                type: 'content',
+                description: 'Studio information',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 10,
+                isSystem: false
+            },
+            {
+                id: 'community',
+                title: 'Community',
+                slug: 'community',
+                file: 'community.html',
+                type: 'content',
+                description: 'Community and fan engagement',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 11,
+                isSystem: false
+            },
+            {
+                id: 'subscribe',
+                title: 'Subscribe',
+                slug: 'subscribe',
+                file: 'subscribe.html',
+                type: 'content',
+                description: 'Newsletter and subscription signup',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 12,
+                isSystem: false
+            },
+            {
+                id: 'world',
+                title: 'World',
+                slug: 'world',
+                file: 'world.html',
+                type: 'content',
+                description: 'Interactive world map',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: false,
+                requiresAuth: false,
+                order: 13,
+                isSystem: false
+            },
+            {
+                id: 'verify',
+                title: 'Verify',
+                slug: 'verify',
+                file: 'verify.html',
+                type: 'content',
+                description: 'Age verification page',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: true,
+                requiresAuth: false,
+                order: 14,
+                isSystem: true
+            },
+            // Policy Pages
+            {
+                id: 'privacy',
+                title: 'Privacy Policy',
+                slug: 'privacy',
+                file: 'privacy.html',
+                type: 'content',
+                description: 'Privacy policy and data handling',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 100,
+                isSystem: true
+            },
+            {
+                id: 'terms',
+                title: 'Terms of Service',
+                slug: 'terms',
+                file: 'terms.html',
+                type: 'content',
+                description: 'Terms and conditions',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 101,
+                isSystem: true
+            },
+            {
+                id: 'dmca',
+                title: 'DMCA',
+                slug: 'dmca',
+                file: 'dmca.html',
+                type: 'content',
+                description: 'DMCA takedown policy',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 102,
+                isSystem: true
+            },
+            {
+                id: '2257',
+                title: '2257 Compliance',
+                slug: '2257',
+                file: '2257.html',
+                type: 'content',
+                description: '18 U.S.C. 2257 Record-Keeping Requirements',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 103,
+                isSystem: true
+            },
+            {
+                id: 'shipping',
+                title: 'Shipping Policy',
+                slug: 'shipping',
+                file: 'shipping.html',
+                type: 'content',
+                description: 'Shipping information and policies',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 104,
+                isSystem: true
+            },
+            {
+                id: 'returns',
+                title: 'Returns Policy',
+                slug: 'returns',
+                file: 'returns.html',
+                type: 'content',
+                description: 'Return and refund policy',
+                enabled: true,
+                inNav: false,
+                inFooter: true,
+                hidden: false,
+                requiresAuth: false,
+                order: 105,
+                isSystem: true
+            },
+            // System Pages
+            {
+                id: '404',
+                title: '404 Error',
+                slug: '404',
+                file: '404.html',
+                type: 'content',
+                description: 'Page not found error page',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: true,
+                requiresAuth: false,
+                order: 200,
+                isSystem: true
+            },
+            {
+                id: 'offline',
+                title: 'Offline',
+                slug: 'offline',
+                file: 'offline.html',
+                type: 'content',
+                description: 'Offline fallback page',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: true,
+                requiresAuth: false,
+                order: 201,
+                isSystem: true
+            },
+            {
+                id: 'vendor-dashboard',
+                title: 'Vendor Dashboard',
+                slug: 'vendor-dashboard',
+                file: 'vendor-dashboard.html',
+                type: 'custom',
+                description: 'Vendor/partner dashboard',
+                enabled: true,
+                inNav: false,
+                inFooter: false,
+                hidden: true,
+                requiresAuth: true,
+                order: 202,
+                isSystem: false
+            }
+        ];
+
+        let pages = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPages();
+            renderPages();
+            updateStats();
+
+            // Auto-generate slug from title
+            document.getElementById('pageTitle').addEventListener('input', (e) => {
+                const slugField = document.getElementById('pageSlug');
+                if (!slugField.dataset.manual) {
+                    slugField.value = generateSlug(e.target.value);
+                }
+            });
+
+            document.getElementById('pageSlug').addEventListener('input', () => {
+                document.getElementById('pageSlug').dataset.manual = 'true';
+            });
+
+            // Search functionality
+            document.getElementById('searchPages').addEventListener('input', renderPages);
+            document.getElementById('filterStatus').addEventListener('change', renderPages);
+        });
+
+        // Load pages from storage
+        function loadPages() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                pages = JSON.parse(saved);
+            } else {
+                pages = [...DEFAULT_PAGES];
+                savePages();
+            }
+        }
+
+        // Save pages to storage
+        function savePages() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(pages));
+            // Also save to a JSON file for server-side use
+            saveToServer();
+        }
+
+        // Save to server via API
+        async function saveToServer() {
+            try {
+                const response = await fetch('../api/pages.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pages })
+                });
+                if (!response.ok) {
+                    console.warn('Failed to save to server, using localStorage only');
+                }
+            } catch (e) {
+                console.warn('Server save failed:', e);
+            }
+        }
+
+        // Generate URL slug
+        function generateSlug(text) {
+            return text
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
+        // Render pages list
+        function renderPages() {
+            const grid = document.getElementById('pagesGrid');
+            const search = document.getElementById('searchPages').value.toLowerCase();
+            const filter = document.getElementById('filterStatus').value;
+
+            let filtered = pages.filter(page => {
+                // Search filter
+                if (search && !page.title.toLowerCase().includes(search) &&
+                    !page.slug.toLowerCase().includes(search)) {
+                    return false;
+                }
+
+                // Status filter
+                switch (filter) {
+                    case 'active': return page.enabled && !page.hidden;
+                    case 'hidden': return page.hidden;
+                    case 'disabled': return !page.enabled;
+                    case 'nav': return page.inNav;
+                    case 'footer': return page.inFooter;
+                    default: return true;
+                }
+            });
+
+            // Sort by order
+            filtered.sort((a, b) => a.order - b.order);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No pages found</h3>
+                        <p>Try adjusting your search or filter, or create a new page.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(page => `
+                <div class="page-card ${page.enabled ? '' : 'disabled'} ${page.hidden ? 'hidden-page' : ''}">
+                    <div class="page-status">
+                        <div class="status-toggle ${page.enabled ? 'active' : ''}"
+                             onclick="togglePage('${page.id}')"
+                             title="${page.enabled ? 'Click to disable' : 'Click to enable'}">
+                        </div>
+                        <span class="status-label">${page.enabled ? 'ON' : 'OFF'}</span>
+                    </div>
+
+                    <div class="page-info">
+                        <h3 class="page-title">${page.title}</h3>
+                        <a href="../${page.slug || 'index'}.html" target="_blank" class="page-url">
+                            /${page.slug || ''}
+                        </a>
+                        <div class="page-meta">
+                            <span>Type: ${page.type}</span>
+                            <span>Order: ${page.order}</span>
+                        </div>
+                    </div>
+
+                    <div class="page-badges">
+                        ${page.inNav ? '<span class="badge badge-nav">Nav</span>' : ''}
+                        ${page.inFooter ? '<span class="badge badge-footer">Footer</span>' : ''}
+                        ${page.hidden ? '<span class="badge badge-hidden">Hidden</span>' : ''}
+                        ${page.isSystem ? '<span class="badge badge-system">System</span>' : ''}
+                    </div>
+
+                    <div class="page-actions">
+                        <button class="action-btn" onclick="editPage('${page.id}')" title="Edit">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                        <button class="action-btn" onclick="duplicatePage('${page.id}')" title="Duplicate">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <button class="action-btn" onclick="toggleNavigation('${page.id}')" title="Toggle Navigation">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <line x1="3" y1="12" x2="21" y2="12"></line>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <line x1="3" y1="18" x2="21" y2="18"></line>
+                            </svg>
+                        </button>
+                        <button class="action-btn" onclick="toggleHidden('${page.id}')" title="Toggle Hidden">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                ${page.hidden ?
+                                    '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>' :
+                                    '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'
+                                }
+                            </svg>
+                        </button>
+                        ${!page.isSystem ? `
+                            <button class="action-btn delete" onclick="deletePage('${page.id}')" title="Delete">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            updateStats();
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('totalPages').textContent = pages.length;
+            document.getElementById('activePages').textContent = pages.filter(p => p.enabled && !p.hidden).length;
+            document.getElementById('hiddenPages').textContent = pages.filter(p => p.hidden).length;
+            document.getElementById('disabledPages').textContent = pages.filter(p => !p.enabled).length;
+        }
+
+        // Toggle page enabled/disabled
+        function togglePage(id) {
+            const page = pages.find(p => p.id === id);
+            if (page) {
+                page.enabled = !page.enabled;
+                savePages();
+                renderPages();
+            }
+        }
+
+        // Toggle navigation visibility
+        function toggleNavigation(id) {
+            const page = pages.find(p => p.id === id);
+            if (page) {
+                page.inNav = !page.inNav;
+                savePages();
+                renderPages();
+            }
+        }
+
+        // Toggle hidden status
+        function toggleHidden(id) {
+            const page = pages.find(p => p.id === id);
+            if (page) {
+                page.hidden = !page.hidden;
+                savePages();
+                renderPages();
+            }
+        }
+
+        // Open create modal
+        function openCreateModal() {
+            document.getElementById('modalTitle').textContent = 'Create New Page';
+            document.getElementById('pageForm').reset();
+            document.getElementById('pageId').value = '';
+            document.getElementById('pageEnabled').checked = true;
+            document.getElementById('pageSlug').dataset.manual = '';
+            document.getElementById('pageModal').classList.add('active');
+        }
+
+        // Edit page
+        function editPage(id) {
+            const page = pages.find(p => p.id === id);
+            if (!page) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Page';
+            document.getElementById('pageId').value = page.id;
+            document.getElementById('pageTitle').value = page.title;
+            document.getElementById('pageSlug').value = page.slug;
+            document.getElementById('pageSlug').dataset.manual = 'true';
+            document.getElementById('pageType').value = page.type;
+            document.getElementById('pageDescription').value = page.description || '';
+            document.getElementById('pageOrder').value = page.order;
+            document.getElementById('pageIcon').value = page.icon || '';
+            document.getElementById('pageEnabled').checked = page.enabled;
+            document.getElementById('pageInNav').checked = page.inNav;
+            document.getElementById('pageInFooter').checked = page.inFooter;
+            document.getElementById('pageHidden').checked = page.hidden;
+            document.getElementById('pageRequiresAuth').checked = page.requiresAuth;
+            document.getElementById('pageClass').value = page.customClass || '';
+
+            document.getElementById('pageModal').classList.add('active');
+        }
+
+        // Duplicate page
+        function duplicatePage(id) {
+            const page = pages.find(p => p.id === id);
+            if (!page) return;
+
+            const newPage = {
+                ...page,
+                id: 'page_' + Date.now(),
+                title: page.title + ' (Copy)',
+                slug: page.slug + '-copy',
+                isSystem: false
+            };
+
+            pages.push(newPage);
+            savePages();
+            renderPages();
+        }
+
+        // Delete page
+        function deletePage(id) {
+            const page = pages.find(p => p.id === id);
+            if (!page || page.isSystem) return;
+
+            if (confirm(`Are you sure you want to delete "${page.title}"? This cannot be undone.`)) {
+                pages = pages.filter(p => p.id !== id);
+                savePages();
+                renderPages();
+            }
+        }
+
+        // Save page
+        function savePage(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('pageId').value || 'page_' + Date.now();
+            const isNew = !document.getElementById('pageId').value;
+
+            const pageData = {
+                id,
+                title: document.getElementById('pageTitle').value,
+                slug: document.getElementById('pageSlug').value,
+                file: document.getElementById('pageSlug').value + '.html',
+                type: document.getElementById('pageType').value,
+                description: document.getElementById('pageDescription').value,
+                order: parseInt(document.getElementById('pageOrder').value) || 0,
+                icon: document.getElementById('pageIcon').value,
+                enabled: document.getElementById('pageEnabled').checked,
+                inNav: document.getElementById('pageInNav').checked,
+                inFooter: document.getElementById('pageInFooter').checked,
+                hidden: document.getElementById('pageHidden').checked,
+                requiresAuth: document.getElementById('pageRequiresAuth').checked,
+                customClass: document.getElementById('pageClass').value,
+                isSystem: false
+            };
+
+            if (isNew) {
+                pages.push(pageData);
+            } else {
+                const index = pages.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    pageData.isSystem = pages[index].isSystem;
+                    pages[index] = pageData;
+                }
+            }
+
+            savePages();
+            closeModal();
+            renderPages();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('pageModal').classList.remove('active');
+        }
+
+        // Export pages config
+        function exportPages() {
+            const dataStr = JSON.stringify(pages, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pages-config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Reset to default pages
+        function resetToDefaults() {
+            if (confirm('This will reset all pages to their default settings. Any custom pages you created will be lost. Continue?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                pages = [...DEFAULT_PAGES];
+                savePages();
+                renderPages();
+                alert('Pages reset to defaults!');
+            }
+        }
+
+        // Close modal on overlay click
+        document.getElementById('pageModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('pageModal')) {
+                closeModal();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'n' && e.ctrlKey) {
+                e.preventDefault();
+                openCreateModal();
+            }
+        });
+    </script>
+</body>
+</html>

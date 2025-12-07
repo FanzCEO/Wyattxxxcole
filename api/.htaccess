@@ -1,0 +1,41 @@
+# WYATT XXX COLE - API Security Configuration
+
+# Protect sensitive files (JSON data, logs, env files)
+<FilesMatch "\.(json|log|env|bak|old|tmp)$|^\.admin_token$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory listing
+Options -Indexes
+
+# Allow only specific PHP files (upload.php, world.php, contact.php)
+<FilesMatch "^(?!upload\.php$|world\.php$|contact\.php$).*\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect security subdirectory completely
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^security/ - [F,L]
+</IfModule>
+
+# Limit request methods to prevent attacks
+<LimitExcept GET POST OPTIONS>
+    Order Deny,Allow
+    Deny from all
+</LimitExcept>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent PHP execution in uploads folder
+<IfModule mod_rewrite.c>
+    RewriteRule ^uploads/.*\.php$ - [F,L]
+</IfModule>

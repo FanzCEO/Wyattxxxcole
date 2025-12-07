@@ -1,0 +1,28 @@
+# robots.txt for wyattxxxcole.com
+# Updated: 2024-12-07
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /backend/
+Disallow: /admin.html
+Disallow: /*.php$
+Disallow: /offline.html
+Disallow: /404.html
+
+# Sitemap
+Sitemap: https://wyattxxxcole.com/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

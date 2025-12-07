@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoyFanz Sync - Admin</title>
+    <link rel="stylesheet" href="../css/styles.css?v=6">
+    <style>
+        :root {
+            --cream: #F5EDE4;
+            --whiskey: #C68E3F;
+            --rust: #A44A2A;
+            --bg-primary: #0D0B09;
+            --bg-secondary: #1A1612;
+            --text-secondary: #B8A99A;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--cream);
+            font-family: 'Source Sans Pro', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(198, 142, 63, 0.3);
+        }
+
+        .admin-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .admin-header a {
+            color: var(--whiskey);
+            text-decoration: none;
+        }
+
+        .sync-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sync-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .sync-card__title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin: 0 0 1rem 0;
+            color: var(--whiskey);
+        }
+
+        .sync-card__content {
+            color: var(--text-secondary);
+        }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sync-status__dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #666;
+        }
+
+        .sync-status__dot.connected { background: #4ade80; }
+        .sync-status__dot.error { background: #f87171; }
+        .sync-status__dot.pending { background: #facc15; }
+
+        .sync-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .sync-stat {
+            background: rgba(198, 142, 63, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .sync-stat__value {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--cream);
+        }
+
+        .sync-stat__label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--whiskey), var(--rust));
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(198, 142, 63, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--whiskey);
+            color: var(--whiskey);
+        }
+
+        .btn-secondary:hover {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .sync-log {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+        }
+
+        .sync-log .success { color: #4ade80; }
+        .sync-log .error { color: #f87171; }
+        .sync-log .info { color: #60a5fa; }
+        .sync-log .warning { color: #facc15; }
+
+        .config-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--cream);
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border: 1px solid rgba(198, 142, 63, 0.3);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--whiskey);
+        }
+
+        .preview-widget {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .last-sync {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>BoyFanz Sync</h1>
+            <a href="index.html">&larr; Back to Admin</a>
+        </header>
+
+        <div class="sync-grid">
+            <!-- Connection Status -->
+            <div class="sync-card">
+                <h2 class="sync-card__title">Connection Status</h2>
+                <div class="sync-card__content">
+                    <div class="sync-status">
+                        <span class="sync-status__dot" id="statusDot"></span>
+                        <span id="statusText">Checking...</span>
+                    </div>
+                    <p><strong>Source:</strong> boyfanz.com/wyatt_xxx_cole</p>
+                    <p><strong>Target:</strong> wyattxxxcole.com</p>
+                    <p class="last-sync" id="lastSync">Last sync: Never</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" id="syncNowBtn" onclick="triggerSync()">
+                        Sync Now
+                    </button>
+                    <button class="btn btn-secondary" onclick="checkConnection()">
+                        Test Connection
+                    </button>
+                </div>
+            </div>
+
+            <!-- Widget Customization -->
+            <div class="sync-card">
+                <h2 class="sync-card__title">Widget Customization</h2>
+                <form class="config-form" onsubmit="saveWidgetConfig(event)">
+                    <div class="form-group">
+                        <label>Profile Image URL</label>
+                        <input type="text" id="widgetProfileImage" placeholder="images/logo.png or full URL">
+                    </div>
+                    <div class="form-group">
+                        <label>BoyFanz Logo URL (optional - overlays on image)</label>
+                        <input type="text" id="widgetLogoImage" placeholder="Leave empty for no logo overlay">
+                    </div>
+                    <div class="form-group">
+                        <label>Button Text</label>
+                        <input type="text" id="widgetButtonText" value="Subscribe Now">
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Link URL</label>
+                        <input type="text" id="widgetProfileUrl" value="https://boyfanz.com/wyatt_xxx_cole">
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">Save & Preview</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetWidgetConfig()">Reset to Default</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Widget Preview -->
+            <div class="sync-card">
+                <h2 class="sync-card__title">Widget Preview</h2>
+                <div class="preview-widget">
+                    <div id="boyfanz-widget"></div>
+                </div>
+                <div class="actions" style="margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="copyWidgetCode()">
+                        Copy Embed Code
+                    </button>
+                </div>
+            </div>
+
+            <!-- API Configuration -->
+            <div class="sync-card">
+                <h2 class="sync-card__title">API Configuration</h2>
+                <form class="config-form" onsubmit="saveConfig(event)">
+                    <div class="form-group">
+                        <label>BoyFanz Username</label>
+                        <input type="text" id="configUsername" value="wyatt_xxx_cole">
+                    </div>
+                    <div class="form-group">
+                        <label>API Token (if available)</label>
+                        <input type="password" id="configToken" placeholder="Optional - for authenticated API access">
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">Save API Config</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sync Log -->
+        <div class="sync-card">
+            <h2 class="sync-card__title">Sync Log</h2>
+            <div class="sync-log" id="syncLog">
+                Waiting for sync activity...
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/boyfanz-widget.js"></script>
+    <script>
+        const API_BASE = '../api/integrations/BoyFanzSync.php';
+        let syncLog = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkConnection();
+            loadSyncData();
+            loadWidgetConfig();
+            initWidget();
+        });
+
+        // Log helper
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            syncLog.unshift({ timestamp, message, type });
+            if (syncLog.length > 50) syncLog.pop();
+
+            const logEl = document.getElementById('syncLog');
+            logEl.innerHTML = syncLog.map(l =>
+                `<span class="${l.type}">[${l.timestamp}] ${l.message}</span>`
+            ).join('\n');
+        }
+
+        // Check connection
+        async function checkConnection() {
+            log('Checking connection to BoyFanz...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}?action=profile`);
+                const data = await response.json();
+
+                const dot = document.getElementById('statusDot');
+                const text = document.getElementById('statusText');
+
+                if (data.success && data.data) {
+                    dot.className = 'sync-status__dot connected';
+                    text.textContent = 'Connected';
+                    log('Connection successful!', 'success');
+                } else {
+                    dot.className = 'sync-status__dot error';
+                    text.textContent = 'Connection Failed';
+                    log('Connection failed: ' + (data.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                document.getElementById('statusDot').className = 'sync-status__dot error';
+                document.getElementById('statusText').textContent = 'Error';
+                log('Connection error: ' + error.message, 'error');
+            }
+        }
+
+        // Load sync data
+        async function loadSyncData() {
+            try {
+                const response = await fetch(`${API_BASE}?action=last-sync`);
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    const sync = data.data;
+
+                    // Update last sync time
+                    if (sync.synced_at) {
+                        const date = new Date(sync.synced_at);
+                        document.getElementById('lastSync').textContent =
+                            'Last sync: ' + date.toLocaleString();
+                    }
+                }
+            } catch (error) {
+                log('Failed to load sync data: ' + error.message, 'error');
+            }
+        }
+
+        // Trigger sync
+        async function triggerSync() {
+            const btn = document.getElementById('syncNowBtn');
+            btn.disabled = true;
+            btn.textContent = 'Syncing...';
+
+            log('Starting full sync...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}?action=sync`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    log('Sync completed successfully!', 'success');
+
+                    if (data.data.errors && data.data.errors.length > 0) {
+                        data.data.errors.forEach(err => log(err, 'warning'));
+                    }
+
+                    // Reload data
+                    await loadSyncData();
+                    await initWidget();
+                } else {
+                    log('Sync failed: ' + (data.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                log('Sync error: ' + error.message, 'error');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Sync Now';
+        }
+
+        // Initialize widget
+        async function initWidget() {
+            const widget = new BoyFanzWidget({
+                containerId: 'boyfanz-widget',
+                apiEndpoint: API_BASE
+            });
+            await widget.init();
+        }
+
+        // Save config
+        function saveConfig(e) {
+            e.preventDefault();
+
+            const config = {
+                username: document.getElementById('configUsername').value,
+                token: document.getElementById('configToken').value,
+                interval: document.getElementById('configInterval').value
+            };
+
+            // In a real implementation, this would save to server
+            localStorage.setItem('boyfanz_config', JSON.stringify(config));
+            log('Configuration saved!', 'success');
+            alert('Configuration saved!');
+        }
+
+        // Copy widget code
+        function copyWidgetCode() {
+            const code = `<!-- BoyFanz Widget -->
+<div id="boyfanz-widget"></div>
+<script src="/js/boyfanz-widget.js"><\/script>
+<script>
+    const widget = new BoyFanzWidget();
+    widget.init();
+<\/script>`;
+
+            navigator.clipboard.writeText(code).then(() => {
+                log('Widget embed code copied to clipboard', 'success');
+                alert('Widget code copied to clipboard!');
+            });
+        }
+
+        // Load widget config from localStorage
+        function loadWidgetConfig() {
+            const saved = localStorage.getItem('boyfanz_widget_config');
+            if (saved) {
+                const config = JSON.parse(saved);
+                document.getElementById('widgetProfileImage').value = config.profileImage || '';
+                document.getElementById('widgetLogoImage').value = config.logoImage || '';
+                document.getElementById('widgetButtonText').value = config.buttonText || 'Subscribe Now';
+                document.getElementById('widgetProfileUrl').value = config.profileUrl || 'https://boyfanz.com/wyatt_xxx_cole';
+            }
+        }
+
+        // Save widget config
+        function saveWidgetConfig(e) {
+            e.preventDefault();
+
+            const config = {
+                profileImage: document.getElementById('widgetProfileImage').value || 'images/logo.png',
+                logoImage: document.getElementById('widgetLogoImage').value || '',
+                buttonText: document.getElementById('widgetButtonText').value || 'Subscribe Now',
+                profileUrl: document.getElementById('widgetProfileUrl').value || 'https://boyfanz.com/wyatt_xxx_cole'
+            };
+
+            localStorage.setItem('boyfanz_widget_config', JSON.stringify(config));
+            log('Widget configuration saved!', 'success');
+
+            // Refresh the widget preview
+            initWidget();
+            alert('Widget configuration saved! Preview updated.');
+        }
+
+        // Reset widget config to defaults
+        function resetWidgetConfig() {
+            const defaults = {
+                profileImage: 'images/logo.png',
+                logoImage: '',
+                buttonText: 'Subscribe Now',
+                profileUrl: 'https://boyfanz.com/wyatt_xxx_cole'
+            };
+
+            document.getElementById('widgetProfileImage').value = defaults.profileImage;
+            document.getElementById('widgetLogoImage').value = defaults.logoImage;
+            document.getElementById('widgetButtonText').value = defaults.buttonText;
+            document.getElementById('widgetProfileUrl').value = defaults.profileUrl;
+
+            localStorage.setItem('boyfanz_widget_config', JSON.stringify(defaults));
+            log('Widget configuration reset to defaults', 'info');
+
+            // Refresh the widget preview
+            initWidget();
+            alert('Widget configuration reset to defaults!');
+        }
+
+        // Format number
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>WYATT XXX COLE | Country Bred. Fully Loaded.</title>
+    <meta name="title" content="WYATT XXX COLE | Country Bred. Fully Loaded.">
+    <meta name="description" content="WYATT XXX COLE - Country Bred. Fully Loaded. 132+ Five-Star Reviews. Custom content, live sessions, and exclusive southern charm from Nashville's favorite content creator.">
+    <meta name="keywords" content="wyatt xxx cole, adult content creator, custom videos, live sessions, boyfanz, pupfanz, southern adult content, custom adult videos, exclusive content">
+    <meta name="author" content="WYATT XXX COLE">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://wyattxxxcole.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wyattxxxcole.com/">
+    <meta property="og:title" content="WYATT XXX COLE | Country Bred. Fully Loaded.">
+    <meta property="og:description" content="WYATT XXX COLE - Country Bred. Fully Loaded. 132+ Five-Star Reviews. Custom content, live sessions, and exclusive southern charm.">
+    <meta property="og:image" content="https://wyattxxxcole.com/images/logo.png">
+    <meta property="og:site_name" content="WYATT XXX COLE">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://wyattxxxcole.com/">
+    <meta property="twitter:title" content="WYATT XXX COLE | Country Bred. Fully Loaded.">
+    <meta property="twitter:description" content="WYATT XXX COLE - Country Bred. Fully Loaded. 132+ Five-Star Reviews. Custom content, live sessions, and exclusive southern charm.">
+    <meta property="twitter:image" content="https://wyattxxxcole.com/images/logo.png">
+    <meta name="twitter:creator" content="@wyattxxxcole">
+
+    <!-- Favicon & PWA -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#C68E3F">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WXXXC">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css?v=6">
+    <link rel="stylesheet" href="css/effects.css?v=6">
+
+    <!-- Featured Carousel Styles -->
+    <style>
+        .featured-carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: var(--bg-primary);
+            display: none;
+            padding: 2rem 0;
+        }
+        .featured-carousel.active {
+            display: block;
+        }
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow: visible;
+            padding: 0 60px;
+        }
+        .carousel-viewport {
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        .carousel-slide {
+            min-width: 70%;
+            position: relative;
+            padding: 0 10px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.4;
+            transform: scale(0.85);
+            filter: brightness(0.5);
+        }
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: brightness(1);
+            z-index: 2;
+        }
+        .carousel-slide.prev,
+        .carousel-slide.next {
+            opacity: 0.6;
+            transform: scale(0.9);
+            filter: brightness(0.6);
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            background: var(--bg-secondary);
+        }
+        .carousel-slide.active img {
+            box-shadow: 0 20px 60px rgba(198, 142, 63, 0.3);
+        }
+        .carousel-slide__overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: white;
+            border-radius: 0 0 12px 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .carousel-slide.active .carousel-slide__overlay {
+            opacity: 1;
+        }
+        .carousel-slide__title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            color: var(--whiskey);
+        }
+        .carousel-slide__caption {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        .carousel-slide__link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .carousel-slide__btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            font-family: var(--font-condensed);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .carousel-slide__link:hover .carousel-slide__btn {
+            background: white;
+            transform: translateY(-2px);
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid var(--whiskey);
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .carousel-btn:hover {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .carousel-btn--prev {
+            left: 10px;
+        }
+        .carousel-btn--next {
+            right: 10px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border: 2px solid var(--whiskey);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot:hover,
+        .carousel-dot.active {
+            background: var(--whiskey);
+            transform: scale(1.3);
+        }
+        @media (max-width: 992px) {
+            .carousel-slide {
+                min-width: 80%;
+            }
+            .carousel-slide img {
+                height: 350px;
+            }
+        }
+        @media (max-width: 768px) {
+            .featured-carousel {
+                padding: 1.5rem 0;
+            }
+            .carousel-container {
+                padding: 0 40px;
+            }
+            .carousel-slide {
+                min-width: 85%;
+            }
+            .carousel-slide img {
+                height: 280px;
+            }
+            .carousel-btn {
+                width: 36px;
+                height: 36px;
+            }
+            .carousel-slide__title {
+                font-size: 1.2rem;
+            }
+            .carousel-slide__overlay {
+                padding: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .carousel-slide {
+                min-width: 90%;
+            }
+            .carousel-slide img {
+                height: 220px;
+            }
+        }
+    </style>
+
+    <!-- Structured Data - Person Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "WYATT XXX COLE",
+        "alternateName": "WXXXC",
+        "description": "Adult content creator from Nashville, TN. Country Bred. Fully Loaded. 132+ Five-Star Reviews.",
+        "url": "https://wyattxxxcole.com",
+        "image": "https://wyattxxxcole.com/images/logo.png",
+        "sameAs": [
+            "https://twitter.com/wyattxxxcole",
+            "https://instagram.com/wyattxxxcole",
+            "https://boyfanz.fanz.website/@wyattxxxcole",
+            "https://pupfanz.fanz.website/@wyattxxxcole"
+        ],
+        "homeLocation": {
+            "@type": "Place",
+            "name": "Nashville, Tennessee, USA"
+        }
+    }
+    </script>
+
+    <!-- Structured Data - WebSite Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "WYATT XXX COLE",
+        "alternateName": "WXXXC",
+        "url": "https://wyattxxxcole.com",
+        "description": "Official website of WYATT XXX COLE - Country Bred. Fully Loaded."
+    }
+    </script>
+
+    <!-- Structured Data - Aggregate Rating -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "WYATT XXX COLE Custom Content Services",
+        "description": "Custom videos, live sessions, ratings, and sexting services from WYATT XXX COLE.",
+        "brand": {
+            "@type": "Brand",
+            "name": "WYATT XXX COLE"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "ratingCount": "132",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+
+    <!-- Structured Data - FAQ Schema for AEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What services does WYATT XXX COLE offer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "WYATT XXX COLE offers custom videos starting at $50, live sessions from $100, ratings from $25, and sexting sessions at $30 per 30 minutes. All content is personalized and delivered with signature southern charm."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I book a session with WYATT XXX COLE?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Visit the booking page at wyattxxxcole.com/booking, select your service, choose your preferred date and time for live sessions, fill in your details and request specifics, then submit. You'll receive a confirmation and pricing within 24 hours."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What platforms is WYATT XXX COLE on?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "WYATT XXX COLE is active on Boyfanz, PupFanz, Twitter/X, and Instagram. Subscribe for exclusive content and direct messaging access."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data - BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://wyattxxxcole.com/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data - Organization Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "WYATT XXX COLE",
+        "alternateName": "WXXXC",
+        "url": "https://wyattxxxcole.com",
+        "logo": "https://wyattxxxcole.com/images/logo.png",
+        "description": "Adult content creator from Nashville - Custom videos, live sessions, exclusive content.",
+        "sameAs": [
+            "https://twitter.com/wyattxxxcole",
+            "https://instagram.com/wyattxxxcole"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "wyatt@wyattxxxcole.com",
+            "url": "https://wyattxxxcole.com/contact.html"
+        }
+    }
+    </script>
+
+    <!-- Structured Data - ImageGallery Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "WYATT XXX COLE Photo Gallery",
+        "description": "Exclusive photos and content from WYATT XXX COLE",
+        "url": "https://wyattxxxcole.com/gallery.html",
+        "author": {
+            "@type": "Person",
+            "name": "WYATT XXX COLE"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container nav__container">
+            <a href="index.html" class="nav__logo">
+                <img src="images/logo.png" alt="WYATT XXX COLE" class="nav__logo-img">
+            </a>
+
+            <ul class="nav__menu" id="navMenu">
+                <li><a href="index.html" class="nav__link nav__link--active">Home</a></li>
+                <li><a href="gallery.html" class="nav__link">Gallery</a></li>
+                <li><a href="booking.html" class="nav__link">Book Me</a></li>
+                <li><a href="subscribe.html" class="nav__link">Subscribe</a></li>
+                <li><a href="world.html" class="nav__link">World</a></li>
+                <li><a href="contact.html" class="nav__link">Contact</a></li>
+            </ul>
+
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Featured Carousel -->
+    <section class="featured-carousel" id="featuredCarousel">
+        <div class="carousel-container">
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slides loaded dynamically -->
+                </div>
+            </div>
+            <button class="carousel-btn carousel-btn--prev" id="carouselPrev" aria-label="Previous slide">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <button class="carousel-btn carousel-btn--next" id="carouselNext" aria-label="Next slide">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+        </div>
+        <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__background"></div>
+        <div class="hero__texture"></div>
+
+        <div class="hero__content">
+            <!-- Hero Logo -->
+            <div class="hero__logo">
+                <img src="images/logo.png" alt="WYATT XXX COLE">
+            </div>
+
+            <!-- 5-Star Badge -->
+            <div class="hero__badge">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span>132+ Five-Star Reviews</span>
+            </div>
+
+            <h1 class="hero__title visually-hidden">WYATT XXX COLE</h1>
+
+            <p class="hero__tagline">Country Bred. Fully Loaded.</p>
+
+            <p class="hero__description">
+                Country boy from Nashville serving up southern charm with a dirty twist.
+                Boots, hats, and all ass.
+            </p>
+
+            <div class="hero__buttons">
+                <a href="booking.html" class="btn btn--primary">Book a Session</a>
+                <a href="gallery.html" class="btn btn--secondary">View Gallery</a>
+            </div>
+        </div>
+
+        <div class="hero__scroll">
+            <span>Scroll Down</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section">
+        <div class="container">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat__value">132+</div>
+                    <div class="stat__label">5-Star Reviews</div>
+                </div>
+                <div class="stat">
+                    <div class="stat__value">500+</div>
+                    <div class="stat__label">Content Pieces</div>
+                </div>
+                <div class="stat">
+                    <div class="stat__value">50K+</div>
+                    <div class="stat__label">Followers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat__value">24/7</div>
+                    <div class="stat__label">Availability</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section section--alt" id="about">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">Who I Am</span>
+                <h2 class="section__title">The <span class="gradient-text">Bad Boy</span> of the South</h2>
+                <p class="section__description">
+                    Based in Nashville, TN, I bring authentic southern charm mixed with raw,
+                    unfiltered content. Whether you're looking for custom videos, live sessions,
+                    or exclusive content - I deliver every time.
+                </p>
+            </div>
+
+            <div class="about__grid">
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title gradient-text">Custom Content</h3>
+                        <p class="card__description">
+                            Personalized videos and photos tailored to your fantasies.
+                            Tell me what you want and watch it come to life.
+                        </p>
+                        <a href="booking.html" class="btn btn--secondary">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title gradient-text">Live Sessions</h3>
+                        <p class="card__description">
+                            One-on-one video calls where anything goes.
+                            Real-time interaction with the country boy himself.
+                        </p>
+                        <a href="booking.html" class="btn btn--secondary">Book Now</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title gradient-text">Exclusive Merch</h3>
+                        <p class="card__description">
+                            Rep the brand with official WXXXC gear.
+                            Hats, shirts, and more with that country boy swagger.
+                        </p>
+                        <a href="merch.html" class="btn btn--secondary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Gallery Preview -->
+    <section class="section" id="gallery-preview">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">Latest Content</span>
+                <h2 class="section__title">Featured <span class="gradient-text">Gallery</span></h2>
+                <p class="section__description">
+                    A taste of what's waiting for you. Full access available on my platforms.
+                </p>
+            </div>
+
+            <div class="gallery" id="featuredGallery">
+                <!-- Gallery items loaded dynamically from API -->
+                <div class="gallery__loading">Loading gallery...</div>
+            </div>
+
+            <div class="text-center" style="margin-top: var(--space-2xl);">
+                <a href="gallery.html" class="btn btn--primary">View Full Gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BoyFanz Widget Section -->
+    <section class="section section--alt" id="boyfanz-section">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">Follow Me</span>
+                <h2 class="section__title">Join on <span class="gradient-text">BoyFanz</span></h2>
+                <p class="section__description">
+                    Get exclusive content, direct messaging, and more on my BoyFanz page.
+                </p>
+            </div>
+            <div style="display: flex; justify-content: center; margin-top: var(--space-xl);">
+                <div id="boyfanz-widget"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" id="testimonials">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">What They Say</span>
+                <h2 class="section__title">Real <span class="gradient-text">Reviews</span></h2>
+            </div>
+
+            <div class="testimonials__grid">
+                <div class="card">
+                    <div class="card__content">
+                        <div class="testimonial__stars">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="card__description">"Absolutely incredible. Wyatt delivered exactly what I asked for and then some. True professional with that southern hospitality."</p>
+                        <p class="testimonial__author">- Verified Buyer</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <div class="testimonial__stars">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="card__description">"Best content creator I've worked with. Fast delivery, great communication, and the quality is unmatched."</p>
+                        <p class="testimonial__author">- Repeat Customer</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__content">
+                        <div class="testimonial__stars">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#C68E3F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="card__description">"That country boy charm is real. Friendly, professional, and knows how to put on a show. 10/10 would recommend."</p>
+                        <p class="testimonial__author">- Happy Fan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" id="cta">
+        <div class="container">
+            <div class="cta__content text-center">
+                <h2 class="section__title">Ready to <span class="gradient-text">Get Started</span>?</h2>
+                <p class="section__description" style="max-width: 600px; margin: 0 auto var(--space-2xl);">
+                    Book a session, browse the merch, or slide into my DMs.
+                    Let's make something special together.
+                </p>
+                <div class="hero__buttons">
+                    <a href="booking.html" class="btn btn--primary">Book Now</a>
+                    <a href="contact.html" class="btn btn--rust">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__brand">
+                    <div class="footer__logo">
+                        <img src="images/logo.png" alt="WYATT XXX COLE" class="footer__logo-img">
+                    </div>
+                    <p class="footer__tagline">"Country Bred. Fully Loaded."</p>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="gallery.html" class="footer__link">Gallery</a></li>
+                        <li><a href="booking.html" class="footer__link">Book Me</a></li>
+                        <li><a href="subscribe.html" class="footer__link">Subscribe</a></li>
+                        <li><a href="world.html" class="footer__link">World</a></li>
+                        <li><a href="contact.html" class="footer__link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Platforms</h4>
+                    <ul class="footer__links">
+                        <li><a href="https://boyfanz.com" class="footer__link" target="_blank" rel="noopener">BoyFanz</a></li>
+                        <li><a href="https://pupfanz.com" class="footer__link" target="_blank" rel="noopener">PupFanz</a></li>
+                        <li><a href="https://girlfanz.com" class="footer__link" target="_blank" rel="noopener">GirlFanz</a></li>
+                        <li><a href="https://fanzunlimited.com" class="footer__link" target="_blank" rel="noopener">FanzUnlimited</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__links">
+                        <li><a href="terms.html" class="footer__link">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="footer__link">Privacy Policy</a></li>
+                        <li><a href="dmca.html" class="footer__link">DMCA</a></li>
+                        <li><a href="2257.html" class="footer__link">18 U.S.C. 2257</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p>&copy; 2025 WYATT XXX COLE. All Rights Reserved.</p>
+                <p>Must be 18+ to view. All models are 18+.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js?v=6"></script>
+    <script src="js/effects.js?v=6"></script>
+    <script src="js/boyfanz-widget.js?v=1"></script>
+
+    <!-- Load Featured Gallery from API -->
+    <script>
+        async function loadFeaturedGallery() {
+            const gallery = document.getElementById('featuredGallery');
+            if (!gallery) return;
+
+            try {
+                const res = await fetch('api/upload.php?action=list-gallery&_=' + Date.now());
+                const data = await res.json();
+
+                if (data.success && data.images && data.images.length > 0) {
+                    // Show first 4 images
+                    const images = data.images.slice(0, 4);
+                    gallery.innerHTML = images.map((img, i) => `
+                        <div class="gallery__item">
+                            <img src="${img.url}" alt="Gallery preview ${i + 1}" loading="lazy">
+                            <div class="gallery__overlay">
+                                ${i === 0 ? '<span class="badge badge--gold">New</span>' : ''}
+                                ${i === 3 ? '<span class="badge badge--rust">Exclusive</span>' : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    // No images - show placeholder message
+                    gallery.innerHTML = `
+                        <div class="gallery__empty" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-secondary);">
+                            <p style="margin-bottom: 1rem;">Gallery coming soon...</p>
+                            <a href="subscribe.html" class="btn btn--secondary">Subscribe for Updates</a>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error('Failed to load gallery:', err);
+                gallery.innerHTML = '<div class="gallery__empty" style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-muted);">Gallery loading...</div>';
+            }
+        }
+
+        // Load gallery on page load
+        document.addEventListener('DOMContentLoaded', loadFeaturedGallery);
+    </script>
+
+    <!-- Featured Carousel Script -->
+    <script>
+        class FeaturedCarousel {
+            constructor() {
+                this.carousel = document.getElementById('featuredCarousel');
+                this.track = document.getElementById('carouselTrack');
+                this.dotsContainer = document.getElementById('carouselDots');
+                this.prevBtn = document.getElementById('carouselPrev');
+                this.nextBtn = document.getElementById('carouselNext');
+                this.currentIndex = 0;
+                this.slides = [];
+                this.slideElements = [];
+                this.autoplayInterval = null;
+                this.autoplayDelay = 5000;
+                this.slideWidth = 70; // Percentage width of each slide
+
+                this.init();
+            }
+
+            async init() {
+                await this.loadFeaturedImages();
+                if (this.slides.length > 0) {
+                    this.setupEventListeners();
+                    this.updateSlideClasses();
+                    this.startAutoplay();
+                }
+            }
+
+            async loadFeaturedImages() {
+                try {
+                    const res = await fetch('api/upload.php?action=get-featured&_=' + Date.now());
+                    const data = await res.json();
+
+                    if (data.success && data.featured && data.featured.length > 0) {
+                        this.slides = data.featured;
+                        this.renderSlides();
+                        this.renderDots();
+                        this.carousel.classList.add('active');
+                        this.slideElements = this.track.querySelectorAll('.carousel-slide');
+                    }
+                } catch (err) {
+                    console.log('Featured carousel: No featured images');
+                }
+            }
+
+            renderSlides() {
+                this.track.innerHTML = this.slides.map((slide, i) => `
+                    <div class="carousel-slide" data-index="${i}">
+                        ${slide.link ? `<a href="${slide.link}" class="carousel-slide__link">` : ''}
+                        <img src="${slide.url}" alt="${slide.altText || slide.title || 'Featured photo ' + (i + 1)}" loading="${i === 0 ? 'eager' : 'lazy'}">
+                        ${slide.title || slide.caption || (slide.link && slide.linkText) ? `
+                            <div class="carousel-slide__overlay">
+                                ${slide.title ? `<h3 class="carousel-slide__title">${slide.title}</h3>` : ''}
+                                ${slide.caption ? `<p class="carousel-slide__caption">${slide.caption}</p>` : ''}
+                                ${slide.link && slide.linkText ? `<span class="carousel-slide__btn">${slide.linkText}</span>` : ''}
+                            </div>
+                        ` : ''}
+                        ${slide.link ? '</a>' : ''}
+                    </div>
+                `).join('');
+            }
+
+            renderDots() {
+                this.dotsContainer.innerHTML = this.slides.map((_, i) => `
+                    <button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>
+                `).join('');
+            }
+
+            updateSlideClasses() {
+                this.slideElements.forEach((slide, i) => {
+                    slide.classList.remove('active', 'prev', 'next');
+
+                    if (i === this.currentIndex) {
+                        slide.classList.add('active');
+                    } else if (i === this.getPrevIndex()) {
+                        slide.classList.add('prev');
+                    } else if (i === this.getNextIndex()) {
+                        slide.classList.add('next');
+                    }
+                });
+            }
+
+            getPrevIndex() {
+                return this.currentIndex === 0 ? this.slides.length - 1 : this.currentIndex - 1;
+            }
+
+            getNextIndex() {
+                return this.currentIndex === this.slides.length - 1 ? 0 : this.currentIndex + 1;
+            }
+
+            setupEventListeners() {
+                this.prevBtn.addEventListener('click', () => this.prev());
+                this.nextBtn.addEventListener('click', () => this.next());
+
+                this.dotsContainer.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('carousel-dot')) {
+                        this.goTo(parseInt(e.target.dataset.index));
+                    }
+                });
+
+                // Click on slides to navigate
+                this.track.addEventListener('click', (e) => {
+                    const slide = e.target.closest('.carousel-slide');
+                    if (slide && !slide.classList.contains('active')) {
+                        this.goTo(parseInt(slide.dataset.index));
+                    }
+                });
+
+                // Pause autoplay on hover
+                this.carousel.addEventListener('mouseenter', () => this.stopAutoplay());
+                this.carousel.addEventListener('mouseleave', () => this.startAutoplay());
+
+                // Touch/swipe support
+                let touchStartX = 0;
+                let touchEndX = 0;
+
+                this.carousel.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                this.carousel.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndX;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) this.next();
+                        else this.prev();
+                    }
+                }, { passive: true });
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.prev();
+                    if (e.key === 'ArrowRight') this.next();
+                });
+            }
+
+            goTo(index) {
+                this.currentIndex = index;
+                if (this.currentIndex < 0) this.currentIndex = this.slides.length - 1;
+                if (this.currentIndex >= this.slides.length) this.currentIndex = 0;
+
+                // Calculate offset to center the current slide
+                // Each slide is 70% width, so offset = (index * 70) - 15 to center
+                const offset = (this.currentIndex * this.slideWidth) - ((100 - this.slideWidth) / 2);
+                this.track.style.transform = `translateX(-${Math.max(0, offset)}%)`;
+
+                // Update slide classes for visual effects
+                this.updateSlideClasses();
+
+                // Update dots
+                this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === this.currentIndex);
+                });
+            }
+
+            next() {
+                this.goTo(this.currentIndex + 1);
+            }
+
+            prev() {
+                this.goTo(this.currentIndex - 1);
+            }
+
+            startAutoplay() {
+                this.stopAutoplay();
+                this.autoplayInterval = setInterval(() => this.next(), this.autoplayDelay);
+            }
+
+            stopAutoplay() {
+                if (this.autoplayInterval) {
+                    clearInterval(this.autoplayInterval);
+                    this.autoplayInterval = null;
+                }
+            }
+        }
+
+        // Initialize carousel
+        document.addEventListener('DOMContentLoaded', () => {
+            new FeaturedCarousel();
+        });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg.scope))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+    <!-- Admin Auth (shows admin button when logged in) -->
+    <script src="js/admin-auth.js"></script>
+    <!-- Custom Analytics -->
+    <script src="js/analytics.js"></script>
+</body>
+</html>

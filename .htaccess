@@ -1,0 +1,26 @@
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</IfModule>
+
+# Allow access to SEO files
+<Files "robots.txt">
+    Order allow,deny
+    Allow from all
+    Require all granted
+</Files>
+
+<Files "sitemap.xml">
+    Order allow,deny
+    Allow from all
+    Require all granted
+</Files>
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Error pages
+ErrorDocument 404 /index.html
