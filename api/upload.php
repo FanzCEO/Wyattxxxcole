@@ -4,16 +4,16 @@
  * Full admin panel with IP verification, booking system, and security
  */
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+// Load centralized security configuration
+require_once __DIR__ . '/security.php';
 
-// Handle preflight
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+// Initialize security (CORS, headers, rate limiting)
+initSecurity([
+    'cors' => true,
+    'headers' => true,
+    'rateLimit' => true,
+    'csrf' => false // Using token auth instead
+]);
 
 // Load environment config
 function loadEnv() {

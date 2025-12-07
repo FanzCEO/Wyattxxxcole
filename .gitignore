@@ -34,3 +34,8 @@ gallery/
 .admin_token
 api/.admin_token
 *.sqlite
+
+# Security/runtime files
+api/.rate_limits.json
+api/security/rate_limits.json
+api/security/login_attempts.json

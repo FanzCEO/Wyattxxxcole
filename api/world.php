@@ -4,7 +4,8 @@
  * Handles user registration, login, email verification, and admin moderation
  *
  * SECURITY FEATURES:
- * - Rate limiting per IP (60 requests/minute)
+ * - Centralized security configuration
+ * - Rate limiting per IP (100 requests/minute)
  * - Brute force protection (5 attempts, 15 min lockout)
  * - Input sanitization
  * - Token-based authentication
@@ -12,20 +13,16 @@
  * - Security headers
  */
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://wyattxxxcole.com');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
-header('Referrer-Policy: strict-origin-when-cross-origin');
+// Load centralized security configuration
+require_once __DIR__ . '/security.php';
 
-// Handle preflight
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+// Initialize security (CORS, headers, rate limiting)
+initSecurity([
+    'cors' => true,
+    'headers' => true,
+    'rateLimit' => true,
+    'csrf' => false
+]);
 
 // Security constants
 define('RATE_LIMIT_FILE', __DIR__ . '/security/rate_limits.json');
