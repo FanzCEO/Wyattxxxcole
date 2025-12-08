@@ -653,6 +653,191 @@
             border-radius: 4px;
             transition: width 0.5s ease;
         }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255,255,255,0.1);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--whiskey);
+        }
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Calendar Styles */
+        .calendar-header {
+            background: rgba(193,154,107,0.2);
+            padding: var(--space-sm);
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .calendar-day {
+            background: var(--bg-card);
+            min-height: 80px;
+            padding: var(--space-xs);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .calendar-day:hover {
+            border-color: var(--whiskey);
+            background: rgba(193,154,107,0.1);
+        }
+        .calendar-day.today {
+            border-color: var(--whiskey);
+            background: rgba(193,154,107,0.15);
+        }
+        .calendar-day.other-month {
+            opacity: 0.4;
+        }
+        .calendar-day .day-number {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-xs);
+        }
+        .calendar-day .day-events {
+            font-size: 0.7rem;
+        }
+        .calendar-event {
+            background: var(--whiskey);
+            color: var(--bg-primary);
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .calendar-event.live {
+            background: #ef4444;
+        }
+        .calendar-event.sale {
+            background: #22c55e;
+        }
+
+        /* Poll Card Styles */
+        .poll-card {
+            background: rgba(193,154,107,0.1);
+            border: 1px solid rgba(193,154,107,0.2);
+            border-radius: 8px;
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+        .poll-card h4 {
+            margin-bottom: var(--space-md);
+        }
+        .poll-option {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-sm);
+        }
+        .poll-option-bar {
+            flex: 1;
+            height: 24px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .poll-option-fill {
+            height: 100%;
+            background: var(--whiskey);
+            transition: width 0.5s ease;
+        }
+        .poll-option-label {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .poll-option-pct {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* Countdown Card */
+        .countdown-card {
+            background: linear-gradient(135deg, rgba(193,154,107,0.2), rgba(193,154,107,0.05));
+            border: 1px solid rgba(193,154,107,0.3);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            margin-bottom: var(--space-md);
+            text-align: center;
+        }
+        .countdown-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+        }
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+        .countdown-unit {
+            text-align: center;
+        }
+        .countdown-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--whiskey);
+            line-height: 1;
+        }
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Template card hover */
+        .template-card:hover {
+            border-color: var(--whiskey);
+            transform: translateY(-2px);
+            transition: all 0.2s;
+        }
+
         .realtime-visitor-pill {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.1);
@@ -1030,6 +1215,8 @@
                 <button data-panel="gallery">Gallery</button>
                 <button data-panel="theme">Theme Editor</button>
                 <button data-panel="analytics">Analytics</button>
+                <button data-panel="engagement">Fan Engagement</button>
+                <button data-panel="scheduler">Scheduler</button>
                 <button data-panel="integrations">Integrations</button>
                 <button data-panel="settings">Settings</button>
                 <button data-panel="security">Security</button>
@@ -2730,6 +2917,300 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <!-- Fan Engagement Panel -->
+            <div class="panel" id="panel-engagement">
+                <div class="panel-header">
+                    <h2>Fan Engagement</h2>
+                    <div style="display: flex; gap: var(--space-md);">
+                        <button class="btn btn--primary" onclick="showCreatePollModal()">+ Create Poll</button>
+                        <button class="btn btn--secondary" onclick="showCreateCountdownModal()">+ Countdown</button>
+                    </div>
+                </div>
+
+                <!-- Engagement Stats -->
+                <div class="admin-stats" style="margin-bottom: var(--space-xl);">
+                    <div class="admin-stat">
+                        <div class="admin-stat__value" id="stat-active-polls">0</div>
+                        <div class="admin-stat__label">Active Polls</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat__value" id="stat-total-votes">0</div>
+                        <div class="admin-stat__label">Total Votes</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat__value" id="stat-active-countdowns">0</div>
+                        <div class="admin-stat__label">Active Countdowns</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat__value" id="stat-qna-pending">0</div>
+                        <div class="admin-stat__label">Pending Q&A</div>
+                    </div>
+                </div>
+
+                <!-- Active Polls Section -->
+                <div class="settings-section">
+                    <h3>Active Polls</h3>
+                    <div id="activePollsList">
+                        <div class="empty-state" style="padding: var(--space-xl); text-align: center; color: var(--text-muted);">
+                            No active polls. Create one to engage your fans!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Countdowns Section -->
+                <div class="settings-section">
+                    <h3>Countdown Timers</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Build hype for upcoming content drops, live shows, or special announcements.
+                    </p>
+                    <div id="countdownsList">
+                        <div class="empty-state" style="padding: var(--space-xl); text-align: center; color: var(--text-muted);">
+                            No active countdowns.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q&A Section -->
+                <div class="settings-section">
+                    <h3>Fan Q&A</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Answer questions from your fans. Approved answers appear on your site.
+                    </p>
+                    <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Question</th>
+                                    <th>From</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="qnaTableBody">
+                                <tr><td colspan="5" class="empty-state">No questions yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tip Jar Section -->
+                <div class="settings-section">
+                    <h3>Tip Jar</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Let fans show their appreciation with tips. Configure your tip amounts and messages.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
+                        <div class="form__group">
+                            <label class="form__label">Enable Tip Jar</label>
+                            <label class="toggle-switch" style="margin-top: var(--space-sm);">
+                                <input type="checkbox" id="tipJarEnabled">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Default Tip Amounts</label>
+                            <input type="text" id="tipAmounts" class="form__input" placeholder="5, 10, 25, 50, 100" value="5, 10, 25, 50, 100">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Thank You Message</label>
+                            <textarea id="tipThankYou" class="form__input" rows="2" placeholder="Thanks for the tip, cowboy! Much appreciated!">Thanks for the tip, cowboy! Much appreciated!</textarea>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Payment Method</label>
+                            <select id="tipPaymentMethod" class="form__input">
+                                <option value="ccbill">CCBill</option>
+                                <option value="crypto">Cryptocurrency</option>
+                                <option value="cashapp">Cash App</option>
+                                <option value="venmo">Venmo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn--primary" style="margin-top: var(--space-lg);" onclick="saveTipJarSettings()">Save Tip Jar Settings</button>
+
+                    <!-- Recent Tips -->
+                    <div style="margin-top: var(--space-xl);">
+                        <h4>Recent Tips</h4>
+                        <div class="table-container" style="max-height: 250px; overflow-y: auto;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Amount</th>
+                                        <th>From</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentTipsBody">
+                                    <tr><td colspan="4" class="empty-state">No tips yet.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Program Section -->
+                <div class="settings-section">
+                    <h3>Referral Program</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Reward fans who bring new subscribers to your content.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
+                        <div class="form__group">
+                            <label class="form__label">Enable Referrals</label>
+                            <label class="toggle-switch" style="margin-top: var(--space-sm);">
+                                <input type="checkbox" id="referralEnabled">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Referrer Reward (%)</label>
+                            <input type="number" id="referrerReward" class="form__input" placeholder="10" value="10" min="0" max="50">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">New User Discount (%)</label>
+                            <input type="number" id="refereeDiscount" class="form__input" placeholder="15" value="15" min="0" max="50">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Your Referral Link</label>
+                            <div style="display: flex; gap: var(--space-sm);">
+                                <input type="text" id="myReferralLink" class="form__input" value="https://wyattxxxcole.com/?ref=WYATT" readonly>
+                                <button class="btn btn--secondary btn--sm" onclick="copyReferralLink()">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn--primary" style="margin-top: var(--space-lg);" onclick="saveReferralSettings()">Save Referral Settings</button>
+
+                    <!-- Referral Stats -->
+                    <div style="margin-top: var(--space-xl);">
+                        <h4>Referral Stats</h4>
+                        <div class="admin-stats">
+                            <div class="admin-stat">
+                                <div class="admin-stat__value" id="stat-referral-clicks">0</div>
+                                <div class="admin-stat__label">Link Clicks</div>
+                            </div>
+                            <div class="admin-stat">
+                                <div class="admin-stat__value" id="stat-referral-signups">0</div>
+                                <div class="admin-stat__label">Signups</div>
+                            </div>
+                            <div class="admin-stat">
+                                <div class="admin-stat__value" id="stat-referral-revenue">$0</div>
+                                <div class="admin-stat__label">Revenue Generated</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Scheduler Panel -->
+            <div class="panel" id="panel-scheduler">
+                <div class="panel-header">
+                    <h2>Content Scheduler</h2>
+                    <button class="btn btn--primary" onclick="showSchedulePostModal()">+ Schedule Post</button>
+                </div>
+
+                <!-- Calendar View -->
+                <div class="settings-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                        <h3>Content Calendar</h3>
+                        <div style="display: flex; gap: var(--space-sm); align-items: center;">
+                            <button class="btn btn--secondary btn--sm" onclick="prevMonth()">&lt;</button>
+                            <span id="calendarMonth" style="min-width: 150px; text-align: center; font-weight: 600;">December 2025</span>
+                            <button class="btn btn--secondary btn--sm" onclick="nextMonth()">&gt;</button>
+                        </div>
+                    </div>
+                    <div id="contentCalendar" class="content-calendar" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden;">
+                        <div class="calendar-header">Sun</div>
+                        <div class="calendar-header">Mon</div>
+                        <div class="calendar-header">Tue</div>
+                        <div class="calendar-header">Wed</div>
+                        <div class="calendar-header">Thu</div>
+                        <div class="calendar-header">Fri</div>
+                        <div class="calendar-header">Sat</div>
+                        <!-- Calendar days will be generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Upcoming Scheduled Posts -->
+                <div class="settings-section">
+                    <h3>Upcoming Scheduled Posts</h3>
+                    <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Type</th>
+                                    <th>Title/Preview</th>
+                                    <th>Platform</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduledPostsBody">
+                                <tr><td colspan="6" class="empty-state">No scheduled posts.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Post Templates -->
+                <div class="settings-section">
+                    <h3>Quick Post Templates</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Save time with pre-made post templates for common content types.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md);">
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer;" onclick="useTemplate('newContent')">
+                            <div style="font-size: 1.5rem; margin-bottom: var(--space-sm);">📸</div>
+                            <div style="font-weight: 600; margin-bottom: var(--space-xs);">New Content Drop</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Announce new photos/videos</div>
+                        </div>
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer;" onclick="useTemplate('liveShow')">
+                            <div style="font-size: 1.5rem; margin-bottom: var(--space-sm);">🔴</div>
+                            <div style="font-weight: 600; margin-bottom: var(--space-xs);">Live Show</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Announce upcoming live stream</div>
+                        </div>
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer;" onclick="useTemplate('flashSale')">
+                            <div style="font-size: 1.5rem; margin-bottom: var(--space-sm);">🔥</div>
+                            <div style="font-weight: 600; margin-bottom: var(--space-xs);">Flash Sale</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Limited time discount</div>
+                        </div>
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer;" onclick="useTemplate('behindScenes')">
+                            <div style="font-size: 1.5rem; margin-bottom: var(--space-sm);">🎬</div>
+                            <div style="font-weight: 600; margin-bottom: var(--space-xs);">Behind the Scenes</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Personal/casual content</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auto-Post Settings -->
+                <div class="settings-section">
+                    <h3>Auto-Post Settings</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Automatically cross-post content to multiple platforms.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-lg);">
+                        <label class="checkbox-label" style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
+                            <input type="checkbox" id="autopostTwitter">
+                            <span>X (Twitter)</span>
+                        </label>
+                        <label class="checkbox-label" style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
+                            <input type="checkbox" id="autopostInstagram">
+                            <span>Instagram</span>
+                        </label>
+                        <label class="checkbox-label" style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
+                            <input type="checkbox" id="autopostBluesky">
+                            <span>Bluesky</span>
+                        </label>
+                        <label class="checkbox-label" style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
+                            <input type="checkbox" id="autopostTelegram">
+                            <span>Telegram</span>
+                        </label>
+                    </div>
+                    <button class="btn btn--primary" style="margin-top: var(--space-lg);" onclick="saveAutoPostSettings()">Save Auto-Post Settings</button>
                 </div>
             </div>
 
@@ -5804,6 +6285,719 @@
         if (authToken) {
             loadAllDashboardData();
         }
+
+        // ==================== FAN ENGAGEMENT ====================
+
+        let polls = [];
+        let countdowns = [];
+        let currentCalendarDate = new Date();
+
+        // Show create poll modal
+        function showCreatePollModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.id = 'pollModal';
+            modal.innerHTML = `
+                <div class="modal" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3>Create New Poll</h3>
+                        <button class="modal-close" onclick="closePollModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form__group">
+                            <label class="form__label">Poll Question</label>
+                            <input type="text" id="pollQuestion" class="form__input" placeholder="What do you want to see next?">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Options (one per line)</label>
+                            <textarea id="pollOptions" class="form__input" rows="4" placeholder="Option 1\nOption 2\nOption 3"></textarea>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                            <div class="form__group">
+                                <label class="form__label">Duration</label>
+                                <select id="pollDuration" class="form__input">
+                                    <option value="24">24 Hours</option>
+                                    <option value="48">48 Hours</option>
+                                    <option value="72">3 Days</option>
+                                    <option value="168">1 Week</option>
+                                </select>
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label">Show on</label>
+                                <select id="pollLocation" class="form__input">
+                                    <option value="home">Homepage</option>
+                                    <option value="world">Wyatt's World</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn--secondary" onclick="closePollModal()">Cancel</button>
+                        <button class="btn btn--primary" onclick="createPoll()">Create Poll</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closePollModal() {
+            const modal = document.getElementById('pollModal');
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        async function createPoll() {
+            const question = document.getElementById('pollQuestion').value.trim();
+            const optionsText = document.getElementById('pollOptions').value.trim();
+            const duration = parseInt(document.getElementById('pollDuration').value);
+            const location = document.getElementById('pollLocation').value;
+
+            if (!question || !optionsText) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+
+            const options = optionsText.split('\n').filter(o => o.trim());
+            if (options.length < 2) {
+                showNotification('Please provide at least 2 options', 'error');
+                return;
+            }
+
+            const poll = {
+                id: Date.now(),
+                question,
+                options: options.map(o => ({ text: o.trim(), votes: 0 })),
+                duration,
+                location,
+                createdAt: new Date().toISOString(),
+                expiresAt: new Date(Date.now() + duration * 60 * 60 * 1000).toISOString(),
+                active: true
+            };
+
+            polls.push(poll);
+            savePollsToStorage();
+            renderPolls();
+            closePollModal();
+            showNotification('Poll created successfully!', 'success');
+        }
+
+        function savePollsToStorage() {
+            localStorage.setItem('fanPolls', JSON.stringify(polls));
+        }
+
+        function loadPolls() {
+            const saved = localStorage.getItem('fanPolls');
+            if (saved) {
+                polls = JSON.parse(saved);
+                // Check for expired polls
+                const now = new Date();
+                polls = polls.map(p => {
+                    if (new Date(p.expiresAt) < now) {
+                        p.active = false;
+                    }
+                    return p;
+                });
+                savePollsToStorage();
+            }
+            renderPolls();
+        }
+
+        function renderPolls() {
+            const container = document.getElementById('activePollsList');
+            const activePolls = polls.filter(p => p.active);
+
+            document.getElementById('stat-active-polls').textContent = activePolls.length;
+            document.getElementById('stat-total-votes').textContent = polls.reduce((sum, p) =>
+                sum + p.options.reduce((s, o) => s + o.votes, 0), 0);
+
+            if (activePolls.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="padding: var(--space-xl); text-align: center; color: var(--text-muted);">
+                    No active polls. Create one to engage your fans!
+                </div>`;
+                return;
+            }
+
+            container.innerHTML = activePolls.map(poll => {
+                const totalVotes = poll.options.reduce((sum, o) => sum + o.votes, 0);
+                return `
+                    <div class="poll-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+                            <h4>${poll.question}</h4>
+                            <button class="btn btn--secondary btn--sm" onclick="deletePoll(${poll.id})">End Poll</button>
+                        </div>
+                        ${poll.options.map(opt => {
+                            const pct = totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0;
+                            return `
+                                <div class="poll-option">
+                                    <div class="poll-option-bar">
+                                        <div class="poll-option-fill" style="width: ${pct}%;"></div>
+                                        <span class="poll-option-label">${opt.text}</span>
+                                    </div>
+                                    <span class="poll-option-pct">${pct}%</span>
+                                </div>
+                            `;
+                        }).join('')}
+                        <div style="margin-top: var(--space-md); font-size: 0.85rem; color: var(--text-muted);">
+                            ${totalVotes} votes • Ends ${new Date(poll.expiresAt).toLocaleDateString()}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deletePoll(id) {
+            polls = polls.map(p => p.id === id ? {...p, active: false} : p);
+            savePollsToStorage();
+            renderPolls();
+            showNotification('Poll ended', 'success');
+        }
+
+        // Countdown functions
+        function showCreateCountdownModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.id = 'countdownModal';
+            modal.innerHTML = `
+                <div class="modal" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3>Create Countdown</h3>
+                        <button class="modal-close" onclick="closeCountdownModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form__group">
+                            <label class="form__label">Event Title</label>
+                            <input type="text" id="countdownTitle" class="form__input" placeholder="New Video Drop!">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Target Date & Time</label>
+                            <input type="datetime-local" id="countdownDate" class="form__input">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Event Type</label>
+                            <select id="countdownType" class="form__input">
+                                <option value="content">New Content</option>
+                                <option value="live">Live Show</option>
+                                <option value="sale">Sale/Promo</option>
+                                <option value="announcement">Announcement</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Link (optional)</label>
+                            <input type="url" id="countdownLink" class="form__input" placeholder="https://...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn--secondary" onclick="closeCountdownModal()">Cancel</button>
+                        <button class="btn btn--primary" onclick="createCountdown()">Create Countdown</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeCountdownModal() {
+            const modal = document.getElementById('countdownModal');
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        function createCountdown() {
+            const title = document.getElementById('countdownTitle').value.trim();
+            const date = document.getElementById('countdownDate').value;
+            const type = document.getElementById('countdownType').value;
+            const link = document.getElementById('countdownLink').value.trim();
+
+            if (!title || !date) {
+                showNotification('Please fill in title and date', 'error');
+                return;
+            }
+
+            const countdown = {
+                id: Date.now(),
+                title,
+                targetDate: new Date(date).toISOString(),
+                type,
+                link,
+                active: true
+            };
+
+            countdowns.push(countdown);
+            saveCountdownsToStorage();
+            renderCountdowns();
+            closeCountdownModal();
+            showNotification('Countdown created!', 'success');
+        }
+
+        function saveCountdownsToStorage() {
+            localStorage.setItem('fanCountdowns', JSON.stringify(countdowns));
+        }
+
+        function loadCountdowns() {
+            const saved = localStorage.getItem('fanCountdowns');
+            if (saved) {
+                countdowns = JSON.parse(saved);
+                // Check for expired countdowns
+                const now = new Date();
+                countdowns = countdowns.map(c => {
+                    if (new Date(c.targetDate) < now) {
+                        c.active = false;
+                    }
+                    return c;
+                });
+                saveCountdownsToStorage();
+            }
+            renderCountdowns();
+            updateCountdownTimers();
+        }
+
+        function renderCountdowns() {
+            const container = document.getElementById('countdownsList');
+            const activeCountdowns = countdowns.filter(c => c.active);
+
+            document.getElementById('stat-active-countdowns').textContent = activeCountdowns.length;
+
+            if (activeCountdowns.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="padding: var(--space-xl); text-align: center; color: var(--text-muted);">
+                    No active countdowns.
+                </div>`;
+                return;
+            }
+
+            container.innerHTML = activeCountdowns.map(cd => `
+                <div class="countdown-card" data-countdown-id="${cd.id}">
+                    <div class="countdown-title">${cd.title}</div>
+                    <div class="countdown-timer">
+                        <div class="countdown-unit">
+                            <div class="countdown-value" data-days>--</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value" data-hours>--</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value" data-minutes>--</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value" data-seconds>--</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
+                    </div>
+                    <button class="btn btn--secondary btn--sm" onclick="deleteCountdown(${cd.id})">Remove</button>
+                </div>
+            `).join('');
+
+            updateCountdownTimers();
+        }
+
+        function updateCountdownTimers() {
+            countdowns.filter(c => c.active).forEach(cd => {
+                const card = document.querySelector(`[data-countdown-id="${cd.id}"]`);
+                if (!card) return;
+
+                const target = new Date(cd.targetDate);
+                const now = new Date();
+                const diff = target - now;
+
+                if (diff <= 0) {
+                    cd.active = false;
+                    saveCountdownsToStorage();
+                    renderCountdowns();
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                card.querySelector('[data-days]').textContent = String(days).padStart(2, '0');
+                card.querySelector('[data-hours]').textContent = String(hours).padStart(2, '0');
+                card.querySelector('[data-minutes]').textContent = String(minutes).padStart(2, '0');
+                card.querySelector('[data-seconds]').textContent = String(seconds).padStart(2, '0');
+            });
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdownTimers, 1000);
+
+        function deleteCountdown(id) {
+            countdowns = countdowns.filter(c => c.id !== id);
+            saveCountdownsToStorage();
+            renderCountdowns();
+            showNotification('Countdown removed', 'success');
+        }
+
+        // Tip Jar functions
+        function saveTipJarSettings() {
+            const settings = {
+                enabled: document.getElementById('tipJarEnabled').checked,
+                amounts: document.getElementById('tipAmounts').value,
+                thankYou: document.getElementById('tipThankYou').value,
+                paymentMethod: document.getElementById('tipPaymentMethod').value
+            };
+            localStorage.setItem('tipJarSettings', JSON.stringify(settings));
+            showNotification('Tip jar settings saved!', 'success');
+        }
+
+        function loadTipJarSettings() {
+            const saved = localStorage.getItem('tipJarSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('tipJarEnabled').checked = settings.enabled || false;
+                document.getElementById('tipAmounts').value = settings.amounts || '5, 10, 25, 50, 100';
+                document.getElementById('tipThankYou').value = settings.thankYou || '';
+                document.getElementById('tipPaymentMethod').value = settings.paymentMethod || 'ccbill';
+            }
+        }
+
+        // Referral functions
+        function saveReferralSettings() {
+            const settings = {
+                enabled: document.getElementById('referralEnabled').checked,
+                referrerReward: document.getElementById('referrerReward').value,
+                refereeDiscount: document.getElementById('refereeDiscount').value
+            };
+            localStorage.setItem('referralSettings', JSON.stringify(settings));
+            showNotification('Referral settings saved!', 'success');
+        }
+
+        function loadReferralSettings() {
+            const saved = localStorage.getItem('referralSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('referralEnabled').checked = settings.enabled || false;
+                document.getElementById('referrerReward').value = settings.referrerReward || '10';
+                document.getElementById('refereeDiscount').value = settings.refereeDiscount || '15';
+            }
+        }
+
+        function copyReferralLink() {
+            const link = document.getElementById('myReferralLink');
+            link.select();
+            document.execCommand('copy');
+            showNotification('Referral link copied!', 'success');
+        }
+
+        // ==================== CONTENT SCHEDULER ====================
+
+        let scheduledPosts = [];
+
+        function showSchedulePostModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.id = 'scheduleModal';
+            modal.innerHTML = `
+                <div class="modal" style="max-width: 600px;">
+                    <div class="modal-header">
+                        <h3>Schedule New Post</h3>
+                        <button class="modal-close" onclick="closeScheduleModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form__group">
+                            <label class="form__label">Post Type</label>
+                            <select id="schedPostType" class="form__input">
+                                <option value="announcement">Announcement</option>
+                                <option value="content">New Content</option>
+                                <option value="live">Live Show</option>
+                                <option value="sale">Sale/Promo</option>
+                                <option value="behind">Behind the Scenes</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Title</label>
+                            <input type="text" id="schedTitle" class="form__input" placeholder="Post title...">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Content</label>
+                            <textarea id="schedContent" class="form__input" rows="4" placeholder="Write your post..."></textarea>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                            <div class="form__group">
+                                <label class="form__label">Schedule Date/Time</label>
+                                <input type="datetime-local" id="schedDateTime" class="form__input">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label">Platforms</label>
+                                <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-sm);">
+                                    <label style="display: flex; align-items: center; gap: 4px;">
+                                        <input type="checkbox" id="schedSite" checked> Site
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 4px;">
+                                        <input type="checkbox" id="schedTwitter"> X
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 4px;">
+                                        <input type="checkbox" id="schedTelegram"> Telegram
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Attach Media (optional)</label>
+                            <input type="file" id="schedMedia" class="form__input" accept="image/*,video/*">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn--secondary" onclick="closeScheduleModal()">Cancel</button>
+                        <button class="btn btn--primary" onclick="schedulePost()">Schedule Post</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeScheduleModal() {
+            const modal = document.getElementById('scheduleModal');
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        function schedulePost() {
+            const type = document.getElementById('schedPostType').value;
+            const title = document.getElementById('schedTitle').value.trim();
+            const content = document.getElementById('schedContent').value.trim();
+            const dateTime = document.getElementById('schedDateTime').value;
+
+            const platforms = [];
+            if (document.getElementById('schedSite').checked) platforms.push('site');
+            if (document.getElementById('schedTwitter').checked) platforms.push('twitter');
+            if (document.getElementById('schedTelegram').checked) platforms.push('telegram');
+
+            if (!title || !dateTime) {
+                showNotification('Please fill in title and schedule time', 'error');
+                return;
+            }
+
+            const post = {
+                id: Date.now(),
+                type,
+                title,
+                content,
+                scheduledFor: new Date(dateTime).toISOString(),
+                platforms,
+                status: 'scheduled',
+                createdAt: new Date().toISOString()
+            };
+
+            scheduledPosts.push(post);
+            saveScheduledPosts();
+            renderScheduledPosts();
+            renderCalendar();
+            closeScheduleModal();
+            showNotification('Post scheduled!', 'success');
+        }
+
+        function saveScheduledPosts() {
+            localStorage.setItem('scheduledPosts', JSON.stringify(scheduledPosts));
+        }
+
+        function loadScheduledPosts() {
+            const saved = localStorage.getItem('scheduledPosts');
+            if (saved) {
+                scheduledPosts = JSON.parse(saved);
+            }
+            renderScheduledPosts();
+        }
+
+        function renderScheduledPosts() {
+            const tbody = document.getElementById('scheduledPostsBody');
+            const upcoming = scheduledPosts.filter(p => p.status === 'scheduled' && new Date(p.scheduledFor) > new Date());
+
+            if (upcoming.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No scheduled posts.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = upcoming.sort((a, b) => new Date(a.scheduledFor) - new Date(b.scheduledFor))
+                .map(post => `
+                    <tr>
+                        <td>${new Date(post.scheduledFor).toLocaleString()}</td>
+                        <td><span class="badge">${post.type}</span></td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${post.title}</td>
+                        <td>${post.platforms.join(', ')}</td>
+                        <td><span class="status-badge connected">${post.status}</span></td>
+                        <td>
+                            <button class="btn btn--secondary btn--sm" onclick="editScheduledPost(${post.id})">Edit</button>
+                            <button class="btn btn--rust btn--sm" onclick="deleteScheduledPost(${post.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+        }
+
+        function deleteScheduledPost(id) {
+            scheduledPosts = scheduledPosts.filter(p => p.id !== id);
+            saveScheduledPosts();
+            renderScheduledPosts();
+            renderCalendar();
+            showNotification('Scheduled post deleted', 'success');
+        }
+
+        function editScheduledPost(id) {
+            // For now, just allow deletion. Full edit could be implemented later.
+            showNotification('Delete and recreate to edit', 'info');
+        }
+
+        // Calendar functions
+        function renderCalendar() {
+            const container = document.getElementById('contentCalendar');
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+
+            // Update month display
+            document.getElementById('calendarMonth').textContent =
+                currentCalendarDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            // Clear existing days (keep headers)
+            const headers = Array.from(container.querySelectorAll('.calendar-header'));
+            container.innerHTML = '';
+            headers.forEach(h => container.appendChild(h));
+
+            // Get first day of month and total days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+            const today = new Date();
+
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                container.appendChild(createCalendarDay(day, true, year, month - 1));
+            }
+
+            // Current month days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                container.appendChild(createCalendarDay(day, false, year, month, isToday));
+            }
+
+            // Fill remaining with next month
+            const totalCells = 42; // 6 rows
+            const currentCells = firstDay + daysInMonth;
+            for (let day = 1; day <= totalCells - currentCells; day++) {
+                container.appendChild(createCalendarDay(day, true, year, month + 1));
+            }
+        }
+
+        function createCalendarDay(day, otherMonth, year, month, isToday = false) {
+            const div = document.createElement('div');
+            div.className = 'calendar-day' + (otherMonth ? ' other-month' : '') + (isToday ? ' today' : '');
+
+            const dateStr = new Date(year, month, day).toISOString().split('T')[0];
+            const dayPosts = scheduledPosts.filter(p => p.scheduledFor.startsWith(dateStr));
+            const dayCountdowns = countdowns.filter(c => c.targetDate.startsWith(dateStr));
+
+            div.innerHTML = `
+                <div class="day-number">${day}</div>
+                <div class="day-events">
+                    ${dayPosts.map(p => `<div class="calendar-event ${p.type === 'live' ? 'live' : p.type === 'sale' ? 'sale' : ''}">${p.title}</div>`).join('')}
+                    ${dayCountdowns.map(c => `<div class="calendar-event live">${c.title}</div>`).join('')}
+                </div>
+            `;
+
+            div.onclick = () => {
+                if (!otherMonth) {
+                    // Could open a day detail view
+                    console.log('Clicked day:', day);
+                }
+            };
+
+            return div;
+        }
+
+        function prevMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        // Template functions
+        function useTemplate(template) {
+            const templates = {
+                newContent: {
+                    type: 'content',
+                    title: 'New Content Just Dropped!',
+                    content: 'Fresh content alert! Just uploaded some hot new photos/videos for y\'all. Check it out before it\'s gone!'
+                },
+                liveShow: {
+                    type: 'live',
+                    title: 'Going Live Soon!',
+                    content: 'Get ready cowboys! Going live in [TIME]. Don\'t miss out on the action!'
+                },
+                flashSale: {
+                    type: 'sale',
+                    title: 'Flash Sale - Limited Time!',
+                    content: 'FLASH SALE! Get [DISCOUNT]% off for the next [HOURS] hours. Use code: [CODE]'
+                },
+                behindScenes: {
+                    type: 'behind',
+                    title: 'Behind the Scenes',
+                    content: 'Ever wonder what goes on behind closed doors? Here\'s a little peek...'
+                }
+            };
+
+            const t = templates[template];
+            if (t) {
+                showSchedulePostModal();
+                setTimeout(() => {
+                    document.getElementById('schedPostType').value = t.type;
+                    document.getElementById('schedTitle').value = t.title;
+                    document.getElementById('schedContent').value = t.content;
+                }, 100);
+            }
+        }
+
+        function saveAutoPostSettings() {
+            const settings = {
+                twitter: document.getElementById('autopostTwitter').checked,
+                instagram: document.getElementById('autopostInstagram').checked,
+                bluesky: document.getElementById('autopostBluesky').checked,
+                telegram: document.getElementById('autopostTelegram').checked
+            };
+            localStorage.setItem('autoPostSettings', JSON.stringify(settings));
+            showNotification('Auto-post settings saved!', 'success');
+        }
+
+        function loadAutoPostSettings() {
+            const saved = localStorage.getItem('autoPostSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('autopostTwitter').checked = settings.twitter || false;
+                document.getElementById('autopostInstagram').checked = settings.instagram || false;
+                document.getElementById('autopostBluesky').checked = settings.bluesky || false;
+                document.getElementById('autopostTelegram').checked = settings.telegram || false;
+            }
+        }
+
+        // Load engagement data on panel switch
+        const originalSwitchPanel = switchPanel;
+        switchPanel = function(panelId) {
+            originalSwitchPanel(panelId);
+            if (panelId === 'engagement') {
+                loadPolls();
+                loadCountdowns();
+                loadTipJarSettings();
+                loadReferralSettings();
+            } else if (panelId === 'scheduler') {
+                loadScheduledPosts();
+                loadAutoPostSettings();
+                renderCalendar();
+            }
+        };
     </script>
 </body>
 </html>
