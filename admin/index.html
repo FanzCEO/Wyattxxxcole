@@ -838,6 +838,78 @@
             transition: all 0.2s;
         }
 
+        /* Announcement Banner */
+        .announcement-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+            padding: var(--space-sm) var(--space-lg);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            border-radius: 8px;
+        }
+        .announcement-banner--gold {
+            background: linear-gradient(135deg, #c68e3f, #d4a85a);
+            color: #1a1a1a;
+        }
+        .announcement-banner--rust {
+            background: linear-gradient(135deg, #a44a2a, #c45a3a);
+            color: white;
+        }
+        .announcement-banner--success {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            color: #1a1a1a;
+        }
+        .announcement-banner--info {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
+        }
+        .announcement-banner--gradient {
+            background: linear-gradient(135deg, #c68e3f, #a44a2a, #c68e3f);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            color: white;
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .banner-message {
+            flex: 1;
+            text-align: center;
+        }
+        .banner-link {
+            font-weight: 700;
+            text-decoration: underline;
+            color: inherit;
+            white-space: nowrap;
+        }
+        .banner-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.7;
+            padding: 0 var(--space-sm);
+        }
+        .banner-close:hover {
+            opacity: 1;
+        }
+
+        /* Promo Code Badge */
+        .promo-code-display {
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: rgba(198,142,63,0.2);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px dashed var(--whiskey);
+        }
+
         .realtime-visitor-pill {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.1);
@@ -1217,6 +1289,7 @@
                 <button data-panel="analytics">Analytics</button>
                 <button data-panel="engagement">Fan Engagement</button>
                 <button data-panel="scheduler">Scheduler</button>
+                <button data-panel="marketing">Marketing</button>
                 <button data-panel="integrations">Integrations</button>
                 <button data-panel="settings">Settings</button>
                 <button data-panel="security">Security</button>
@@ -3211,6 +3284,165 @@
                         </label>
                     </div>
                     <button class="btn btn--primary" style="margin-top: var(--space-lg);" onclick="saveAutoPostSettings()">Save Auto-Post Settings</button>
+                </div>
+            </div>
+
+            <!-- Marketing Panel -->
+            <div class="panel" id="panel-marketing">
+                <div class="panel-header">
+                    <h2>Marketing Tools</h2>
+                </div>
+
+                <!-- Announcement Banner Section -->
+                <div class="settings-section">
+                    <h3>Site Announcement Banner</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Display a banner at the top of your site for promotions, announcements, or important messages.
+                    </p>
+
+                    <div style="display: grid; gap: var(--space-lg);">
+                        <div style="display: grid; grid-template-columns: 1fr auto; gap: var(--space-lg); align-items: start;">
+                            <div class="form__group" style="margin: 0;">
+                                <label class="form__label">Banner Message</label>
+                                <input type="text" id="bannerMessage" class="form__input" placeholder="🔥 New content dropping Friday! Subscribe now for early access">
+                            </div>
+                            <div class="form__group" style="margin: 0;">
+                                <label class="form__label">Enable Banner</label>
+                                <label class="toggle-switch" style="margin-top: var(--space-sm);">
+                                    <input type="checkbox" id="bannerEnabled">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md);">
+                            <div class="form__group" style="margin: 0;">
+                                <label class="form__label">Banner Style</label>
+                                <select id="bannerStyle" class="form__input">
+                                    <option value="gold">Gold (Brand)</option>
+                                    <option value="rust">Rust (Urgent)</option>
+                                    <option value="success">Green (Success)</option>
+                                    <option value="info">Blue (Info)</option>
+                                    <option value="gradient">Gradient (Premium)</option>
+                                </select>
+                            </div>
+                            <div class="form__group" style="margin: 0;">
+                                <label class="form__label">Link URL (optional)</label>
+                                <input type="url" id="bannerLink" class="form__input" placeholder="https://...">
+                            </div>
+                            <div class="form__group" style="margin: 0;">
+                                <label class="form__label">Link Text</label>
+                                <input type="text" id="bannerLinkText" class="form__input" placeholder="Learn More">
+                            </div>
+                            <div class="form__group" style="margin: 0;">
+                                <label class="form__label">Expires</label>
+                                <input type="datetime-local" id="bannerExpires" class="form__input">
+                            </div>
+                        </div>
+
+                        <!-- Banner Preview -->
+                        <div class="form__group" style="margin: 0;">
+                            <label class="form__label">Preview</label>
+                            <div id="bannerPreview" class="announcement-banner announcement-banner--gold" style="margin-top: var(--space-sm);">
+                                <span class="banner-message">Your banner message will appear here</span>
+                                <a href="#" class="banner-link">Learn More</a>
+                                <button class="banner-close">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn--primary" style="margin-top: var(--space-lg);" onclick="saveBannerSettings()">Save Banner Settings</button>
+                </div>
+
+                <!-- Promo Codes Section -->
+                <div class="settings-section">
+                    <h3>Promo Codes & Discounts</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                        Create discount codes for your fans. These can be applied to subscriptions, custom content, or merchandise.
+                    </p>
+
+                    <button class="btn btn--primary" style="margin-bottom: var(--space-lg);" onclick="showCreatePromoModal()">+ Create Promo Code</button>
+
+                    <!-- Active Promo Codes Table -->
+                    <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Discount</th>
+                                    <th>Type</th>
+                                    <th>Uses</th>
+                                    <th>Expires</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="promoCodesBody">
+                                <tr><td colspan="7" class="empty-state">No promo codes yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Subscriber Growth Section -->
+                <div class="settings-section">
+                    <h3>Subscriber Growth</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                        Track your subscriber growth over time.
+                    </p>
+
+                    <div class="admin-stats" style="margin-bottom: var(--space-xl);">
+                        <div class="admin-stat">
+                            <div class="admin-stat__value" id="stat-subs-today">0</div>
+                            <div class="admin-stat__label">New Today</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="admin-stat__value" id="stat-subs-week">0</div>
+                            <div class="admin-stat__label">This Week</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="admin-stat__value" id="stat-subs-month">0</div>
+                            <div class="admin-stat__label">This Month</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="admin-stat__value" id="stat-subs-total">0</div>
+                            <div class="admin-stat__label">Total Subscribers</div>
+                        </div>
+                    </div>
+
+                    <!-- Growth Chart -->
+                    <div id="growthChart" style="height: 200px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: var(--space-md); position: relative;">
+                        <svg id="growthChartSvg" width="100%" height="100%" style="overflow: visible;">
+                            <!-- Chart will be drawn by JS -->
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Quick Marketing Actions -->
+                <div class="settings-section">
+                    <h3>Quick Marketing Actions</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md);">
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer; text-align: center;" onclick="quickAction('flash-sale')">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🔥</div>
+                            <div style="font-weight: 600;">Launch Flash Sale</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">24-hour discount</div>
+                        </div>
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer; text-align: center;" onclick="quickAction('weekend-special')">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🎉</div>
+                            <div style="font-weight: 600;">Weekend Special</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Fri-Sun promo</div>
+                        </div>
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer; text-align: center;" onclick="quickAction('new-sub')">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">👋</div>
+                            <div style="font-weight: 600;">New Sub Welcome</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">First-time discount</div>
+                        </div>
+                        <div class="template-card" style="background: rgba(193,154,107,0.1); border: 1px solid rgba(193,154,107,0.2); border-radius: 8px; padding: var(--space-lg); cursor: pointer; text-align: center;" onclick="quickAction('vip-exclusive')">
+                            <div style="font-size: 2rem; margin-bottom: var(--space-sm);">👑</div>
+                            <div style="font-weight: 600;">VIP Exclusive</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Loyal fan reward</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -6996,8 +7228,390 @@
                 loadScheduledPosts();
                 loadAutoPostSettings();
                 renderCalendar();
+            } else if (panelId === 'marketing') {
+                loadBannerSettings();
+                loadPromoCodes();
+                loadSubscriberStats();
             }
         };
+
+        // ==================== MARKETING ====================
+
+        let promoCodes = [];
+
+        // Banner Settings
+        function loadBannerSettings() {
+            const saved = localStorage.getItem('bannerSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('bannerEnabled').checked = settings.enabled || false;
+                document.getElementById('bannerMessage').value = settings.message || '';
+                document.getElementById('bannerStyle').value = settings.style || 'gold';
+                document.getElementById('bannerLink').value = settings.link || '';
+                document.getElementById('bannerLinkText').value = settings.linkText || 'Learn More';
+                document.getElementById('bannerExpires').value = settings.expires || '';
+            }
+            updateBannerPreview();
+
+            // Add live preview listeners
+            ['bannerMessage', 'bannerStyle', 'bannerLink', 'bannerLinkText'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateBannerPreview);
+            });
+            document.getElementById('bannerStyle').addEventListener('change', updateBannerPreview);
+        }
+
+        function updateBannerPreview() {
+            const preview = document.getElementById('bannerPreview');
+            const message = document.getElementById('bannerMessage').value || 'Your banner message will appear here';
+            const style = document.getElementById('bannerStyle').value;
+            const link = document.getElementById('bannerLink').value;
+            const linkText = document.getElementById('bannerLinkText').value || 'Learn More';
+
+            preview.className = `announcement-banner announcement-banner--${style}`;
+            preview.querySelector('.banner-message').textContent = message;
+            preview.querySelector('.banner-link').textContent = linkText;
+            preview.querySelector('.banner-link').style.display = link ? 'inline' : 'none';
+        }
+
+        function saveBannerSettings() {
+            const settings = {
+                enabled: document.getElementById('bannerEnabled').checked,
+                message: document.getElementById('bannerMessage').value,
+                style: document.getElementById('bannerStyle').value,
+                link: document.getElementById('bannerLink').value,
+                linkText: document.getElementById('bannerLinkText').value,
+                expires: document.getElementById('bannerExpires').value
+            };
+            localStorage.setItem('bannerSettings', JSON.stringify(settings));
+            showNotification('Banner settings saved!', 'success');
+        }
+
+        // Promo Code Functions
+        function showCreatePromoModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.id = 'promoModal';
+            modal.innerHTML = `
+                <div class="modal" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3>Create Promo Code</h3>
+                        <button class="modal-close" onclick="closePromoModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form__group">
+                            <label class="form__label">Promo Code</label>
+                            <div style="display: flex; gap: var(--space-sm);">
+                                <input type="text" id="promoCode" class="form__input" placeholder="SUMMER25" style="text-transform: uppercase;">
+                                <button class="btn btn--secondary btn--sm" onclick="generatePromoCode()">Generate</button>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                            <div class="form__group">
+                                <label class="form__label">Discount Type</label>
+                                <select id="promoType" class="form__input">
+                                    <option value="percent">Percentage Off</option>
+                                    <option value="fixed">Fixed Amount Off</option>
+                                    <option value="free-trial">Free Trial Days</option>
+                                </select>
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label">Discount Value</label>
+                                <input type="number" id="promoValue" class="form__input" placeholder="25" min="1">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                            <div class="form__group">
+                                <label class="form__label">Max Uses (0 = unlimited)</label>
+                                <input type="number" id="promoMaxUses" class="form__input" placeholder="100" min="0" value="0">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label">Expires On</label>
+                                <input type="date" id="promoExpires" class="form__input">
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Applies To</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: var(--space-md); margin-top: var(--space-sm);">
+                                <label style="display: flex; align-items: center; gap: 4px;">
+                                    <input type="checkbox" id="promoSubscription" checked> Subscriptions
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 4px;">
+                                    <input type="checkbox" id="promoCustom"> Custom Content
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 4px;">
+                                    <input type="checkbox" id="promoMerch"> Merchandise
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn--secondary" onclick="closePromoModal()">Cancel</button>
+                        <button class="btn btn--primary" onclick="createPromoCode()">Create Code</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closePromoModal() {
+            const modal = document.getElementById('promoModal');
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        function generatePromoCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('promoCode').value = code;
+        }
+
+        function createPromoCode() {
+            const code = document.getElementById('promoCode').value.trim().toUpperCase();
+            const type = document.getElementById('promoType').value;
+            const value = parseInt(document.getElementById('promoValue').value) || 0;
+            const maxUses = parseInt(document.getElementById('promoMaxUses').value) || 0;
+            const expires = document.getElementById('promoExpires').value;
+
+            if (!code || !value) {
+                showNotification('Please fill in code and value', 'error');
+                return;
+            }
+
+            const appliesTo = [];
+            if (document.getElementById('promoSubscription').checked) appliesTo.push('subscription');
+            if (document.getElementById('promoCustom').checked) appliesTo.push('custom');
+            if (document.getElementById('promoMerch').checked) appliesTo.push('merch');
+
+            const promo = {
+                id: Date.now(),
+                code,
+                type,
+                value,
+                maxUses,
+                usedCount: 0,
+                expires: expires || null,
+                appliesTo,
+                active: true,
+                createdAt: new Date().toISOString()
+            };
+
+            promoCodes.push(promo);
+            savePromoCodes();
+            renderPromoCodes();
+            closePromoModal();
+            showNotification(`Promo code ${code} created!`, 'success');
+        }
+
+        function savePromoCodes() {
+            localStorage.setItem('promoCodes', JSON.stringify(promoCodes));
+        }
+
+        function loadPromoCodes() {
+            const saved = localStorage.getItem('promoCodes');
+            if (saved) {
+                promoCodes = JSON.parse(saved);
+                // Check for expired codes
+                const now = new Date().toISOString().split('T')[0];
+                promoCodes = promoCodes.map(p => {
+                    if (p.expires && p.expires < now) {
+                        p.active = false;
+                    }
+                    return p;
+                });
+                savePromoCodes();
+            }
+            renderPromoCodes();
+        }
+
+        function renderPromoCodes() {
+            const tbody = document.getElementById('promoCodesBody');
+
+            if (promoCodes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No promo codes yet.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = promoCodes.map(promo => {
+                const typeLabel = promo.type === 'percent' ? `${promo.value}%` :
+                                  promo.type === 'fixed' ? `$${promo.value}` :
+                                  `${promo.value} days`;
+                const usesLabel = promo.maxUses === 0 ? `${promo.usedCount} / ∞` : `${promo.usedCount} / ${promo.maxUses}`;
+                const expiresLabel = promo.expires || 'Never';
+                const statusClass = promo.active ? 'connected' : 'disconnected';
+                const statusLabel = promo.active ? 'Active' : 'Expired';
+
+                return `
+                    <tr>
+                        <td><span class="promo-code-display">${promo.code}</span></td>
+                        <td>${typeLabel}</td>
+                        <td>${promo.appliesTo.join(', ')}</td>
+                        <td>${usesLabel}</td>
+                        <td>${expiresLabel}</td>
+                        <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+                        <td>
+                            <button class="btn btn--secondary btn--sm" onclick="copyPromoCode('${promo.code}')">Copy</button>
+                            <button class="btn btn--rust btn--sm" onclick="deletePromoCode(${promo.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function copyPromoCode(code) {
+            navigator.clipboard.writeText(code);
+            showNotification(`Copied: ${code}`, 'success');
+        }
+
+        function deletePromoCode(id) {
+            promoCodes = promoCodes.filter(p => p.id !== id);
+            savePromoCodes();
+            renderPromoCodes();
+            showNotification('Promo code deleted', 'success');
+        }
+
+        // Quick Marketing Actions
+        function quickAction(action) {
+            const actions = {
+                'flash-sale': {
+                    code: 'FLASH' + Math.floor(Math.random() * 100),
+                    type: 'percent',
+                    value: 30,
+                    message: '🔥 FLASH SALE! 30% off for the next 24 hours!',
+                    hours: 24
+                },
+                'weekend-special': {
+                    code: 'WEEKEND' + Math.floor(Math.random() * 100),
+                    type: 'percent',
+                    value: 20,
+                    message: '🎉 Weekend Special! 20% off all weekend!',
+                    days: 3
+                },
+                'new-sub': {
+                    code: 'WELCOME' + Math.floor(Math.random() * 100),
+                    type: 'percent',
+                    value: 50,
+                    message: '👋 New here? Get 50% off your first month!',
+                    days: 30
+                },
+                'vip-exclusive': {
+                    code: 'VIP' + Math.floor(Math.random() * 100),
+                    type: 'fixed',
+                    value: 10,
+                    message: '👑 VIP Exclusive: $10 off for loyal fans!',
+                    days: 7
+                }
+            };
+
+            const a = actions[action];
+            if (!a) return;
+
+            // Create the promo code
+            const expires = new Date();
+            if (a.hours) expires.setHours(expires.getHours() + a.hours);
+            if (a.days) expires.setDate(expires.getDate() + a.days);
+
+            const promo = {
+                id: Date.now(),
+                code: a.code,
+                type: a.type,
+                value: a.value,
+                maxUses: 0,
+                usedCount: 0,
+                expires: expires.toISOString().split('T')[0],
+                appliesTo: ['subscription'],
+                active: true,
+                createdAt: new Date().toISOString()
+            };
+
+            promoCodes.push(promo);
+            savePromoCodes();
+            renderPromoCodes();
+
+            // Set up the banner
+            document.getElementById('bannerEnabled').checked = true;
+            document.getElementById('bannerMessage').value = a.message;
+            document.getElementById('bannerStyle').value = 'gradient';
+            document.getElementById('bannerExpires').value = expires.toISOString().slice(0, 16);
+            updateBannerPreview();
+            saveBannerSettings();
+
+            showNotification(`${action.replace('-', ' ').toUpperCase()} launched! Code: ${a.code}`, 'success');
+        }
+
+        // Subscriber Stats
+        function loadSubscriberStats() {
+            // In production, this would fetch from API
+            // For now, use localStorage demo data
+            const stats = JSON.parse(localStorage.getItem('subscriberStats')) || {
+                today: Math.floor(Math.random() * 10),
+                week: Math.floor(Math.random() * 50),
+                month: Math.floor(Math.random() * 200),
+                total: Math.floor(Math.random() * 1000) + 500
+            };
+
+            document.getElementById('stat-subs-today').textContent = stats.today;
+            document.getElementById('stat-subs-week').textContent = stats.week;
+            document.getElementById('stat-subs-month').textContent = stats.month;
+            document.getElementById('stat-subs-total').textContent = stats.total;
+
+            // Draw a simple growth chart
+            drawGrowthChart();
+        }
+
+        function drawGrowthChart() {
+            const svg = document.getElementById('growthChartSvg');
+            const rect = svg.getBoundingClientRect();
+            const width = rect.width || 600;
+            const height = rect.height || 150;
+            const padding = 30;
+
+            // Generate demo data (last 30 days)
+            const data = [];
+            let cumulative = 400;
+            for (let i = 30; i >= 0; i--) {
+                cumulative += Math.floor(Math.random() * 20) - 5;
+                data.push({
+                    day: 30 - i,
+                    value: Math.max(cumulative, 100)
+                });
+            }
+
+            const maxVal = Math.max(...data.map(d => d.value));
+            const minVal = Math.min(...data.map(d => d.value));
+
+            const xScale = (width - padding * 2) / (data.length - 1);
+            const yScale = (height - padding * 2) / (maxVal - minVal || 1);
+
+            // Create path
+            const points = data.map((d, i) => {
+                const x = padding + i * xScale;
+                const y = height - padding - (d.value - minVal) * yScale;
+                return `${x},${y}`;
+            });
+
+            svg.innerHTML = `
+                <defs>
+                    <linearGradient id="growthGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#c68e3f;stop-opacity:0.3"/>
+                        <stop offset="100%" style="stop-color:#c68e3f;stop-opacity:0"/>
+                    </linearGradient>
+                </defs>
+                <path d="M${points[0]} ${points.join(' L')} L${width - padding},${height - padding} L${padding},${height - padding} Z"
+                      fill="url(#growthGradient)"/>
+                <polyline points="${points.join(' ')}"
+                          fill="none"
+                          stroke="#c68e3f"
+                          stroke-width="2"/>
+                <text x="${padding}" y="${height - 5}" fill="var(--text-muted)" font-size="10">30 days ago</text>
+                <text x="${width - padding}" y="${height - 5}" fill="var(--text-muted)" font-size="10" text-anchor="end">Today</text>
+            `;
+        }
     </script>
 </body>
 </html>
