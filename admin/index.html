@@ -2885,24 +2885,73 @@
                 <div class="settings-section">
                     <h3>Email Templates</h3>
                     <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
-                        Customize the emails sent by the system.
+                        Professional email marketing templates. Use variables like <code>{{NAME}}</code>, <code>{{BRAND_NAME}}</code>, etc.
                     </p>
-                    <div style="display: grid; gap: var(--space-lg);">
-                        <div class="form__group">
-                            <label class="form__label">Verification Code Email Subject</label>
-                            <input type="text" id="templateVerifySubject" class="form__input" value="Your Admin Verification Code">
+
+                    <!-- Template Category Tabs -->
+                    <div class="template-tabs" style="display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); flex-wrap: wrap;">
+                        <button class="btn btn--sm template-tab active" onclick="filterTemplates('all')" data-category="all">All Templates</button>
+                        <button class="btn btn--sm template-tab" onclick="filterTemplates('marketing')" data-category="marketing">Marketing</button>
+                        <button class="btn btn--sm template-tab" onclick="filterTemplates('transactional')" data-category="transactional">Transactional</button>
+                        <button class="btn btn--sm template-tab" onclick="filterTemplates('system')" data-category="system">System</button>
+                    </div>
+
+                    <!-- Template Selector -->
+                    <div class="form__group" style="margin-bottom: var(--space-lg);">
+                        <label class="form__label">Select Template to Edit</label>
+                        <select id="templateSelector" class="form__input" onchange="loadSelectedTemplate()">
+                            <option value="">-- Choose a template --</option>
+                        </select>
+                    </div>
+
+                    <!-- Template Editor -->
+                    <div id="templateEditor" style="display: none;">
+                        <div class="template-info" style="background: rgba(193,154,107,0.1); padding: var(--space-md); border-radius: 8px; margin-bottom: var(--space-lg);">
+                            <strong id="templateName" style="color: var(--whiskey);">Template Name</strong>
+                            <span id="templateCategory" class="badge" style="margin-left: var(--space-sm); background: var(--surface); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">category</span>
                         </div>
-                        <div class="form__group">
-                            <label class="form__label">Verification Code Email Body</label>
-                            <textarea id="templateVerifyBody" class="form__input" rows="6" style="font-family: monospace;">Your verification code is: {{CODE}}
 
-This code will expire in 10 minutes.
+                        <div style="display: grid; gap: var(--space-lg);">
+                            <div class="form__group">
+                                <label class="form__label">Email Subject Line</label>
+                                <input type="text" id="templateSubject" class="form__input" placeholder="Enter email subject...">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label">Email Body</label>
+                                <textarea id="templateBody" class="form__input" rows="15" style="font-family: monospace; white-space: pre-wrap;"></textarea>
+                            </div>
 
-If you didn't request this code, please ignore this email.
+                            <!-- Available Variables -->
+                            <div class="variables-help" style="background: var(--surface); padding: var(--space-md); border-radius: 8px;">
+                                <strong style="color: var(--text-secondary); font-size: 0.85rem;">Available Variables:</strong>
+                                <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-sm);">
+                                    <code style="background: var(--card-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;" onclick="insertVariable('{{NAME}}')">{{NAME}}</code>
+                                    <code style="background: var(--card-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;" onclick="insertVariable('{{BRAND_NAME}}')">{{BRAND_NAME}}</code>
+                                    <code style="background: var(--card-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;" onclick="insertVariable('{{TAGLINE}}')">{{TAGLINE}}</code>
+                                    <code style="background: var(--card-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;" onclick="insertVariable('{{UNSUBSCRIBE_LINK}}')">{{UNSUBSCRIBE_LINK}}</code>
+                                    <code style="background: var(--card-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;" onclick="insertVariable('{{DATE}}')">{{DATE}}</code>
+                                </div>
+                            </div>
 
-- WYATT XXX COLE Admin</textarea>
+                            <div style="display: flex; gap: var(--space-md);">
+                                <button class="btn btn--secondary" onclick="previewTemplate()">Preview</button>
+                                <button class="btn btn--primary" onclick="saveCurrentTemplate()">Save Template</button>
+                            </div>
                         </div>
-                        <button class="btn btn--primary" onclick="saveEmailTemplates()">Save Templates</button>
+                    </div>
+
+                    <!-- Template Preview Modal -->
+                    <div id="templatePreviewModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; padding: var(--space-xl); overflow: auto;">
+                        <div style="max-width: 600px; margin: 0 auto; background: white; color: #333; padding: var(--space-xl); border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                                <strong>Email Preview</strong>
+                                <button onclick="closeTemplatePreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                            </div>
+                            <div style="border-bottom: 2px solid #eee; padding-bottom: var(--space-md); margin-bottom: var(--space-lg);">
+                                <strong>Subject:</strong> <span id="previewSubject"></span>
+                            </div>
+                            <div id="previewBody" style="white-space: pre-wrap; line-height: 1.6;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4605,46 +4654,155 @@ If you didn't request this code, please ignore this email.
             }
         });
 
+        // ============ EMAIL TEMPLATES SYSTEM ============
+        let emailTemplates = {};
+        let currentTemplateKey = '';
+        let currentTemplateFilter = 'all';
+
         async function loadEmailTemplates() {
             try {
                 const res = await fetch(`${API_BASE}?action=get-email-templates&token=${authToken}`);
                 const data = await res.json();
 
                 if (data.success && data.templates) {
-                    if (data.templates.verification) {
-                        document.getElementById('templateVerifySubject').value = data.templates.verification.subject || '';
-                        document.getElementById('templateVerifyBody').value = data.templates.verification.body || '';
-                    }
+                    emailTemplates = data.templates;
+                    populateTemplateSelector();
                 }
             } catch (err) {
                 console.error('Failed to load email templates:', err);
             }
         }
 
-        async function saveEmailTemplates() {
-            const templates = {
-                verification: {
-                    subject: document.getElementById('templateVerifySubject').value,
-                    body: document.getElementById('templateVerifyBody').value
+        function populateTemplateSelector() {
+            const selector = document.getElementById('templateSelector');
+            selector.innerHTML = '<option value="">-- Choose a template --</option>';
+
+            Object.entries(emailTemplates).forEach(([key, template]) => {
+                if (currentTemplateFilter === 'all' || template.category === currentTemplateFilter) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = template.name || key;
+                    option.dataset.category = template.category || 'custom';
+                    selector.appendChild(option);
                 }
+            });
+        }
+
+        function filterTemplates(category) {
+            currentTemplateFilter = category;
+
+            // Update tab styles
+            document.querySelectorAll('.template-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.category === category);
+            });
+
+            populateTemplateSelector();
+            document.getElementById('templateEditor').style.display = 'none';
+            currentTemplateKey = '';
+        }
+
+        function loadSelectedTemplate() {
+            const selector = document.getElementById('templateSelector');
+            const key = selector.value;
+
+            if (!key || !emailTemplates[key]) {
+                document.getElementById('templateEditor').style.display = 'none';
+                return;
+            }
+
+            currentTemplateKey = key;
+            const template = emailTemplates[key];
+
+            document.getElementById('templateName').textContent = template.name || key;
+            document.getElementById('templateCategory').textContent = template.category || 'custom';
+            document.getElementById('templateSubject').value = template.subject || '';
+            document.getElementById('templateBody').value = template.body || '';
+
+            document.getElementById('templateEditor').style.display = 'block';
+        }
+
+        function insertVariable(variable) {
+            const textarea = document.getElementById('templateBody');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+
+            textarea.value = text.substring(0, start) + variable + text.substring(end);
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = start + variable.length;
+        }
+
+        function previewTemplate() {
+            const subject = document.getElementById('templateSubject').value;
+            const body = document.getElementById('templateBody').value;
+
+            // Replace variables with sample data
+            const sampleData = {
+                '{{NAME}}': 'John',
+                '{{BRAND_NAME}}': 'WYATT XXX COLE',
+                '{{TAGLINE}}': 'Country Bred. Fully Loaded.',
+                '{{CODE}}': '847293',
+                '{{UNSUBSCRIBE_LINK}}': '[Unsubscribe]',
+                '{{DATE}}': new Date().toLocaleDateString(),
+                '{{DISCOUNT}}': '25',
+                '{{HOURS}}': '24',
+                '{{PROMO_CODE}}': 'YEEHAW25',
+                '{{CONTENT_TITLE}}': 'New Video Drop',
+                '{{TIER_NAME}}': 'Gold Buckle',
+                '{{DAYS}}': '3'
+            };
+
+            let previewSubject = subject;
+            let previewBody = body;
+
+            Object.entries(sampleData).forEach(([key, value]) => {
+                previewSubject = previewSubject.split(key).join(value);
+                previewBody = previewBody.split(key).join(value);
+            });
+
+            document.getElementById('previewSubject').textContent = previewSubject;
+            document.getElementById('previewBody').textContent = previewBody;
+            document.getElementById('templatePreviewModal').style.display = 'block';
+        }
+
+        function closeTemplatePreview() {
+            document.getElementById('templatePreviewModal').style.display = 'none';
+        }
+
+        async function saveCurrentTemplate() {
+            if (!currentTemplateKey) {
+                showNotification('No template selected', 'error');
+                return;
+            }
+
+            const template = {
+                ...emailTemplates[currentTemplateKey],
+                subject: document.getElementById('templateSubject').value,
+                body: document.getElementById('templateBody').value
             };
 
             try {
                 const res = await fetch(`${API_BASE}?action=save-email-templates&token=${authToken}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(templates)
+                    body: JSON.stringify({ [currentTemplateKey]: template })
                 });
 
                 const data = await res.json();
                 if (data.success) {
-                    showNotification('Email templates saved!', 'success');
+                    emailTemplates[currentTemplateKey] = template;
+                    showNotification('Template saved!', 'success');
                 } else {
                     showNotification(data.error || 'Save failed', 'error');
                 }
             } catch (err) {
-                showNotification('Failed to save templates', 'error');
+                showNotification('Failed to save template', 'error');
             }
+        }
+
+        // Legacy function for backwards compatibility
+        async function saveEmailTemplates() {
+            await saveCurrentTemplate();
         }
 
         // ============ GOOGLE ANALYTICS & TRACKING ============

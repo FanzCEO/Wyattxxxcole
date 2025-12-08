@@ -207,96 +207,111 @@ function checkRateLimit($identifier = null) {
 }
 
 // ==================== AUTHENTICATION ====================
+// Note: These functions may be overridden by individual API files with custom auth logic
 
-function getStoredToken() {
-    $tokenFile = __DIR__ . '/.admin_token';
-    if (file_exists($tokenFile)) {
-        return trim(file_get_contents($tokenFile));
+if (!function_exists('getStoredToken')) {
+    function getStoredToken() {
+        $tokenFile = __DIR__ . '/.admin_token';
+        if (file_exists($tokenFile)) {
+            return trim(file_get_contents($tokenFile));
+        }
+        return null;
     }
-    return null;
 }
 
-function checkAuth($required = true) {
-    $headers = getallheaders();
-    $token = $headers['Authorization'] ?? $_GET['token'] ?? '';
-    $token = str_replace('Bearer ', '', $token);
+if (!function_exists('checkAuth')) {
+    function checkAuth($required = true) {
+        $headers = getallheaders();
+        $token = $headers['Authorization'] ?? $_GET['token'] ?? '';
+        $token = str_replace('Bearer ', '', $token);
 
-    $storedToken = getStoredToken();
+        $storedToken = getStoredToken();
 
-    // Secure token validation
-    if (!empty($token) && !empty($storedToken) && hash_equals($storedToken, $token)) {
-        return true;
+        // Secure token validation
+        if (!empty($token) && !empty($storedToken) && hash_equals($storedToken, $token)) {
+            return true;
+        }
+
+        if ($required) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit();
+        }
+
+        return false;
     }
-
-    if ($required) {
-        http_response_code(401);
-        echo json_encode(['success' => false, 'error' => 'Unauthorized']);
-        exit();
-    }
-
-    return false;
 }
 
 // ==================== INPUT SANITIZATION ====================
 
-function sanitizeInput($input) {
-    if (is_array($input)) {
-        return array_map('sanitizeInput', $input);
+if (!function_exists('sanitizeInput')) {
+    function sanitizeInput($input) {
+        if (is_array($input)) {
+            return array_map('sanitizeInput', $input);
+        }
+        return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
     }
-    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 }
 
-function sanitizeFilename($filename) {
-    // Remove path traversal attempts
-    $filename = basename($filename);
-    // Remove dangerous characters
-    $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
-    return $filename;
+if (!function_exists('sanitizeFilename')) {
+    function sanitizeFilename($filename) {
+        // Remove path traversal attempts
+        $filename = basename($filename);
+        // Remove dangerous characters
+        $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
+        return $filename;
+    }
 }
 
 // ==================== INITIALIZATION ====================
 
-function initSecurity($options = []) {
-    $defaults = [
-        'cors' => true,
-        'headers' => true,
-        'rateLimit' => true,
-        'csrf' => false, // Disabled by default for API endpoints using token auth
-    ];
+if (!function_exists('initSecurity')) {
+    function initSecurity($options = []) {
+        $defaults = [
+            'cors' => true,
+            'headers' => true,
+            'rateLimit' => true,
+            'csrf' => false, // Disabled by default for API endpoints using token auth
+        ];
 
-    $options = array_merge($defaults, $options);
+        $options = array_merge($defaults, $options);
 
-    // Set JSON content type
-    header('Content-Type: application/json');
+        // Set JSON content type
+        header('Content-Type: application/json');
 
-    // Apply security measures
-    if ($options['cors']) {
-        handleCORS();
-    }
+        // Apply security measures
+        if ($options['cors']) {
+            handleCORS();
+        }
 
-    if ($options['headers']) {
-        setSecurityHeaders();
-    }
+        if ($options['headers']) {
+            setSecurityHeaders();
+        }
 
-    if ($options['rateLimit']) {
-        checkRateLimit();
-    }
+        if ($options['rateLimit']) {
+            checkRateLimit();
+        }
 
-    if ($options['csrf']) {
-        requireCSRF();
+        if ($options['csrf']) {
+            requireCSRF();
+        }
     }
 }
 
 // ==================== HELPER FUNCTIONS ====================
 
-function respond($data, $code = 200) {
-    http_response_code($code);
-    echo json_encode($data);
-    exit();
+if (!function_exists('respond')) {
+    function respond($data, $code = 200) {
+        http_response_code($code);
+        echo json_encode($data);
+        exit();
+    }
 }
 
-function handleError($message, $code = 400) {
-    respond(['success' => false, 'error' => $message], $code);
+if (!function_exists('handleError')) {
+    function handleError($message, $code = 400) {
+        respond(['success' => false, 'error' => $message], $code);
+    }
 }
 
 // Get CSRF token for client

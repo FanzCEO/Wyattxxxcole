@@ -1437,15 +1437,96 @@ function handleGetEmailTemplates() {
         $templates = json_decode(file_get_contents(EMAIL_TEMPLATES_FILE), true) ?: [];
     }
 
-    // Default templates if not set
-    if (empty($templates['verification'])) {
-        $templates['verification'] = [
-            'subject' => 'Your Admin Verification Code',
-            'body' => "Your verification code is: {{CODE}}\n\nThis code will expire in 10 minutes.\n\nIf you didn't request this code, please ignore this email.\n\n- WYATT XXX COLE Admin"
-        ];
+    // Initialize with default templates if not set
+    $defaults = getDefaultEmailTemplates();
+    foreach ($defaults as $key => $template) {
+        if (empty($templates[$key])) {
+            $templates[$key] = $template;
+        }
     }
 
     respond(['success' => true, 'templates' => $templates]);
+}
+
+function getDefaultEmailTemplates() {
+    $brandName = '{{BRAND_NAME}}';
+    $tagline = '{{TAGLINE}}';
+
+    return [
+        // Admin & System Templates
+        'verification' => [
+            'name' => 'Admin Verification',
+            'category' => 'system',
+            'subject' => 'Your Verification Code - ' . $brandName,
+            'body' => "Howdy Partner,\n\nYour verification code is: {{CODE}}\n\nThis code will expire in 10 minutes.\n\nIf you didn't request this code, someone's tryin' to rustle your account. Ignore this email and stay safe.\n\nRide on,\n" . $brandName
+        ],
+        'welcome' => [
+            'name' => 'Welcome Email',
+            'category' => 'marketing',
+            'subject' => "Welcome to the Ranch, {{NAME}} - Let's Get Wild",
+            'body' => "Well, well, well... Look who just rode into town.\n\nHey {{NAME}},\n\nI'm Wyatt, and I'm damn glad you're here. You just joined an exclusive group of folks who like things a little... spicier.\n\nHere's what you're in for:\n- Exclusive content you won't find anywhere else\n- Behind-the-scenes access to my world\n- First dibs on new releases & specials\n- Direct line to yours truly\n\nDon't be a stranger. Hit reply anytime - I read everything.\n\nTime to saddle up.\n\n- Wyatt\n\n{{BRAND_NAME}} - {{TAGLINE}}\n\n{{UNSUBSCRIBE_LINK}}"
+        ],
+        'new_content' => [
+            'name' => 'New Content Alert',
+            'category' => 'marketing',
+            'subject' => "Fresh Meat Just Dropped - Don't Miss This",
+            'body' => "{{NAME}},\n\nI've been working hard... real hard. And now it's time to show you what I've got.\n\nJust dropped:\n{{CONTENT_TITLE}}\n\n{{CONTENT_PREVIEW}}\n\nThis one's hotter than a Texas summer, and it ain't gonna be available forever.\n\n[VIEW NOW] {{CONTENT_LINK}}\n\nDon't keep me waiting.\n\n- Wyatt\n\n{{UNSUBSCRIBE_LINK}}"
+        ],
+        'sale_promo' => [
+            'name' => 'Sale/Promotion',
+            'category' => 'marketing',
+            'subject' => "{{DISCOUNT}}% OFF - One Night Only, Cowboy",
+            'body' => "Listen up, {{NAME}}.\n\nI don't do sales often. But when I do, I go all in.\n\nFor the next {{HOURS}} hours only:\n\n{{DISCOUNT}}% OFF EVERYTHING\n\nSubscriptions. Custom content. The works.\n\nUse code: {{PROMO_CODE}}\n\n[CLAIM YOUR DISCOUNT] {{SHOP_LINK}}\n\nThis deal expires at midnight. No extensions. No excuses.\n\nYee-haw.\n\n- Wyatt\n\n{{UNSUBSCRIBE_LINK}}"
+        ],
+        'subscription_renewal' => [
+            'name' => 'Subscription Renewal Reminder',
+            'category' => 'transactional',
+            'subject' => "Your VIP Pass is About to Expire, {{NAME}}",
+            'body' => "Hey {{NAME}},\n\nJust a heads up - your {{TIER_NAME}} subscription is expiring in {{DAYS}} days.\n\nDon't lose access to:\n- Exclusive weekly content\n- Direct messaging\n- Early access to new drops\n- Member-only discounts\n\n[RENEW NOW] {{RENEWAL_LINK}}\n\nStay in the saddle.\n\n- Wyatt\n\n{{UNSUBSCRIBE_LINK}}"
+        ],
+        'booking_confirmation' => [
+            'name' => 'Booking Confirmation',
+            'category' => 'transactional',
+            'subject' => "You're Booked - {{BOOKING_TYPE}} with Wyatt",
+            'body' => "Hell yeah, {{NAME}}!\n\nYou just locked in:\n\n{{BOOKING_TYPE}}\nDate: {{BOOKING_DATE}}\nTime: {{BOOKING_TIME}}\nDuration: {{DURATION}}\n\nWhat happens next:\n1. I'll reach out 24 hours before to confirm\n2. You'll get a private link when it's time\n3. We'll have ourselves a good time\n\nGot questions? Just reply to this email.\n\nSee you soon.\n\n- Wyatt\n\nOrder #{{ORDER_ID}}"
+        ],
+        'custom_request_received' => [
+            'name' => 'Custom Request Received',
+            'category' => 'transactional',
+            'subject' => "Got Your Request - Let's Make Some Magic",
+            'body' => "{{NAME}},\n\nI got your custom request, and damn... I like the way you think.\n\nRequest Details:\n{{REQUEST_DETAILS}}\n\nHere's the deal:\n- I'll review this in the next 24-48 hours\n- You'll hear back from me personally\n- Once approved, I'll get to work\n\nExpected delivery: {{DELIVERY_ESTIMATE}}\n\nGet ready.\n\n- Wyatt\n\nRequest #{{REQUEST_ID}}"
+        ],
+        'content_delivered' => [
+            'name' => 'Content Delivered',
+            'category' => 'transactional',
+            'subject' => "Your Custom Content is Ready - Come Get It",
+            'body' => "{{NAME}},\n\nThe wait is over. I just finished your custom piece, and it's exactly what you asked for.\n\n[VIEW YOUR CONTENT] {{CONTENT_LINK}}\n\nThis content was made exclusively for you. Keep it private, keep it safe.\n\nIf you love it (I know you will), leave me a review or hit me up for another round.\n\nEnjoy.\n\n- Wyatt"
+        ],
+        'reengagement' => [
+            'name' => 'Re-engagement Campaign',
+            'category' => 'marketing',
+            'subject' => "Miss Me Yet? I've Been Thinking About You",
+            'body' => "Hey {{NAME}},\n\nIt's been a while since you stopped by. I noticed.\n\nA lot has changed:\n- {{NEW_CONTENT_COUNT}} new posts you haven't seen\n- Some of my best work yet\n- A special offer just for you\n\nCome back and see what you've been missing:\n\n[WELCOME BACK OFFER] {{COMEBACK_LINK}}\n\nUse code MISSYOU for {{DISCOUNT}}% off your next purchase.\n\nThe door's always open.\n\n- Wyatt\n\n{{UNSUBSCRIBE_LINK}}"
+        ],
+        'birthday' => [
+            'name' => 'Birthday Special',
+            'category' => 'marketing',
+            'subject' => "Happy Birthday, {{NAME}} - I Got You Something",
+            'body' => "Well hot damn, {{NAME}}!\n\nIt's your birthday, and I couldn't let the day pass without giving you something special.\n\nYour birthday gift: {{BIRTHDAY_OFFER}}\n\n[CLAIM YOUR GIFT] {{GIFT_LINK}}\n\nValid for the next 7 days. No strings attached.\n\nHope your day is as wild as you are.\n\n- Wyatt\n\nP.S. - Age looks good on you."
+        ],
+        'vip_exclusive' => [
+            'name' => 'VIP Exclusive Offer',
+            'category' => 'marketing',
+            'subject' => "For VIP Eyes Only - You've Been Hand-Picked",
+            'body' => "{{NAME}},\n\nYou're getting this because you're one of my top supporters. This isn't going out to everyone.\n\nExclusive VIP Offer:\n{{VIP_OFFER_DETAILS}}\n\nThis is my way of saying thanks for being part of the inner circle.\n\n[ACCESS NOW] {{VIP_LINK}}\n\nDon't share this. It's just between us.\n\n- Wyatt\n\n{{UNSUBSCRIBE_LINK}}"
+        ],
+        'newsletter' => [
+            'name' => 'Weekly Newsletter',
+            'category' => 'marketing',
+            'subject' => "This Week on the Ranch - {{DATE}}",
+            'body' => "What's up, {{NAME}}?\n\nHere's what went down this week:\n\n{{WEEKLY_HIGHLIGHTS}}\n\nComing Up:\n{{UPCOMING_CONTENT}}\n\nFan Spotlight:\n{{FAN_FEATURE}}\n\nThat's all for now. See you in the DMs.\n\nStay hungry.\n\n- Wyatt\n\n{{UNSUBSCRIBE_LINK}}"
+        ]
+    ];
 }
 
 function handleSaveEmailTemplates() {
@@ -1455,17 +1536,24 @@ function handleSaveEmailTemplates() {
         ? json_decode(file_get_contents(EMAIL_TEMPLATES_FILE), true) ?: []
         : [];
 
-    if (isset($input['verification'])) {
-        $templates['verification'] = [
-            'subject' => $input['verification']['subject'] ?? 'Your Admin Verification Code',
-            'body' => $input['verification']['body'] ?? ''
-        ];
+    // Save all templates that are provided
+    $allowedTemplates = array_keys(getDefaultEmailTemplates());
+
+    foreach ($input as $templateKey => $templateData) {
+        if (in_array($templateKey, $allowedTemplates) || strpos($templateKey, 'custom_') === 0) {
+            $templates[$templateKey] = [
+                'name' => $templateData['name'] ?? ucfirst(str_replace('_', ' ', $templateKey)),
+                'category' => $templateData['category'] ?? 'custom',
+                'subject' => $templateData['subject'] ?? '',
+                'body' => $templateData['body'] ?? ''
+            ];
+        }
     }
 
     file_put_contents(EMAIL_TEMPLATES_FILE, json_encode($templates, JSON_PRETTY_PRINT));
 
     logAdminAction($_ENV['ADMIN_USERNAME'] ?? 'admin', 'update_email_templates', 'settings', null, null);
-    respond(['success' => true]);
+    respond(['success' => true, 'templates' => $templates]);
 }
 
 // ========== ANALYTICS SETTINGS HANDLERS ==========
